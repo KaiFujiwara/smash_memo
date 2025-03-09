@@ -26,33 +26,20 @@ function App() {
     async function listCharacters() {
         try {
             setLoading(true);
-            // デバッグログを詳細化
+            // デバッグログ
             console.log('キャラクターデータ取得開始');
             
             const result = await client.models.Character.list();
-            // より詳細なデバッグ情報
-            console.log('API応答の詳細:', {
-                status: result?.status,
-                data: result?.data,
-                errors: result?.errors
-            });
-            
-            if (!result?.data) {
-                setError('データの形式が不正です');
-                console.warn('データ形式エラー:', result);
-                return;
-            }
+            console.log('取得結果:', result);
             
             if (result.data.length === 0) {
                 setError('キャラクターデータがありません。データ投入を確認してください。');
                 console.warn('キャラクターデータが0件です');
-                return;
             }
             
             // 順番でソート
             const sortedCharacters = result.data.sort((a, b) => a.order - b.order);
             setCharacters(sortedCharacters);
-            setError(null); // エラーをクリア
         } catch (err) {
             console.error('データ取得エラー:', err);
             setError('データ取得中にエラーが発生しました。');
