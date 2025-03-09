@@ -1,0 +1,1038 @@
+{
+  "RequestItems": {
+    "Character-ogq7jm5zkrdnnmk4r47focq5cu-NONE": [
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "001"},
+            "name": {"S": "マリオ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/mario/main.png"},
+            "order": {"N": "1"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "002"},
+            "name": {"S": "ドンキーコング"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/donkey_kong/main.png"},
+            "order": {"N": "2"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "003"},
+            "name": {"S": "リンク"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/link/main.png"},
+            "order": {"N": "3"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "004"},
+            "name": {"S": "サムス"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/samus/main.png"},
+            "order": {"N": "4"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "005"},
+            "name": {"S": "ダークサムス"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/dark_samus/main.png"},
+            "order": {"N": "5"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "006"},
+            "name": {"S": "ヨッシー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/yoshi/main.png"},
+            "order": {"N": "6"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "007"},
+            "name": {"S": "カービィ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/kirby/main.png"},
+            "order": {"N": "7"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "008"},
+            "name": {"S": "フォックス"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/fox/main.png"},
+            "order": {"N": "8"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "009"},
+            "name": {"S": "ピカチュウ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/pikachu/main.png"},
+            "order": {"N": "9"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "010"},
+            "name": {"S": "ルイージ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/luigi/main.png"},
+            "order": {"N": "10"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "011"},
+            "name": {"S": "ネス"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/ness/main.png"},
+            "order": {"N": "11"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "012"},
+            "name": {"S": "キャプテン・ファルコン"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/captain_falcon/main.png"},
+            "order": {"N": "12"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "013"},
+            "name": {"S": "プリン"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/jigglypuff/main.png"},
+            "order": {"N": "13"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "014"},
+            "name": {"S": "ピーチ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/peach/main.png"},
+            "order": {"N": "14"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "015"},
+            "name": {"S": "デイジー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/daisy/main.png"},
+            "order": {"N": "15"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "016"},
+            "name": {"S": "クッパ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/bowser/main.png"},
+            "order": {"N": "16"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "017"},
+            "name": {"S": "アイスクライマー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/ice_climbers/main.png"},
+            "order": {"N": "17"},
+            "createdAt": {"S": "2025-03-09T12:59:15.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:15.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "018"},
+            "name": {"S": "シーク"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/sheik/main.png"},
+            "order": {"N": "18"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "019"},
+            "name": {"S": "ゼルダ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/zelda/main.png"},
+            "order": {"N": "19"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "020"},
+            "name": {"S": "ドクターマリオ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/dr_mario/main.png"},
+            "order": {"N": "20"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "021"},
+            "name": {"S": "ピチュー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/pichu/main.png"},
+            "order": {"N": "21"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "022"},
+            "name": {"S": "ファルコ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/falco/main.png"},
+            "order": {"N": "22"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "023"},
+            "name": {"S": "マルス"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/marth/main.png"},
+            "order": {"N": "23"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "024"},
+            "name": {"S": "ルキナ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/lucina/main.png"},
+            "order": {"N": "24"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "025"},
+            "name": {"S": "こどもリンク"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/young_link/main.png"},
+            "order": {"N": "25"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "026"},
+            "name": {"S": "ガノンドロフ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/ganondorf/main.png"},
+            "order": {"N": "26"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "027"},
+            "name": {"S": "ミュウツー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/mewtwo/main.png"},
+            "order": {"N": "27"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "028"},
+            "name": {"S": "ロイ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/roy/main.png"},
+            "order": {"N": "28"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "029"},
+            "name": {"S": "クロム"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/chrom/main.png"},
+            "order": {"N": "29"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "030"},
+            "name": {"S": "Mr.ゲーム&ウォッチ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/mr_game_and_watch/main.png"},
+            "order": {"N": "30"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "031"},
+            "name": {"S": "メタナイト"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/meta_knight/main.png"},
+            "order": {"N": "31"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "032"},
+            "name": {"S": "ピット"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/pit/main.png"},
+            "order": {"N": "32"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "033"},
+            "name": {"S": "ブラックピット"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/dark_pit/main.png"},
+            "order": {"N": "33"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "034"},
+            "name": {"S": "ゼロスーツサムス"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/zero_suit_samus/main.png"},
+            "order": {"N": "34"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "035"},
+            "name": {"S": "ワリオ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/wario/main.png"},
+            "order": {"N": "35"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "036"},
+            "name": {"S": "スネーク"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/snake/main.png"},
+            "order": {"N": "36"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "037"},
+            "name": {"S": "アイク"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/ike/main.png"},
+            "order": {"N": "37"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "038"},
+            "name": {"S": "ポケモントレーナー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/pokemon_trainer/main.png"},
+            "order": {"N": "38"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "039"},
+            "name": {"S": "ディディーコング"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/diddy_kong/main.png"},
+            "order": {"N": "39"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "040"},
+            "name": {"S": "リュカ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/lucas/main.png"},
+            "order": {"N": "40"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "041"},
+            "name": {"S": "ソニック"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/sonic/main.png"},
+            "order": {"N": "41"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "042"},
+            "name": {"S": "デデデ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/king_dedede/main.png"},
+            "order": {"N": "42"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "043"},
+            "name": {"S": "ピクミン&オリマー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/olimar/main.png"},
+            "order": {"N": "43"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "044"},
+            "name": {"S": "ルカリオ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/lucario/main.png"},
+            "order": {"N": "44"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "045"},
+            "name": {"S": "ロボット"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/rob/main.png"},
+            "order": {"N": "45"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "046"},
+            "name": {"S": "トゥーンリンク"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/toon_link/main.png"},
+            "order": {"N": "46"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "047"},
+            "name": {"S": "ウルフ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/wolf/main.png"},
+            "order": {"N": "47"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "048"},
+            "name": {"S": "むらびと"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/villager/main.png"},
+            "order": {"N": "48"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "049"},
+            "name": {"S": "ロックマン"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/mega_man/main.png"},
+            "order": {"N": "49"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "050"},
+            "name": {"S": "Wii Fit トレーナー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/wii_fit_trainer/main.png"},
+            "order": {"N": "50"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "051"},
+            "name": {"S": "ロゼッタ&チコ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/rosalina_and_luma/main.png"},
+            "order": {"N": "51"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "052"},
+            "name": {"S": "リトル・マック"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/little_mac/main.png"},
+            "order": {"N": "52"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "053"},
+            "name": {"S": "ゲッコウガ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/greninja/main.png"},
+            "order": {"N": "53"},
+            "createdAt": {"S": "2025-03-09T12:59:16.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:16.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "054"},
+            "name": {"S": "Miiファイター 格闘"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/mii_fighter/main.png"},
+            "order": {"N": "54"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "055"},
+            "name": {"S": "Miiファイター 剣術"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/mii_swordfighter/main.png"},
+            "order": {"N": "55"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "056"},
+            "name": {"S": "Miiファイター 射撃"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/mii_gunner/main.png"},
+            "order": {"N": "56"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "057"},
+            "name": {"S": "パルテナ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/palutena/main.png"},
+            "order": {"N": "57"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "058"},
+            "name": {"S": "パックマン"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/pac_man/main.png"},
+            "order": {"N": "58"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "059"},
+            "name": {"S": "ルフレ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/robin/main.png"},
+            "order": {"N": "59"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "060"},
+            "name": {"S": "シュルク"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/shulk/main.png"},
+            "order": {"N": "60"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "061"},
+            "name": {"S": "クッパJr."},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/bowser_jr/main.png"},
+            "order": {"N": "61"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "062"},
+            "name": {"S": "ダックハント"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/duck_hunt/main.png"},
+            "order": {"N": "62"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "063"},
+            "name": {"S": "リュウ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/ryu/main.png"},
+            "order": {"N": "63"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "064"},
+            "name": {"S": "ケン"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/ken/main.png"},
+            "order": {"N": "64"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "065"},
+            "name": {"S": "クラウド"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/cloud/main.png"},
+            "order": {"N": "65"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "066"},
+            "name": {"S": "カムイ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/corrin/main.png"},
+            "order": {"N": "66"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "067"},
+            "name": {"S": "ベヨネッタ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/bayonetta/main.png"},
+            "order": {"N": "67"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "068"},
+            "name": {"S": "インクリング"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/inkling/main.png"},
+            "order": {"N": "68"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "069"},
+            "name": {"S": "リドリー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/ridley/main.png"},
+            "order": {"N": "69"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "070"},
+            "name": {"S": "シモン"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/simon/main.png"},
+            "order": {"N": "70"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "071"},
+            "name": {"S": "リヒター"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/richter/main.png"},
+            "order": {"N": "71"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "072"},
+            "name": {"S": "キングクルール"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/king_k_rool/main.png"},
+            "order": {"N": "72"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "073"},
+            "name": {"S": "しずえ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/isabelle/main.png"},
+            "order": {"N": "73"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "074"},
+            "name": {"S": "ガオガエン"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/incineroar/main.png"},
+            "order": {"N": "74"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "075"},
+            "name": {"S": "パックンフラワー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/piranha_plant/main.png"},
+            "order": {"N": "75"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "076"},
+            "name": {"S": "ジョーカー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/joker/main.png"},
+            "order": {"N": "76"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "077"},
+            "name": {"S": "勇者"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/hero/main.png"},
+            "order": {"N": "77"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "078"},
+            "name": {"S": "バンジョー&カズーイ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/banjo_and_kazooie/main.png"},
+            "order": {"N": "78"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "079"},
+            "name": {"S": "テリー"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/terry/main.png"},
+            "order": {"N": "79"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "080"},
+            "name": {"S": "ベレト"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/byleth/main.png"},
+            "order": {"N": "80"},
+            "createdAt": {"S": "2025-03-09T12:59:17.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:17.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "081"},
+            "name": {"S": "ミェンミェン"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/min_min/main.png"},
+            "order": {"N": "81"},
+            "createdAt": {"S": "2025-03-09T12:59:18.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:18.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "082"},
+            "name": {"S": "スティーブ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/steve/main.png"},
+            "order": {"N": "82"},
+            "createdAt": {"S": "2025-03-09T12:59:18.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:18.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "083"},
+            "name": {"S": "セフィロス"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/sephiroth/main.png"},
+            "order": {"N": "83"},
+            "createdAt": {"S": "2025-03-09T12:59:18.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:18.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "084"},
+            "name": {"S": "ホムラ/ヒカリ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/pyra/main.png"},
+            "order": {"N": "84"},
+            "createdAt": {"S": "2025-03-09T12:59:18.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:18.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "085"},
+            "name": {"S": "カズヤ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/kazuya/main.png"},
+            "order": {"N": "85"},
+            "createdAt": {"S": "2025-03-09T12:59:18.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:18.000Z"}
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {"S": "086"},
+            "name": {"S": "ソラ"},
+            "icon": {"S": "https://www.smashbros.com/assets_v2/img/fighter/sora/main.png"},
+            "order": {"N": "86"},
+            "createdAt": {"S": "2025-03-09T12:59:18.000Z"},
+            "updatedAt": {"S": "2025-03-09T12:59:18.000Z"}
+          }
+        }
+      }
+    ]
+  }
+}
