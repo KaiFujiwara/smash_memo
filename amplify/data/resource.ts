@@ -8,7 +8,8 @@ const schema = a.schema({
       order: a.integer().required()
     })
     .authorization(allow => [
-      allow.publicApiKey()
+      // ログインユーザーに読み取り権限のみを付与
+      allow.authenticated().to(['read']),
     ]),
     
   UserCharacterSetting: a
@@ -18,7 +19,7 @@ const schema = a.schema({
       customOrder: a.integer(),
     })
     .authorization(allow => [
-      allow.owner()
+      allow.owner(), // 所有者のみアクセス可能
     ]),
     
   MemoItem: a
@@ -41,7 +42,7 @@ const schema = a.schema({
       allow.owner()
     ]),
     
-  Category: a
+  CharacterCategory: a
     .model({
       name: a.string().required(),
       color: a.string(),
@@ -58,6 +59,5 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: "userPool",
-    apiKeyAuthorizationMode: {}
   },
 });

@@ -32,9 +32,6 @@ echo "環境: $ENV, リージョン: $REGION, プロファイル: $PROFILE"
 CHARACTER_LIST="amplify/scripts/data/character-list.json"
 TEMP_DIR="amplify/scripts/data"
 
-# データディレクトリの確認
-mkdir -p "$TEMP_DIR"
-
 # キャラクターリストが存在するか確認
 if [ ! -f "$CHARACTER_LIST" ]; then
   echo "エラー: キャラクターリスト ($CHARACTER_LIST) が見つかりません"
@@ -70,7 +67,7 @@ echo "$TABLES" | jq -r '.TableNames[]'
 # 既に自動検出されている場合はスキップ
 if [ "$AUTO_DETECTED" != "true" ]; then
   # Characterテーブルのパターンを検索
-  CHARACTER_TABLES=($(echo "$TABLES" | jq -r '.TableNames[]' | grep -i "character"))
+  CHARACTER_TABLES=($(echo "$TABLES" | jq -r '.TableNames[]' | grep -i "Character-"))
 
   if [ ${#CHARACTER_TABLES[@]} -eq 0 ]; then
     echo "警告: 'Character'という名前を含むテーブルが見つかりませんでした。"
@@ -159,34 +156,16 @@ jq -c '.[]' "$CHARACTER_LIST" | while read -r character; do
   order=$(echo "$character" | jq -r '.order')
   id=$(printf "%03d" "$order")
   
-  # 一時ファイルにJSONを作成
-  ITEM_FILE="$TEMP_DIR/item-$id.json"
-  
-  # AWS CLIのJSONフォーマットで項目を出力
-  cat > "$ITEM_FILE" << EOF
-{
-  "id": {"S": "$id"},
-  "name": {"S": "$name"},
-  "icon": {"S": "$icon"},
-  "order": {"N": "$order"},
-  "createdAt": {"S": "$TIMESTAMP"},
-  "updatedAt": {"S": "$TIMESTAMP"}
-}
-EOF
-  
-  # DynamoDBに項目を投入
+  # DynamoDBに項目を直接投入
   echo "[$id] $name を登録中..."
   aws dynamodb put-item \
     --table-name "$CHARACTER_TABLE" \
-    --item file://"$ITEM_FILE" \
+    --item "{\"id\":{\"S\":\"$id\"},\"name\":{\"S\":\"$name\"},\"icon\":{\"S\":\"$icon\"},\"order\":{\"N\":\"$order\"},\"createdAt\":{\"S\":\"$TIMESTAMP\"},\"updatedAt\":{\"S\":\"$TIMESTAMP\"}}" \
     --region "$REGION" \
     --profile "$PROFILE"
   
   # カウンターを増やす
   COUNT=$((COUNT + 1))
-  
-  # 一時ファイルを削除
-  rm "$ITEM_FILE"
 done
 
 echo "完了: $COUNT件のキャラクターデータを投入しました。"

@@ -4,7 +4,7 @@ import 'dotenv/config';
 export const auth = defineAuth({
   loginWith: {
     email: {
-      verificationEmailSubject: 'Welcome to the Blog post app 👋 Verify your email!'
+      verificationEmailSubject: 'すまめも！へようこそ！メールを確認してください'
     },
     externalProviders: {
       oidc: [

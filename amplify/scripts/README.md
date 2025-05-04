@@ -97,31 +97,15 @@ AWS本番環境の場合：
 amplify sandbox
 ```
 
-2. サンドボックスの起動メッセージを確認してください。以下のような出力があるはずです：
-
-```
-Sandbox is running at http://localhost:20002. Opening in your browser.
-```
-
-このメッセージに表示されるURLとポート番号をメモしてください（例：http://localhost:20002）。
-これがあなたのサンドボックスエンドポイントです。
-
 ## データ投入スクリプトの実行
 
-1. サンドボックスエンドポイントを指定してスクリプトを実行します：
+1. スクリプトを実行します：
 
 ```bash
-SANDBOX_ENDPOINT="http://localhost:20002" SANDBOX=true ./amplify/scripts/deploy-initial-data.sh
+./amplify/scripts/deploy-initial-data.sh
 ```
 
-または、エンドポイントURLが標準と異なる場合：
-
-```bash
-# サンドボックスの出力に表示されたエンドポイントURLを指定
-SANDBOX_ENDPOINT="http://localhost:あなたのポート番号" SANDBOX=true ./amplify/scripts/deploy-initial-data.sh
-```
-
-2. スクリプトはテーブル一覧を表示します。キャラクターデータを格納するテーブルを選択してください。
+2. スクリプトはテーブル一覧を表示します。キャラクターデータを格納するサンドボックス環境のテーブルを選択してください。
 
 ## トラブルシューティング
 

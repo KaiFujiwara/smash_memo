@@ -9,6 +9,7 @@ frontend:
   phases:
     build:
       commands:
+        - echo "NEXT_PUBLIC_API_KEY=$API_KEY" >> .env.local
         - npm run build
   artifacts:
     baseDirectory: .next
