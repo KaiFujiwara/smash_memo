@@ -223,17 +223,14 @@ export default function MemoSettingsPage() {
   }
 
   // 項目の並び替え
-  const handleDragEnd = (result: any) => {
+  const onDragEnd = (result: any) => {
     if (!result.destination) return
     
-    const startIndex = result.source.index
-    const endIndex = result.destination.index
-    
     const reorderedItems = Array.from(items)
-    const [removed] = reorderedItems.splice(startIndex, 1)
-    reorderedItems.splice(endIndex, 0, removed)
+    const [movedItem] = reorderedItems.splice(result.source.index, 1)
+    reorderedItems.splice(result.destination.index, 0, movedItem)
     
-    // orderプロパティを更新
+    // 順序を更新
     const updatedItems = reorderedItems.map((item, index) => ({
       ...item,
       order: index
@@ -374,21 +371,18 @@ export default function MemoSettingsPage() {
           </div>
         </div>
 
-        <DragDropContext onDragEnd={handleDragEnd}>
+        <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="memo-items">
             {(provided) => (
               <ul
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="divide-y divide-gray-100 px-0.5"
+                className="divide-y divide-gray-100 rounded-xl bg-white shadow-sm"
               >
-                {items.length === 0 ? (
-                  <li className="py-8 text-center text-gray-500">
-                    <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                      <Plus size={20} className="text-gray-400" />
-                    </div>
-                    <p className="text-sm">メモ項目がありません。新しい項目を追加してください。</p>
-                  </li>
+                {isLoading ? (
+                  <li className="p-4 text-center text-gray-500">読み込み中...</li>
+                ) : items.length === 0 ? (
+                  <li className="p-4 text-center text-gray-500">メモ項目がありません</li>
                 ) : (
                   items
                     .sort((a, b) => a.order - b.order)
@@ -399,7 +393,6 @@ export default function MemoSettingsPage() {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             className="group relative border-l-3 border-transparent bg-white py-2.5 pl-1 pr-2 transition hover:border-l-indigo-500 hover:bg-indigo-50/50"
-                            whileHover={{ x: 2 }}
                           >
                             <div className="flex items-center gap-2">
                               <div
@@ -475,9 +468,9 @@ export default function MemoSettingsPage() {
           onClick={() => setShowDeleteConfirm(null)}
         >
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.1, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl" 
+            className="overflow-hidden rounded-2xl bg-white shadow-2xl" 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="bg-red-50 p-4">

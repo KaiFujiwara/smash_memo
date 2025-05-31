@@ -1,15 +1,19 @@
+/**
+ * 認証コンテキスト
+ * 
+ * React Contextを使用して、アプリケーション全体で認証状態を共有します。
+ * このコンテキストにより、コンポーネントツリーのどこからでも
+ * 認証情報にアクセスできるようになります。
+ */
+
 import { createContext } from 'react'
+import type { AuthContextType } from '@/types'
 
-export type AuthContextType = {
-    user: {
-      id: string
-      email: string
-      displayName: string
-    } | null
-    isAuthenticated: boolean
-    isLoading: boolean
-    signOut: () => Promise<void>
-    refreshUser: () => Promise<void>
-}
-
+/**
+ * 認証コンテキストの作成
+ * 
+ * 初期値はnullに設定し、実際の値はAuthProviderから提供されます。
+ * このパターンにより、Providerでラップされていないコンポーネントでの
+ * 誤用を防ぐことができます。
+ */
 export const AuthContext = createContext<AuthContextType | null>(null)
