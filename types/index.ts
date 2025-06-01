@@ -12,4 +12,16 @@ export type {
   AuthError,
   SignInResult,
   AuthStateChangeEvent
-} from './auth' 
+} from './auth'
+
+// メモ項目関連の型をエクスポート
+export type {
+  MemoItem,
+  CreateMemoItemInput,
+  UpdateMemoItemInput,
+  DeleteMemoItemInput,
+  DragDropResult,
+  BulkUpdateMemoItemInput,
+  MemoItemOperationResult,
+  MemoItemListResult
+} from './memo' 
