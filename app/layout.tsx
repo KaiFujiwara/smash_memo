@@ -16,6 +16,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/index";
 import Image from "next/image";
+import { Toaster } from "sonner";
 
 /**
  * Googleフォント（Inter）の設定
@@ -69,6 +70,24 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         <Providers>
           {children}
         </Providers>
+        
+        {/* Sonner Toaster: トースト通知の表示 */}
+        <Toaster 
+          position="bottom-right"
+          duration={3000}
+          closeButton
+          richColors
+          theme="system"
+          expand={true}
+          visibleToasts={4}
+          toastOptions={{
+            style: {
+              fontSize: '14px',
+              padding: '12px 16px',
+            },
+            className: 'shadow-lg border',
+          }}
+        />
       </body>
     </html>
   );

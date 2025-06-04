@@ -338,10 +338,25 @@ export async function bulkUpdateMemoItemOrder(items: Array<{
   id: string
   order: number
 }>): Promise<MemoItemOperationResult> {
+  console.log('🔧 bulkUpdateMemoItemOrder 開始:', { 
+    itemCount: items.length, 
+    items: items 
+  })
+
   try {
+    if (items.length === 0) {
+      console.log('⚠️ 更新対象項目が0個')
+      return {
+        success: true
+      }
+    }
+
+    console.log('📤 GraphQL更新リクエスト準備中...')
+
     // 全項目の順序を並列で更新（_versionは除外）
-    const updatePromises = items.map(item => 
-      client.graphql({
+    const updatePromises = items.map((item, index) => {
+      console.log(`📝 更新項目 ${index + 1}/${items.length}:`, item)
+      return client.graphql({
         query: UPDATE_MEMO_ITEM,
         variables: { 
           input: { 
@@ -350,15 +365,20 @@ export async function bulkUpdateMemoItemOrder(items: Array<{
           }
         }
       }) as unknown as GraphQLResult<UpdateMemoItemResponse>
-    )
+    })
     
-    await Promise.all(updatePromises)
+    console.log('⏳ Promise.all実行中...')
+    const results = await Promise.all(updatePromises)
+    console.log('✅ 全ての更新が完了:', { 
+      successCount: results.length,
+      results: results.map(r => !!r.data?.updateMemoItem)
+    })
     
     return {
       success: true
     }
   } catch (error) {
-    console.error('メモ項目の順序更新に失敗:', error)
+    console.error('❌ メモ項目の順序更新に失敗:', error)
     // エラーの詳細をログ出力
     if (error && typeof error === 'object' && 'errors' in error) {
       console.error('GraphQLエラーの詳細:', (error as any).errors)

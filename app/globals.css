@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* body要素のマージンをリセット */
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* ドラッグ&ドロップの青いボーダー用カスタムクラス */
+@layer utilities {
+  .drag-border-transparent {
+    border-left: 4px solid transparent !important;
+  }
+  
+  .drag-border-indigo {
+    border-left: 4px solid rgb(99 102 241) !important;
+  }
+  
+  .drag-hover-border:hover {
+    border-left: 4px solid rgb(99 102 241) !important;
+    background-color: rgb(238 242 255 / 0.5) !important;
+  }
+  
+  /* モーダル背景の確実な全画面カバー */
+  .modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
