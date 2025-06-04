@@ -2,20 +2,18 @@
  * メモ設定ページのヘッダーコンポーネント
  */
 
-import { Settings, Save, Keyboard } from 'lucide-react'
+import { Settings, Save } from 'lucide-react'
 
 interface MemoSettingsHeaderProps {
   hasUnsavedChanges: boolean
   isSaving: boolean
   onSave: () => void
-  onShowShortcuts: () => void
 }
 
 export function MemoSettingsHeader({
   hasUnsavedChanges,
   isSaving,
-  onSave,
-  onShowShortcuts
+  onSave
 }: MemoSettingsHeaderProps) {
   return (
     <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 p-0.5">
@@ -33,13 +31,6 @@ export function MemoSettingsHeader({
             )}
           </div>
           <div className="flex items-center gap-2">
-            <button
-              onClick={onShowShortcuts}
-              className="flex items-center justify-center gap-2 rounded-full bg-white/10 px-3 py-2 text-white backdrop-blur-sm transition hover:bg-white/20"
-              title="キーボードショートカット (Cmd+/)"
-            >
-              <Keyboard size={16} />
-            </button>
             <button
               onClick={onSave}
               disabled={isSaving || !hasUnsavedChanges}

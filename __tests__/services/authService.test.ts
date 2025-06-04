@@ -117,11 +117,11 @@ describe('authService', () => {
 
   describe('signOut', () => {
     /**
-     * テスト4: 正常なサインアウト
+     * テスト4: 正常なログアウト
      * 
-     * AWS Amplifyのサインアウトが正常に実行される場合を確認します。
+     * AWS Amplifyのログアウトが正常に実行される場合を確認します。
      */
-    it('正常にサインアウトできる', async () => {
+    it('正常にログアウトできる', async () => {
       mockAmplifySignOut.mockResolvedValue(undefined)
 
       await expect(signOut()).resolves.toBeUndefined()
@@ -129,11 +129,11 @@ describe('authService', () => {
     })
 
     /**
-     * テスト5: サインアウト時のエラーハンドリング
+     * テスト5: ログアウト時のエラーハンドリング
      * 
-     * サインアウト処理でエラーが発生した場合の処理を確認します。
+     * ログアウト処理でエラーが発生した場合の処理を確認します。
      */
-    it('サインアウトでエラーが発生した場合、適切にエラーを変換する', async () => {
+    it('ログアウトでエラーが発生した場合、適切にエラーを変換する', async () => {
       const amplifyError = new Error('Network error')
       amplifyError.name = 'NetworkError'
 

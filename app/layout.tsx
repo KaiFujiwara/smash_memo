@@ -15,7 +15,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/index";
-import Image from "next/image";
 import { Toaster } from "sonner";
 
 /**
@@ -53,41 +52,13 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="ja">
       <body className={`${inter.className} relative min-h-screen`}>
-        {/* 背景画像の設定 */}
-        <div className="fixed inset-0 -z-10">
-          <Image
-            src="/background.png"
-            alt="背景"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-20"
-            quality={80}
-          />
-        </div>
-        
         {/* プロバイダーで全体をラップしてグローバル状態を提供 */}
         <Providers>
           {children}
         </Providers>
         
         {/* Sonner Toaster: トースト通知の表示 */}
-        <Toaster 
-          position="bottom-right"
-          duration={3000}
-          closeButton
-          richColors
-          theme="system"
-          expand={true}
-          visibleToasts={4}
-          toastOptions={{
-            style: {
-              fontSize: '14px',
-              padding: '12px 16px',
-            },
-            className: 'shadow-lg border',
-          }}
-        />
+        <Toaster />
       </body>
     </html>
   );

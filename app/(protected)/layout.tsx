@@ -27,7 +27,7 @@ export default function ProtectedLayout({
   return isAuthenticated ?  (
     <div className="flex min-h-screen flex-col bg-gray-500/10">
       <Header />
-      <main className="flex-1 py-6">
+      <main className="flex-1 py-4 sm:py-6">
         <div className="container mx-auto max-w-7xl px-4">
           {children}
         </div>

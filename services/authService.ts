@@ -52,12 +52,12 @@ export async function getCurrentUserInfo(): Promise<User> {
 }
 
 /**
- * ユーザーをサインアウトさせます
+ * ユーザーをログアウトさせます
  * 
- * AWS Cognitoからサインアウトし、ローカルの認証状態もクリアします。
+ * AWS Cognitoからログアウトし、ローカルの認証状態もクリアします。
  * 
  * @returns Promise<void>
- * @throws {AuthError} サインアウトに失敗した場合
+ * @throws {AuthError} ログアウトに失敗した場合
  */
 export async function signOut(): Promise<void> {
   try {
@@ -65,7 +65,7 @@ export async function signOut(): Promise<void> {
   } catch (error) {
     const authError: AuthError = {
       name: (error as any)?.name || 'SignOutError',
-      message: (error as any)?.message || 'サインアウトに失敗しました',
+      message: (error as any)?.message || 'ログアウトに失敗しました',
       stack: (error as any)?.stack
     }
     throw authError

@@ -35,7 +35,7 @@ export interface AuthContextType {
   isAuthenticated: boolean
   /** 認証状態の確認中かどうか（初期化時やリフレッシュ時にtrue） */
   isLoading: boolean
-  /** ユーザーをサインアウトさせる関数 */
+  /** ユーザーをログアウトさせる関数 */
   signOut: () => Promise<void>
   /** ユーザー情報を再取得して状態を更新する関数 */
   refreshUser: () => Promise<void>

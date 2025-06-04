@@ -2,16 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body要素のマージンをリセット */
+/* body要素のマージンをリセットし、背景を統一 */
 @layer base {
-  body {
-    margin: 0;
-    padding: 0;
-  }
-  
   html {
     margin: 0;
     padding: 0;
+    /* 背景画像に合わせた背景色を設定 */
+    background-color: #f8fafc; /* slate-50相当 */
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  /* 背景画像を透明度付きで表示 */
+  html::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: url('/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 0.2;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    min-height: 100vh;
+    position: relative;
   }
 }
 

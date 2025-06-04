@@ -2,31 +2,27 @@
  * メモ設定ページのダイアログコンポーネント群
  */
 
-import { AlertTriangle, Keyboard } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 import { AnimatePresence } from 'framer-motion'
 
 interface MemoDialogsProps {
   showUnsavedWarning: boolean
-  showShortcuts: boolean
   showDeleteConfirm: string | null
   isSaving: boolean
   onSaveAndLeave: () => void
   onForceLeave: () => void
   onCloseUnsavedWarning: () => void
-  onCloseShortcuts: () => void
   onConfirmDelete: (id: string) => void
   onCancelDelete: () => void
 }
 
 export function MemoDialogs({
   showUnsavedWarning,
-  showShortcuts,
   showDeleteConfirm,
   isSaving,
   onSaveAndLeave,
   onForceLeave,
   onCloseUnsavedWarning,
-  onCloseShortcuts,
   onConfirmDelete,
   onCancelDelete
 }: MemoDialogsProps) {
@@ -77,52 +73,6 @@ export function MemoDialogs({
                     変更を破棄して離れる
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* キーボードショートカットダイアログ */}
-      <AnimatePresence>
-        {showShortcuts && (
-          <div className="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="rounded-full bg-indigo-100 p-2">
-                  <Keyboard className="h-5 w-5 text-indigo-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900">キーボードショートカット</h3>
-              </div>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between items-center">
-                  <span>ショートカット表示</span>
-                  <kbd className="rounded bg-gray-100 px-2 py-1 text-xs">Cmd + /</kbd>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>変更を保存</span>
-                  <kbd className="rounded bg-gray-100 px-2 py-1 text-xs">Cmd + S</kbd>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>ダイアログを閉じる</span>
-                  <kbd className="rounded bg-gray-100 px-2 py-1 text-xs">Escape</kbd>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>編集を保存</span>
-                  <kbd className="rounded bg-gray-100 px-2 py-1 text-xs">Enter</kbd>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>編集をキャンセル</span>
-                  <kbd className="rounded bg-gray-100 px-2 py-1 text-xs">Escape</kbd>
-                </div>
-              </div>
-              <div className="mt-6 flex justify-end">
-                <button
-                  onClick={onCloseShortcuts}
-                  className="rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2 font-medium text-white shadow-md hover:shadow-lg transition"
-                >
-                  閉じる
-                </button>
               </div>
             </div>
           </div>

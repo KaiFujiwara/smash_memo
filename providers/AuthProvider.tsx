@@ -26,7 +26,7 @@ interface AuthProviderProps {
  * このコンポーネントは以下の責務を持ちます：
  * 1. ユーザーの認証状態を管理
  * 2. ユーザー情報の取得と更新
- * 3. サインアウト処理
+ * 3. ログアウト処理
  * 4. 認証状態の変更を子コンポーネントに通知
  */
 export const AuthProvider = ({ children }: AuthProviderProps) => {
@@ -71,17 +71,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   /**
-   * ユーザーをサインアウトさせる関数
+   * ユーザーをログアウトさせる関数
    * 
-   * AWS Cognitoからサインアウトし、ローカルの状態もリセットします。
+   * AWS Cognitoからログアウトし、ローカルの状態もリセットします。
    */
   const signOut = async (): Promise<void> => {
     try {
-      // サービス層でサインアウト処理を実行
+      // サービス層でログアウト処理を実行
       await authSignOut()
     } catch (error) {
       const authError = error as AuthError
-      console.error('サインアウト失敗:', authError.message)
+      console.error('ログアウト失敗:', authError.message)
     } finally {
       // 成功・失敗に関わらず、ローカルの状態はリセット
       setUser(null)

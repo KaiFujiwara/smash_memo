@@ -24,4 +24,16 @@ export type {
   BulkUpdateMemoItemInput,
   MemoItemOperationResult,
   MemoItemListResult
-} from './memo' 
+} from './memo'
+
+// キャラクター関連の型をエクスポート
+export type {
+  Character,
+  CharacterCategory,
+  DashboardMode,
+  CreateCategoryInput,
+  UpdateCategoryInput,
+  DeleteCategoryInput,
+  CategoryDragDropResult,
+  CategoryOperationResult
+} from './character' 

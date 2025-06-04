@@ -11,7 +11,6 @@ export interface MemoSettingsState {
   isSaving: boolean
   isAdding: boolean
   showDeleteConfirm: string | null
-  showShortcuts: boolean
   showUnsavedWarning: boolean
   draggingId: string | null
   forceUpdateCounter: number
