@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'aws-amplify/auth'
 import { User, Settings, LogOut, Home, Menu, X, ChevronDown } from 'lucide-react'
-import Image from 'next/image'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -13,6 +12,22 @@ export default function Header() {
   const pathname = usePathname()
   const userMenuRef = useRef<HTMLDivElement>(null)
   const spUserMenuRef = useRef<HTMLDivElement>(null)
+
+  // パス名からページタイトルとアイコンを取得
+  const getPageInfo = (path: string) => {
+    switch (path) {
+      case '/dashboard':
+        return { title: 'キャラ一覧', icon: Home }
+      case '/memo-settings':
+        return { title: 'メモ項目設定', icon: Settings }
+      case '/account-setting':
+        return { title: 'アカウント設定', icon: User }
+      default:
+        return { title: 'すまメモ！', icon: null }
+    }
+  }
+
+  const pageInfo = getPageInfo(pathname)
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const closeMenu = () => setIsMenuOpen(false)
@@ -43,16 +58,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-blue-700 to-purple-700 shadow-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        {/* ロゴ */}
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.svg"
-            alt="すまめも！"
-            width={150}
-            height={45}
-            priority
-          />
-        </Link>
+        {/* ページタイトル */}
+        <div className="flex items-center gap-2">
+          {pageInfo.icon && (
+            <pageInfo.icon className="text-white" size={24} />
+          )}
+          <h1 className="text-xl font-bold text-white">
+            {pageInfo.title}
+          </h1>
+        </div>
 
         {/* PCナビゲーション */}
         <nav className="hidden md:flex items-center gap-1">

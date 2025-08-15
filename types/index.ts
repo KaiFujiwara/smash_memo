@@ -29,11 +29,5 @@ export type {
 // キャラクター関連の型をエクスポート
 export type {
   Character,
-  CharacterCategory,
-  DashboardMode,
-  CreateCategoryInput,
-  UpdateCategoryInput,
-  DeleteCategoryInput,
-  CategoryDragDropResult,
-  CategoryOperationResult
+  CharacterCategory
 } from './character' 

@@ -8,8 +8,9 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import type { Character, CharacterCategory, DashboardMode } from '@/types'
-import { dummyCharacters, dummyCategories, getSortedCategories, getCharactersByCategory } from '@/lib/dummyData'
+import type { Character, CharacterCategory } from '@/types'
+import type { DashboardMode } from '../types'
+import { fetchSortedCharacters } from '@/services/characterService'
 
 /**
  * ダッシュボードデータの状態
@@ -33,6 +34,8 @@ interface UseDashboardDataReturn {
   state: DashboardDataState
   /** 指定カテゴリーのキャラクター取得 */
   getCharactersInCategory: (categoryId: string) => Character[]
+  /** カテゴリなしのキャラクター取得 */
+  getUncategorizedCharacters: () => Character[]
   /** カテゴリー一覧更新 */
   updateCategories: (categories: CharacterCategory[]) => void
   /** 表示モード切り替え */
@@ -61,13 +64,13 @@ export function useDashboardData(): UseDashboardDataReturn {
     setState(prev => ({ ...prev, isLoading: true }))
     
     try {
-      // TODO: 実際のAPIコールに置き換え
-      await new Promise(resolve => setTimeout(resolve, 300)) // APIコールのシミュレーション
+      // シーディングしたキャラクターデータを取得
+      const characters = await fetchSortedCharacters()
       
       setState(prev => ({
         ...prev,
-        characters: dummyCharacters,
-        categories: getSortedCategories(),
+        characters,
+        categories: [], // カテゴリなしで表示
         isLoading: false
       }))
     } catch (error) {
@@ -89,6 +92,15 @@ export function useDashboardData(): UseDashboardDataReturn {
   const getCharactersInCategory = useCallback((categoryId: string): Character[] => {
     return state.characters
       .filter(char => char.categoryId === categoryId)
+      .sort((a, b) => a.order - b.order)
+  }, [state.characters])
+
+  /**
+   * カテゴリなしのキャラクター取得
+   */
+  const getUncategorizedCharacters = useCallback((): Character[] => {
+    return state.characters
+      .filter(char => !char.categoryId)
       .sort((a, b) => a.order - b.order)
   }, [state.characters])
 
@@ -116,6 +128,7 @@ export function useDashboardData(): UseDashboardDataReturn {
   return {
     state,
     getCharactersInCategory,
+    getUncategorizedCharacters,
     updateCategories,
     setMode,
     refetch

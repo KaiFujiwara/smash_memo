@@ -3,7 +3,7 @@
  */
 
 import { Draggable } from '@hello-pangea/dnd'
-import { Grip, Edit2, Save, X } from 'lucide-react'
+import { Grip, Edit2, Save, X, Trash2 } from 'lucide-react'
 import type { MemoItem } from '@/types'
 import type { ValidationResult } from '../types'
 import { MAX_ITEM_NAME_LENGTH } from '../types'
@@ -148,7 +148,7 @@ export function MemoItem({
                     className="rounded-md p-1.5 text-red-600 hover:bg-red-100 hover:scale-110 transition-transform"
                     title="削除"
                   >
-                    <X size={14} />
+                    <Trash2 size={14} />
                   </button>
                 </>
               )}

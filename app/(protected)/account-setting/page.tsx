@@ -22,10 +22,10 @@ import { useAccountData } from './hooks/useAccountData'
 import { useAccountActions } from './hooks/useAccountActions'
 
 // Components
-import { AccountHeader } from './components/AccountHeader'
 import { UserInfoCard } from './components/UserInfoCard'
 import { AccountActionsCard } from './components/AccountActionsCard'
 import { AccountDialogs } from './components/AccountDialogs'
+import Loading from '@/app/loading'
 
 /**
  * アカウント設定ページのメインコンポーネント
@@ -52,11 +52,7 @@ export default function AccountSettingsPage() {
 
   // === レンダリング ===
   if (state.isLoading) {
-    return (
-      <div className="flex h-[70vh] items-center justify-center">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"></div>
-      </div>
-    )
+    return <Loading />
   }
 
   if (!state.user) {
@@ -71,9 +67,6 @@ export default function AccountSettingsPage() {
 
   return (
     <div className="space-y-6">
-      {/* ヘッダー */}
-      <AccountHeader />
-
       {/* ユーザー情報カード */}
       <UserInfoCard user={state.user} />
 
@@ -82,17 +75,17 @@ export default function AccountSettingsPage() {
         isSigningOut={state.isSigningOut}
         isDeleting={state.isDeleting}
         onSignOut={actions.showSignOutConfirm}
-        onDeleteAccount={actions.showDeleteConfirm}
+        onDeleteAccount={actions.handleDeleteAccount}
       />
 
-      {/* 確認ダイアログ */}
+      {/* ログアウト確認ダイアログ */}
       <AccountDialogs
         showSignOutConfirm={state.showSignOutConfirm}
-        showDeleteConfirm={state.showDeleteConfirm}
+        showDeleteConfirm={false}
         isSigningOut={state.isSigningOut}
         isDeleting={state.isDeleting}
         onConfirmSignOut={actions.handleSignOut}
-        onConfirmDelete={actions.handleDeleteAccount}
+        onConfirmDelete={() => {}}
         onCancel={actions.cancelAction}
       />
     </div>

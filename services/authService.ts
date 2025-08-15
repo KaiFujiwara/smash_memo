@@ -12,7 +12,7 @@ import {
   fetchUserAttributes, 
   signOut as amplifySignOut 
 } from 'aws-amplify/auth'
-import type { User, AuthError, SignInResult } from '@/types'
+import type { User, AuthError } from '@/types'
 
 /**
  * 現在認証されているユーザーの情報を取得します
@@ -34,9 +34,7 @@ export async function getCurrentUserInfo(): Promise<User> {
     const user: User = {
       id: currentUser.userId,
       username: currentUser.username,
-      email: attributes.email || '',
-      displayName: attributes.email || currentUser.username,
-      email_verified: attributes.email_verified === 'true'
+      email: attributes.email || ''
     }
     
     return user
@@ -84,4 +82,5 @@ export async function isUserAuthenticated(): Promise<boolean> {
   } catch {
     return false
   }
-} 
+}
+ 

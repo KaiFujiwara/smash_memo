@@ -5,27 +5,33 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import Image from 'next/image';
+import Loading from '@/app/loading';
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (!isLoading && isAuthenticated) {
       router.push('/dashboard');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isLoading, router]);
+
+  // 認証状態確認中はローディング表示
+  if (isLoading) {
+    return <Loading />
+  }
 
   const handleSignIn = async () => {
     try {
-      setIsLoading(true);
+      setIsSigningIn(true);
       await signInWithRedirect({
         provider: { custom: 'Auth0' }
       });
     } catch (error) {
       console.error("サインインエラー:", error);
-      setIsLoading(false);
+      setIsSigningIn(false);
     }
   };
 
@@ -63,10 +69,10 @@ export default function LoginPage() {
             
             <button
               onClick={handleSignIn}
-              disabled={isLoading}
+              disabled={isSigningIn}
               className="rounded-full bg-blue-600 py-3 px-6 text-white text-sm sm:text-base font-medium transition-colors duration-200 hover:bg-purple-600 disabled:opacity-70"
             >
-              {isLoading ? (
+              {isSigningIn ? (
                 <span className="flex items-center justify-center">
                   <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>

@@ -11,16 +11,7 @@
 import { Amplify } from 'aws-amplify'
 import config from '@/amplify_outputs.json'
 
-/**
- * AWS Amplifyの設定を初期化
- * 
- * amplify_outputs.json には以下の設定が含まれています：
- * - 認証設定（Cognito User Pool）
- * - API設定（GraphQL/REST API）
- * - ストレージ設定（S3）など
- * 
- * この設定はAmplify CLIによって自動生成されます。
- */
+// Amplifyの設定を初期化
 Amplify.configure(config)
 
 /**
@@ -33,11 +24,8 @@ interface AmplifyProviderProps {
 /**
  * AWS Amplify プロバイダーコンポーネント
  * 
- * 実際の処理はAmplify.configure()で完了しているため、
- * このコンポーネント自体は子要素をそのまま返すだけです。
- * 
- * ただし、Amplifyの初期化が確実に実行されるよう、
- * プロバイダーパターンとして実装しています。
+ * Amplifyの設定は上記で実行済みなので、
+ * 子要素をそのまま返します。
  */
 export const AmplifyProvider = ({ children }: AmplifyProviderProps) => {
   return <>{children}</>

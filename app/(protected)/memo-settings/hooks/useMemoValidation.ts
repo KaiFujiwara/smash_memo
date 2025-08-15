@@ -39,10 +39,10 @@ export function useMemoValidation({
     }
     
     if (isDuplicateName(trimmedName, excludeId)) {
-      return { isValid: false, error: 'この項目名は既に存在します' }
+      return { isValid: false, error: 'この項目名は既に使用されています' }
     }
     
-    return { isValid: true, error: null }
+    return { isValid: true, error: '' }
   }, [isDuplicateName])
 
   const newItemValidation = useMemo(() => 
@@ -51,7 +51,7 @@ export function useMemoValidation({
   )
 
   const editingValidation = useMemo(() => 
-    editingId ? validateItemName(editingName, editingId) : { isValid: true, error: null },
+    editingId ? validateItemName(editingName, editingId) : { isValid: true, error: '' },
     [editingName, editingId, validateItemName]
   )
 

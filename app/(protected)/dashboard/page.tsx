@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { DashboardHeader } from './components/DashboardHeader'
 import { CategorySection } from './components/CategorySection'
 import { CreateCategoryDialog, EditCategoryDialog } from './components/CategoryDialogs'
 import { useDashboardData } from './hooks/useDashboardData'
@@ -14,7 +13,7 @@ export default function Dashboard() {
   const [editingCategory, setEditingCategory] = useState<CharacterCategory | null>(null)
 
   // データ管理
-  const { state, getCharactersInCategory, updateCategories, setMode } = useDashboardData()
+  const { state, getCharactersInCategory, getUncategorizedCharacters, updateCategories, setMode } = useDashboardData()
   
   // カテゴリー操作
   const categoryActions = useCategoryActions(state.categories, updateCategories)
@@ -87,15 +86,28 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      {/* ヘッダー */}
-      <DashboardHeader
-        mode={state.mode}
-        onModeChange={setMode}
-        onAddCategory={handleAddCategory}
-      />
-
-      {/* カテゴリー別キャラクター一覧 */}
+      {/* キャラクター一覧 */}
       <div className="space-y-6">
+        {/* カテゴリなしの場合はすべてのキャラクター表示 */}
+        {state.categories.length === 0 && state.characters.length > 0 && (
+          <CategorySection
+            key="all-characters"
+            category={{
+              id: "all-characters",
+              name: "すべてのキャラクター",
+              color: "#6B7280",
+              order: 0,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            }}
+            characters={state.characters}
+            mode={state.mode}
+            onCharacterClick={handleCharacterClick}
+            onEditCategory={() => {}} // カテゴリなしの場合は編集不可
+          />
+        )}
+
+        {/* カテゴリー別キャラクター一覧 */}
         {state.categories.map((category) => {
           const charactersInCategory = getCharactersInCategory(category.id)
           
@@ -111,16 +123,11 @@ export default function Dashboard() {
           )
         })}
 
-        {/* カテゴリーが存在しない場合 */}
-        {state.categories.length === 0 && (
+        {/* キャラクターが存在しない場合 */}
+        {state.characters.length === 0 && !state.isLoading && (
           <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">カテゴリーがありません</p>
-            <button
-              onClick={handleAddCategory}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
-              最初のカテゴリーを作成
-            </button>
+            <p className="text-gray-500 mb-4">キャラクターデータがありません</p>
+            <p className="text-sm text-gray-400">キャラクターデータをシーディングしてください</p>
           </div>
         )}
       </div>

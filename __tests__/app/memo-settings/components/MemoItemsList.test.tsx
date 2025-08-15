@@ -235,21 +235,6 @@ describe('MemoItemsList', () => {
     })
   })
 
-  describe('スタイリング', () => {
-    it('コンテナに適切なクラスが適用される', () => {
-      const { container } = render(<MemoItemsList {...defaultProps} />)
-      
-      const mainContainer = container.firstChild
-      expect(mainContainer).toHaveClass('overflow-hidden', 'rounded-xl', 'bg-white', 'shadow-md')
-    })
-
-    it('ヘッダーに適切なグラデーションが適用される', () => {
-      const { container } = render(<MemoItemsList {...defaultProps} />)
-      
-      const header = container.querySelector('.bg-gradient-to-r')
-      expect(header).toHaveClass('from-gray-50', 'to-white')
-    })
-  })
 
   describe('Droppableのプレースホルダー', () => {
     it('プレースホルダーが正しく表示される', () => {

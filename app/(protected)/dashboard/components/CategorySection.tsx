@@ -8,7 +8,8 @@
 'use client'
 
 import { CharacterCard } from './CharacterCard'
-import type { CharacterCategory, Character, DashboardMode } from '@/types'
+import type { CharacterCategory, Character } from '@/types'
+import type { DashboardMode } from '../types'
 
 /**
  * カテゴリーセクションのプロパティ

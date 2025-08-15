@@ -8,7 +8,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import type { DashboardMode } from '@/types'
+import type { DashboardMode } from '../types'
 
 /**
  * ダッシュボードヘッダーのプロパティ

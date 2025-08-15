@@ -1,47 +1,48 @@
 /**
  * useMemoActionsフックのテスト
- * メモ項目のCRUD操作（作成、読み取り、更新、削除）に関するローカル状態管理のテスト
+ * ハイブリッド保存モード：即座にDB保存のテスト
  */
 
 import { renderHook, act } from '@testing-library/react'
-import { toast } from 'sonner'
 import { useMemoActions } from '@/app/(protected)/memo-settings/hooks/useMemoActions'
+import { createMemoItem, updateMemoItem, deleteMemoItemCascade } from '@/services/memoItemService'
+import { toast } from 'sonner'
 import type { MemoSettingsState } from '@/app/(protected)/memo-settings/types'
-import type { MemoItem } from '@/types'
 
-// sonnerのトーストをモック化
-jest.mock('sonner', () => ({
-  toast: {
-    error: jest.fn(),
-  },
+// モック設定
+jest.mock('@/services/memoItemService', () => ({
+  createMemoItem: jest.fn(),
+  updateMemoItem: jest.fn(),
+  deleteMemoItemCascade: jest.fn()
 }))
 
-describe('useMemoActions', () => {
+jest.mock('sonner', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn()
+  }
+}))
+
+const mockCreateMemoItem = createMemoItem as jest.MockedFunction<typeof createMemoItem>
+const mockUpdateMemoItem = updateMemoItem as jest.MockedFunction<typeof updateMemoItem>
+const mockDeleteMemoItemCascade = deleteMemoItemCascade as jest.MockedFunction<typeof deleteMemoItemCascade>
+
+// window.confirmのモック
+const mockConfirm = jest.fn()
+Object.defineProperty(window, 'confirm', {
+  value: mockConfirm,
+  writable: true
+})
+
+describe('useMemoActions - ハイブリッド保存モード', () => {
   let mockState: MemoSettingsState
   let mockUpdateState: jest.Mock
 
   beforeEach(() => {
-    jest.clearAllMocks()
-    
-    // 初期状態のモック
     mockState = {
       items: [
-        {
-          id: '1',
-          name: '既存項目1',
-          order: 1,
-          visible: true,
-          createdAt: '2024-01-01T00:00:00.000Z',
-          updatedAt: '2024-01-01T00:00:00.000Z',
-        },
-        {
-          id: '2',
-          name: '既存項目2',
-          order: 2,
-          visible: true,
-          createdAt: '2024-01-01T00:00:00.000Z',
-          updatedAt: '2024-01-01T00:00:00.000Z',
-        },
+        { id: '1', name: '既存項目1', order: 0, visible: true, createdAt: '2024-01-01', updatedAt: '2024-01-01' },
+        { id: '2', name: '既存項目2', order: 1, visible: true, createdAt: '2024-01-01', updatedAt: '2024-01-01' }
       ],
       newItemName: '',
       editingId: null,
@@ -49,316 +50,241 @@ describe('useMemoActions', () => {
       isLoading: false,
       isSaving: false,
       isAdding: false,
-      showDeleteConfirm: null,
-      showUnsavedWarning: false,
-      draggingId: null,
-      forceUpdateCounter: 0,
-      pendingChanges: [],
-      nextTempId: 1,
-      pendingNavigation: null,
+      draggingId: null
     }
 
-    mockUpdateState = jest.fn((updates) => {
-      Object.assign(mockState, updates)
-    })
+    mockUpdateState = jest.fn()
+
+    // モック初期化
+    jest.clearAllMocks()
+    mockConfirm.mockReturnValue(true) // デフォルトで確認
   })
 
   describe('handleAddItem', () => {
-    it('新しい項目を正常に追加できる', async () => {
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
+    it('項目追加が成功した場合、即座にDBに保存し、ローカル状態を更新する', async () => {
+      const newItem = {
+        id: 'new-1',
+        name: '新しい項目',
+        order: 2,
+        visible: true,
+        createdAt: '2024-01-02',
+        updatedAt: '2024-01-02'
+      }
+
+      mockCreateMemoItem.mockResolvedValueOnce({
+        success: true,
+        item: newItem
+      })
+
+      const { result } = renderHook(() => useMemoActions({
+        state: mockState,
+        updateState: mockUpdateState
+      }))
 
       await act(async () => {
-        await result.current.handleAddItem('新規項目')
+        await result.current.handleAddItem('新しい項目')
       })
 
-      // isAddingがtrueに設定されることを確認
-      expect(mockUpdateState).toHaveBeenCalledWith({ isAdding: true })
+      // DB保存が呼ばれることを確認
+      expect(mockCreateMemoItem).toHaveBeenCalledWith({
+        name: '新しい項目',
+        order: 2,
+        visible: true
+      })
 
-      // 新しい項目が追加されることを確認
+      // ローカル状態が更新されることを確認
       expect(mockUpdateState).toHaveBeenCalledWith({
-        items: expect.arrayContaining([
-          expect.objectContaining({
-            id: 'temp-1',
-            name: '新規項目',
-            order: 3, // 既存の最大order + 1
-            visible: true,
-          }),
-        ]),
-        newItemName: '',
-        nextTempId: 2,
+        items: [...mockState.items, newItem],
+        newItemName: ''
       })
 
-      // isAddingがfalseに戻ることを確認
-      expect(mockUpdateState).toHaveBeenCalledWith({ isAdding: false })
+      // 成功メッセージが表示されることを確認
+      expect(toast.success).toHaveBeenCalledWith('項目を追加しました')
     })
 
-    it('空の項目リストに最初の項目を追加できる', async () => {
-      mockState.items = []
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
+    it('項目追加が失敗した場合、エラーメッセージを表示する', async () => {
+      mockCreateMemoItem.mockResolvedValueOnce({
+        success: false,
+        error: 'DB保存エラー'
+      })
+
+      const { result } = renderHook(() => useMemoActions({
+        state: mockState,
+        updateState: mockUpdateState
+      }))
 
       await act(async () => {
-        await result.current.handleAddItem('最初の項目')
+        await result.current.handleAddItem('新しい項目')
       })
 
-      expect(mockUpdateState).toHaveBeenCalledWith({
-        items: [
-          expect.objectContaining({
-            id: 'temp-1',
-            name: '最初の項目',
-            order: 1,
-            visible: true,
-          }),
-        ],
-        newItemName: '',
-        nextTempId: 2,
-      })
-    })
-
-    it('前後の空白を削除して項目を追加する', async () => {
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
-
-      await act(async () => {
-        await result.current.handleAddItem('  空白あり項目  ')
-      })
-
-      expect(mockUpdateState).toHaveBeenCalledWith({
-        items: expect.arrayContaining([
-          expect.objectContaining({
-            name: '空白あり項目',
-          }),
-        ]),
-        newItemName: '',
-        nextTempId: 2,
-      })
-    })
-
-    it('エラー発生時にトーストエラーを表示する', async () => {
-      // エラーを発生させるためにmockUpdateStateでエラーを投げる
-      let callCount = 0
-      mockUpdateState.mockImplementation((updates) => {
-        callCount++
-        // 2回目の呼び出し（items更新時）でエラーを投げる
-        if (callCount === 2) {
-          throw new Error('追加エラー')
-        }
-      })
-
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation()
-
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
-
-      await act(async () => {
-        await result.current.handleAddItem('エラー項目')
-      })
-
+      // エラーメッセージが表示されることを確認
       expect(toast.error).toHaveBeenCalledWith('項目の追加に失敗しました')
-      
-      // エラー後もisAddingがfalseに戻ることを確認
-      expect(mockUpdateState).toHaveBeenLastCalledWith({ isAdding: false })
 
-      consoleSpy.mockRestore()
-    })
-  })
-
-  describe('handleStartEditing', () => {
-    it('編集モードを開始する', () => {
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
-
-      const itemToEdit = mockState.items[0]
-
-      act(() => {
-        result.current.handleStartEditing(itemToEdit)
-      })
-
-      expect(mockUpdateState).toHaveBeenCalledWith({
-        editingId: '1',
-        editingName: '既存項目1',
-      })
+      // ローカル状態は更新されないことを確認
+      expect(mockUpdateState).toHaveBeenCalledTimes(2) // isAdding: true, false のみ
     })
   })
 
   describe('handleSaveEdit', () => {
-    it('編集中の項目を保存する', async () => {
+    beforeEach(() => {
       mockState.editingId = '1'
       mockState.editingName = '編集後の名前'
+    })
 
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
+    it('項目編集が成功した場合、即座にDBに保存し、ローカル状態を更新する', async () => {
+      const updatedItem = {
+        id: '1',
+        name: '編集後の名前',
+        order: 0,
+        visible: true,
+        createdAt: '2024-01-01',
+        updatedAt: '2024-01-02'
+      }
+
+      mockUpdateMemoItem.mockResolvedValueOnce({
+        success: true,
+        item: updatedItem
+      })
+
+      const { result } = renderHook(() => useMemoActions({
+        state: mockState,
+        updateState: mockUpdateState
+      }))
 
       await act(async () => {
         await result.current.handleSaveEdit()
       })
 
+      // DB更新が呼ばれることを確認
+      expect(mockUpdateMemoItem).toHaveBeenCalledWith({
+        id: '1',
+        name: '編集後の名前'
+      })
+
+      // ローカル状態が更新されることを確認
       expect(mockUpdateState).toHaveBeenCalledWith({
-        items: expect.arrayContaining([
-          expect.objectContaining({
-            id: '1',
-            name: '編集後の名前',
-            updatedAt: expect.any(String),
-          }),
-          expect.objectContaining({
-            id: '2',
-            name: '既存項目2', // 他の項目は変更されない
-          }),
-        ]),
-        editingId: null,
+        items: [
+          updatedItem,
+          mockState.items[1]
+        ],
+        editingId: null
       })
+
+      // 成功メッセージが表示されることを確認
+      expect(toast.success).toHaveBeenCalledWith('項目を更新しました')
     })
 
-    it('editingIdがnullの場合は何もしない', async () => {
-      mockState.editingId = null
+    it('項目編集が失敗した場合、エラーメッセージを表示する', async () => {
+      mockUpdateMemoItem.mockResolvedValueOnce({
+        success: false,
+        error: 'DB更新エラー'
+      })
 
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
+      const { result } = renderHook(() => useMemoActions({
+        state: mockState,
+        updateState: mockUpdateState
+      }))
 
       await act(async () => {
         await result.current.handleSaveEdit()
       })
 
-      expect(mockUpdateState).not.toHaveBeenCalled()
-    })
-
-    it('編集時に前後の空白を削除する', async () => {
-      mockState.editingId = '1'
-      mockState.editingName = '  空白付き名前  '
-
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
-
-      await act(async () => {
-        await result.current.handleSaveEdit()
-      })
-
-      expect(mockUpdateState).toHaveBeenCalledWith({
-        items: expect.arrayContaining([
-          expect.objectContaining({
-            id: '1',
-            name: '空白付き名前',
-          }),
-        ]),
-        editingId: null,
-      })
-    })
-
-    it('エラー発生時にトーストエラーを表示する', async () => {
-      mockState.editingId = '1'
-      mockState.editingName = 'エラー名前'
-
-      mockUpdateState.mockImplementationOnce(() => {
-        throw new Error('更新エラー')
-      })
-
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation()
-
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
-
-      await act(async () => {
-        await result.current.handleSaveEdit()
-      })
-
+      // エラーメッセージが表示されることを確認
       expect(toast.error).toHaveBeenCalledWith('項目の更新に失敗しました')
 
-      consoleSpy.mockRestore()
+      // ローカル状態は更新されないことを確認（編集状態は保持）
+      expect(mockUpdateState).not.toHaveBeenCalled()
     })
   })
 
   describe('handleDeleteItem', () => {
-    it('指定された項目を削除する', async () => {
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
+    it('項目削除が成功した場合、即座にDBから削除し、ローカル状態を更新する', async () => {
+      mockDeleteMemoItemCascade.mockResolvedValueOnce({
+        success: true,
+        deletedMemoContentsCount: 0
+      })
+
+      const { result } = renderHook(() => useMemoActions({
+        state: mockState,
+        updateState: mockUpdateState
+      }))
 
       await act(async () => {
         await result.current.handleDeleteItem('1')
       })
 
+      // DB削除が呼ばれることを確認
+      expect(mockDeleteMemoItemCascade).toHaveBeenCalledWith({ id: '1' })
+
+      // ローカル状態が更新されることを確認
       expect(mockUpdateState).toHaveBeenCalledWith({
-        items: expect.arrayContaining([
-          expect.objectContaining({
-            id: '2',
-            name: '既存項目2',
-          }),
-        ]),
-        showDeleteConfirm: null,
+        items: [mockState.items[1]] // ID '1' の項目が削除される
       })
 
-      // 削除された項目が含まれていないことを確認
-      const calledItems = mockUpdateState.mock.calls[0][0].items
-      expect(calledItems).toHaveLength(1)
-      expect(calledItems.find((item: MemoItem) => item.id === '1')).toBeUndefined()
+      // 成功メッセージが表示されることを確認
+      expect(toast.success).toHaveBeenCalledWith('項目を削除しました')
     })
 
-    it('存在しない項目IDを指定しても他の項目に影響しない', async () => {
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
-
-      await act(async () => {
-        await result.current.handleDeleteItem('999')
+    it('項目削除が失敗した場合、エラーメッセージを表示する', async () => {
+      mockDeleteMemoItemCascade.mockResolvedValueOnce({
+        success: false,
+        error: 'DB削除エラー'
       })
 
-      expect(mockUpdateState).toHaveBeenCalledWith({
-        items: mockState.items, // 元の項目がそのまま残る
-        showDeleteConfirm: null,
-      })
-    })
-
-    it('エラー発生時にトーストエラーを表示する', async () => {
-      mockUpdateState.mockImplementationOnce(() => {
-        throw new Error('削除エラー')
-      })
-
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation()
-
-      const { result } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
+      const { result } = renderHook(() => useMemoActions({
+        state: mockState,
+        updateState: mockUpdateState
+      }))
 
       await act(async () => {
         await result.current.handleDeleteItem('1')
       })
 
+      // エラーメッセージが表示されることを確認
       expect(toast.error).toHaveBeenCalledWith('項目の削除に失敗しました')
 
-      consoleSpy.mockRestore()
+      // ローカル状態は更新されないことを確認
+      expect(mockUpdateState).not.toHaveBeenCalled()
+    })
+
+    it('関連するメモコンテンツがある場合、カスケード削除メッセージを表示する', async () => {
+      mockDeleteMemoItemCascade.mockResolvedValueOnce({
+        success: true,
+        deletedMemoContentsCount: 3
+      })
+
+      const { result } = renderHook(() => useMemoActions({
+        state: mockState,
+        updateState: mockUpdateState
+      }))
+
+      await act(async () => {
+        await result.current.handleDeleteItem('1')
+      })
+
+      // カスケード削除メッセージが表示されることを確認
+      expect(toast.success).toHaveBeenCalledWith('項目と関連する3件のメモを削除しました')
     })
   })
 
-  describe('関数の再生成', () => {
-    it('依存配列の値が変わらない限り、関数は再生成されない', () => {
-      const { result, rerender } = renderHook(() =>
-        useMemoActions({ state: mockState, updateState: mockUpdateState })
-      )
+  describe('handleStartEditing', () => {
+    it('編集開始時にローカル状態を設定する', () => {
+      const item = mockState.items[0]
 
-      const firstRender = {
-        handleAddItem: result.current.handleAddItem,
-        handleStartEditing: result.current.handleStartEditing,
-        handleSaveEdit: result.current.handleSaveEdit,
-        handleDeleteItem: result.current.handleDeleteItem,
-      }
+      const { result } = renderHook(() => useMemoActions({
+        state: mockState,
+        updateState: mockUpdateState
+      }))
 
-      // 同じpropsで再レンダリング
-      rerender()
+      act(() => {
+        result.current.handleStartEditing(item)
+      })
 
-      expect(result.current.handleAddItem).toBe(firstRender.handleAddItem)
-      expect(result.current.handleStartEditing).toBe(firstRender.handleStartEditing)
-      expect(result.current.handleSaveEdit).toBe(firstRender.handleSaveEdit)
-      expect(result.current.handleDeleteItem).toBe(firstRender.handleDeleteItem)
+      // 編集状態が設定されることを確認
+      expect(mockUpdateState).toHaveBeenCalledWith({
+        editingId: '1',
+        editingName: '既存項目1'
+      })
     })
   })
 })

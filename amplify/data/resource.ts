@@ -22,8 +22,6 @@ const schema = a.schema({
     .authorization(allow => [
       // 所有者は全操作可能
       allow.owner(),
-      // 誰でも読み取り可能（公開設定はアプリ側で制御）
-      allow.publicApiKey().to(['read'])
     ]),
 
   // メモ内容
@@ -36,8 +34,6 @@ const schema = a.schema({
     .authorization(allow => [
       // 所有者は全操作可能
       allow.owner(),
-      // 誰でも読み取り可能（公開設定はアプリ側で制御）
-      allow.publicApiKey().to(['read'])
     ]),
 
     
@@ -51,8 +47,6 @@ const schema = a.schema({
     .authorization(allow => [
       // 所有者は全操作可能
       allow.owner(),
-      // 誰でも読み取り可能（公開設定はアプリ側で制御）
-      allow.publicApiKey().to(['read'])
     ]),
 
   // ユーザーごとのキャラクターカテゴリ設定
@@ -65,8 +59,6 @@ const schema = a.schema({
     .authorization(allow => [
       // 所有者は全操作可能
       allow.owner(),
-      // 誰でも読み取り可能（公開設定はアプリ側で制御）
-      allow.publicApiKey().to(['read'])
     ]),
 
 });

@@ -40,3 +40,9 @@ next-env.d.ts
 .amplify
 amplify_outputs*
 amplifyconfiguration*
+
+# other
+.claude
+CLAUDE.md
+.serena
+.swc

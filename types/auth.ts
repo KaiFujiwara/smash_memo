@@ -16,10 +16,6 @@ export interface User {
   username: string
   /** ユーザーのメールアドレス */
   email: string
-  /** 表示用の名前（メールアドレスまたはユーザー名をフォールバック） */
-  displayName: string
-  /** メールアドレスが確認済みかどうか */
-  email_verified?: boolean
 }
 
 /**

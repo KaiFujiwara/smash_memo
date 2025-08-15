@@ -14,11 +14,15 @@ export interface Character {
   /** キャラクター名 */
   name: string
   /** キャラクター画像URL */
-  imageUrl: string
+  icon: string
   /** 表示順序 */
   order: number
   /** 所属カテゴリーID */
-  categoryId: string
+  categoryId: string | null
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
 }
 
 /**
@@ -34,60 +38,10 @@ export interface CharacterCategory {
   /** カテゴリーの色（UI表示用） */
   color: string
   /** ユーザーID（作成者） */
-  userId: string
+  userId?: string
+  /** 作成日時 */
+  createdAt: string
+  /** 更新日時 */
+  updatedAt: string
 }
 
-/**
- * ダッシュボードの表示モード
- */
-export type DashboardMode = 'view' | 'edit'
-
-/**
- * カテゴリー作成用の入力データ
- */
-export interface CreateCategoryInput {
-  name: string
-  color: string
-  order: number
-}
-
-/**
- * カテゴリー更新用の入力データ
- */
-export interface UpdateCategoryInput {
-  id: string
-  name?: string
-  color?: string
-  order?: number
-}
-
-/**
- * カテゴリー削除用の入力データ
- */
-export interface DeleteCategoryInput {
-  id: string
-}
-
-/**
- * ドラッグ&ドロップ結果
- */
-export interface CategoryDragDropResult {
-  /** ドロップされたカテゴリーID */
-  categoryId: string
-  /** 新しい順序 */
-  newOrder: number
-  /** 移動元の順序 */
-  oldOrder: number
-}
-
-/**
- * カテゴリー操作結果
- */
-export interface CategoryOperationResult {
-  /** 操作成功フラグ */
-  success: boolean
-  /** エラーメッセージ（失敗時） */
-  error?: string
-  /** 操作後のカテゴリー（成功時） */
-  category?: CharacterCategory
-}

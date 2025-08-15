@@ -15,8 +15,6 @@ export interface UserInfo {
   id: string
   username: string
   email: string
-  displayName: string
-  email_verified: boolean | undefined
 }
 
 export interface AccountAction {

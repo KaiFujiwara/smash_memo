@@ -10,13 +10,13 @@
 
 import { useState, useCallback } from 'react'
 import { toast } from 'sonner'
+import type { CharacterCategory } from '@/types'
 import type { 
-  CharacterCategory, 
   CreateCategoryInput, 
   UpdateCategoryInput,
   DeleteCategoryInput,
   CategoryOperationResult 
-} from '@/types'
+} from '../types'
 
 /**
  * カテゴリー操作の状態管理
@@ -77,7 +77,9 @@ export function useCategoryActions(
         name: input.name,
         color: input.color,
         order: input.order,
-        userId: 'current-user' // TODO: 実際のユーザーIDに置き換え
+        userId: 'current-user', // TODO: 実際のユーザーIDに置き換え
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       }
       
       const updatedCategories = [...categories, newCategory].sort((a, b) => a.order - b.order)
@@ -107,7 +109,7 @@ export function useCategoryActions(
       
       const updatedCategories = categories.map(category => {
         if (category.id === input.id) {
-          return { ...category, ...input }
+          return { ...category, ...input, updatedAt: new Date().toISOString() }
         }
         return category
       }).sort((a, b) => a.order - b.order)

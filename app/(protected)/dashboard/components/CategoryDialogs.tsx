@@ -9,7 +9,8 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import type { CharacterCategory, CreateCategoryInput, UpdateCategoryInput } from '@/types'
+import type { CharacterCategory } from '@/types'
+import type { CreateCategoryInput, UpdateCategoryInput } from '../types'
 
 /**
  * カテゴリー作成ダイアログのプロパティ
