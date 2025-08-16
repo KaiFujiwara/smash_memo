@@ -115,7 +115,7 @@ export function MemoItem({
             </div>
 
             {/* アクションボタン */}
-            <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="flex items-center gap-1 opacity-70 sm:opacity-0 transition-opacity sm:group-hover:opacity-100">
               {isEditing ? (
                 <>
                   <button

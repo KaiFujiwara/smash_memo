@@ -13,20 +13,26 @@ For detailed project information, refer to the documentation in the `.claude/` d
 
 ## Development Commands
 
+### ⚠️ IMPORTANT: Development Server Management
+- **DO NOT RUN**: `npm run dev`, `npm run build`, `npm run start`, `npm install`
+- The user manages all development server processes and package installations
+- Testing commands (`npm test`) are OK to run
+- When `npm run dev` is running, build commands are unnecessary
+
 ### Essential Commands
 ```bash
-# Development
-npm run dev                 # Start development server
-npm run build              # Production build
-npm run start              # Start production server
+# Development (USER MANAGED - DO NOT RUN)
+npm run dev                 # Start development server - USER MANAGED
+npm run build              # Production build - DO NOT RUN (not needed with npm run dev)
+npm run start              # Start production server - USER MANAGED
 
-# Testing
+# Testing (OK TO RUN)
 npm test                   # Run all tests
 npm test -- __tests__/path/to/specific/     # Run specific test directory
 npm run test:watch         # Run tests in watch mode
 npm run test:coverage      # Run tests with coverage report
 
-# Linting & Quality
+# Linting & Quality (OK TO RUN)
 npm run lint               # Run ESLint
 
 # Amplify/Backend

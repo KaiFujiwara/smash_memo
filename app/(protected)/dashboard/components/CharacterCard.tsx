@@ -17,19 +17,13 @@ import type { Character } from '@/types'
 interface CharacterCardProps {
   /** 表示するキャラクター */
   character: Character
-  /** 編集モードフラグ */
-  isEditMode?: boolean
-  /** クリック時のコールバック */
-  onClick?: (character: Character) => void
 }
 
 /**
  * キャラクターカードコンポーネント
  */
 export function CharacterCard({ 
-  character, 
-  isEditMode = false, 
-  onClick 
+  character
 }: CharacterCardProps) {
   const router = useRouter()
 
@@ -37,21 +31,13 @@ export function CharacterCard({
    * カードクリック処理
    */
   const handleClick = () => {
-    if (onClick) {
-      onClick(character)
-    } else if (!isEditMode) {
-      // メモ画面に遷移（TODO: 実際のメモ画面パスに更新）
-      router.push(`/memo/${character.id}`)
-    }
+    // メモ画面に遷移
+    router.push(`/memo/${character.id}`)
   }
 
   return (
     <Card 
-      className={`
-        relative overflow-hidden cursor-pointer transition-all duration-200
-        hover:shadow-lg hover:scale-105
-        ${isEditMode ? 'opacity-75' : ''}
-      `}
+      className="relative overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-105"
       onClick={handleClick}
     >
       <div className="aspect-square p-4 flex flex-col items-center justify-center">
@@ -65,13 +51,6 @@ export function CharacterCard({
           {character.name}
         </h3>
       </div>
-      
-      {/* 編集モード時のオーバーレイ */}
-      {isEditMode && (
-        <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-          <span className="text-white text-xs font-medium">編集モード</span>
-        </div>
-      )}
     </Card>
   )
 }

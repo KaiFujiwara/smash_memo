@@ -27,9 +27,7 @@ describe('useAccountData', () => {
   const mockUser: UserInfo = {
     id: 'user-1',
     username: 'testuser',
-    email: 'test@example.com',
-    displayName: 'test@example.com',
-    email_verified: true as boolean | undefined,
+    email: 'test@example.com'
   }
 
   beforeEach(() => {

@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'aws-amplify/auth'
-import { User, Settings, LogOut, Home, Menu, X, ChevronDown } from 'lucide-react'
+import { User, Settings, LogOut, Home, Menu, X, ChevronDown, FileText } from 'lucide-react'
+import { useHeader } from '@/contexts/headerContext'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -12,9 +13,16 @@ export default function Header() {
   const pathname = usePathname()
   const userMenuRef = useRef<HTMLDivElement>(null)
   const spUserMenuRef = useRef<HTMLDivElement>(null)
+  const { characterName } = useHeader()
 
   // パス名からページタイトルとアイコンを取得
   const getPageInfo = (path: string) => {
+    // キャラ対策メモページの場合
+    if (path.startsWith('/memo/')) {
+      const title = characterName || 'キャラ対策メモ'
+      return { title, icon: FileText }
+    }
+    
     switch (path) {
       case '/dashboard':
         return { title: 'キャラ一覧', icon: Home }
@@ -61,9 +69,9 @@ export default function Header() {
         {/* ページタイトル */}
         <div className="flex items-center gap-2">
           {pageInfo.icon && (
-            <pageInfo.icon className="text-white" size={24} />
+            <pageInfo.icon className="text-white" size={20} />
           )}
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-lg sm:text-xl font-bold text-white">
             {pageInfo.title}
           </h1>
         </div>
@@ -96,7 +104,7 @@ export default function Header() {
             
             {/* ドロップダウンメニュー - PC */}
             {isUserMenuOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                 <Link 
                   href="/memo-settings" 
                   className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -184,7 +192,7 @@ export default function Header() {
           
           {/* SPユーザードロップダウン */}
           {isUserMenuOpen && (
-            <div className="mt-2 rounded-md bg-white/10 py-1">
+            <div className="mt-2 rounded-xl bg-white/10 py-1 overflow-hidden">
               <Link 
                 href="/memo-settings" 
                 className="flex items-center gap-3 rounded-lg px-4 py-3 text-white hover:bg-white/20"

@@ -9,7 +9,6 @@
 
 import { CharacterCard } from './CharacterCard'
 import type { CharacterCategory, Character } from '@/types'
-import type { DashboardMode } from '../types'
 
 /**
  * カテゴリーセクションのプロパティ
@@ -19,10 +18,6 @@ interface CategorySectionProps {
   category: CharacterCategory
   /** カテゴリーに属するキャラクター一覧 */
   characters: Character[]
-  /** 表示モード */
-  mode: DashboardMode
-  /** キャラクタークリック時のコールバック */
-  onCharacterClick?: (character: Character) => void
   /** カテゴリー編集開始時のコールバック */
   onEditCategory?: (category: CharacterCategory) => void
 }
@@ -33,15 +28,13 @@ interface CategorySectionProps {
 export function CategorySection({
   category,
   characters,
-  mode,
-  onCharacterClick,
   onEditCategory
 }: CategorySectionProps) {
   /**
    * カテゴリーヘッダークリック処理
    */
   const handleCategoryClick = () => {
-    if (mode === 'edit' && onEditCategory) {
+    if (onEditCategory) {
       onEditCategory(category)
     }
   }
@@ -50,10 +43,7 @@ export function CategorySection({
     <div className="mb-8">
       {/* カテゴリーヘッダー */}
       <div 
-        className={`
-          flex items-center mb-4 pb-2 border-b-2
-          ${mode === 'edit' ? 'cursor-pointer hover:opacity-75' : ''}
-        `}
+        className="flex items-center mb-4 pb-2 border-b-2 cursor-pointer hover:opacity-75"
         style={{ borderColor: category.color }}
         onClick={handleCategoryClick}
       >
@@ -73,12 +63,10 @@ export function CategorySection({
           ({characters.length})
         </span>
         
-        {/* 編集モードインジケーター */}
-        {mode === 'edit' && (
-          <span className="ml-auto text-xs text-gray-400">
-            クリックして編集
-          </span>
-        )}
+        {/* 編集インジケーター */}
+        <span className="ml-auto text-xs text-gray-400">
+          クリックして編集
+        </span>
       </div>
 
       {/* キャラクターグリッド */}
@@ -88,8 +76,6 @@ export function CategorySection({
             <CharacterCard
               key={character.id}
               character={character}
-              isEditMode={mode === 'edit'}
-              onClick={onCharacterClick}
             />
           ))}
         </div>

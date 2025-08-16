@@ -30,4 +30,14 @@ export type {
 export type {
   Character,
   CharacterCategory
-} from './character' 
+} from './character'
+
+// メモ内容関連の型をエクスポート
+export type {
+  MemoContent,
+  CreateMemoContentInput,
+  UpdateMemoContentInput,
+  DeleteMemoContentInput,
+  MemoContentOperationResult,
+  CharacterMemoContents
+} from './memoContent' 

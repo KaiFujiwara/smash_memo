@@ -34,7 +34,7 @@ export function AccountActionsCard({
       <div className="p-6">
         <div className="space-y-4">
           {/* ログアウト */}
-          <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-xl border border-gray-200 p-4 gap-4">
             <div className="flex items-center gap-3">
               <LogOut size={20} className="text-gray-600" />
               <div>
@@ -45,7 +45,7 @@ export function AccountActionsCard({
             <button
               onClick={onSignOut}
               disabled={isSigningOut || isDeleting}
-              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 px-4 py-2 font-medium text-white shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 px-4 py-2 font-medium text-white shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all w-full sm:w-auto"
             >
               {isSigningOut ? (
                 <>
@@ -62,7 +62,7 @@ export function AccountActionsCard({
           </div>
 
           {/* アカウント削除 */}
-          <div className="flex items-center justify-between rounded-lg border border-red-200 p-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-xl border border-red-200 p-4 gap-4">
             <div className="flex items-center gap-3">
               <Trash2 size={20} className="text-red-600" />
               <div>
@@ -73,7 +73,7 @@ export function AccountActionsCard({
             <button
               onClick={onDeleteAccount}
               disabled={isSigningOut || isDeleting}
-              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-red-600 to-red-700 px-4 py-2 font-medium text-white shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-red-600 to-red-700 px-4 py-2 font-medium text-white shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all w-full sm:w-auto"
             >
               {isDeleting ? (
                 <>

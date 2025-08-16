@@ -20,6 +20,18 @@ interface AmplifyMemoContent {
   __typename: string
 }
 
+interface GetMemoContentResponse {
+  getMemoContent: AmplifyMemoContent | null
+}
+
+interface CreateMemoContentResponse {
+  createMemoContent: AmplifyMemoContent
+}
+
+interface UpdateMemoContentResponse {
+  updateMemoContent: AmplifyMemoContent
+}
+
 interface ListMemoContentsResponse {
   listMemoContents: {
     items: AmplifyMemoContent[]
@@ -61,6 +73,77 @@ const LIST_MEMO_CONTENTS_BY_ITEM_ID = `
   }
 `
 
+const LIST_MEMO_CONTENTS_BY_CHARACTER = `
+  query ListMemoContentsByCharacter($characterId: String!) {
+    listMemoContents(filter: { characterId: { eq: $characterId } }) {
+      items {
+        id
+        characterId
+        memoItemId
+        content
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`
+
+const GET_MEMO_CONTENT = `
+  query GetMemoContent($characterId: String!, $memoItemId: String!) {
+    listMemoContents(filter: { 
+      and: [
+        { characterId: { eq: $characterId } },
+        { memoItemId: { eq: $memoItemId } }
+      ]
+    }) {
+      items {
+        id
+        characterId
+        memoItemId
+        content
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+    }
+  }
+`
+
+const CREATE_MEMO_CONTENT = `
+  mutation CreateMemoContent($input: CreateMemoContentInput!) {
+    createMemoContent(input: $input) {
+      id
+      characterId
+      memoItemId
+      content
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`
+
+const UPDATE_MEMO_CONTENT = `
+  mutation UpdateMemoContent($input: UpdateMemoContentInput!) {
+    updateMemoContent(input: $input) {
+      id
+      characterId
+      memoItemId
+      content
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`
+
 const DELETE_MEMO_CONTENT = `
   mutation DeleteMemoContent($input: DeleteMemoContentInput!) {
     deleteMemoContent(input: $input) {
@@ -90,6 +173,140 @@ export async function getMemoContentsByItemId(memoItemId: string): Promise<Ampli
   } catch (error) {
     console.error('メモ内容の取得に失敗:', error)
     throw new Error('メモ内容の取得に失敗しました')
+  }
+}
+
+/**
+ * 特定のキャラクターのすべてのメモ内容を取得します
+ * 
+ * @param characterId - キャラクターID
+ * @returns Promise<AmplifyMemoContent[]> キャラクターのメモ内容リスト
+ */
+export async function getMemoContentsByCharacter(characterId: string): Promise<AmplifyMemoContent[]> {
+  try {
+    const response = await client.graphql({
+      query: LIST_MEMO_CONTENTS_BY_CHARACTER,
+      variables: { characterId }
+    }) as GraphQLResult<ListMemoContentsResponse>
+
+    return response.data?.listMemoContents?.items || []
+  } catch (error) {
+    console.error('キャラクターのメモ内容取得に失敗:', error)
+    throw new Error('キャラクターのメモ内容取得に失敗しました')
+  }
+}
+
+/**
+ * 特定のキャラクターとメモ項目の組み合わせでメモ内容を取得します
+ * 
+ * @param characterId - キャラクターID
+ * @param memoItemId - メモ項目ID
+ * @returns Promise<AmplifyMemoContent | null> メモ内容またはnull
+ */
+export async function getMemoContent(characterId: string, memoItemId: string): Promise<AmplifyMemoContent | null> {
+  try {
+    const response = await client.graphql({
+      query: GET_MEMO_CONTENT,
+      variables: { characterId, memoItemId }
+    }) as GraphQLResult<ListMemoContentsResponse>
+
+    const items = response.data?.listMemoContents?.items || []
+    return items.length > 0 ? items[0] : null
+  } catch (error) {
+    console.error('メモ内容取得に失敗:', error)
+    throw new Error('メモ内容取得に失敗しました')
+  }
+}
+
+/**
+ * メモ内容を作成します
+ * 
+ * @param input - 作成するメモ内容の情報
+ * @returns Promise<AmplifyMemoContent> 作成されたメモ内容
+ */
+export async function createMemoContent(input: {
+  characterId: string
+  memoItemId: string
+  content?: string
+}): Promise<AmplifyMemoContent> {
+  try {
+    const response = await client.graphql({
+      query: CREATE_MEMO_CONTENT,
+      variables: { input }
+    }) as GraphQLResult<CreateMemoContentResponse>
+
+    if (!response.data?.createMemoContent) {
+      throw new Error('メモ内容の作成に失敗しました')
+    }
+
+    return response.data.createMemoContent
+  } catch (error) {
+    console.error('メモ内容作成に失敗:', error)
+    throw new Error('メモ内容作成に失敗しました')
+  }
+}
+
+/**
+ * メモ内容を更新します
+ * 
+ * @param input - 更新するメモ内容の情報
+ * @returns Promise<AmplifyMemoContent> 更新されたメモ内容
+ */
+export async function updateMemoContent(input: {
+  id: string
+  content?: string
+}): Promise<AmplifyMemoContent> {
+  try {
+    const response = await client.graphql({
+      query: UPDATE_MEMO_CONTENT,
+      variables: { input }
+    }) as GraphQLResult<UpdateMemoContentResponse>
+
+    if (!response.data?.updateMemoContent) {
+      throw new Error('メモ内容の更新に失敗しました')
+    }
+
+    return response.data.updateMemoContent
+  } catch (error) {
+    console.error('メモ内容更新に失敗:', error)
+    throw new Error('メモ内容更新に失敗しました')
+  }
+}
+
+/**
+ * メモ内容を作成または更新します（upsert）
+ * 
+ * @param characterId - キャラクターID
+ * @param memoItemId - メモ項目ID
+ * @param content - メモ内容
+ * @returns Promise<AmplifyMemoContent> 作成または更新されたメモ内容
+ */
+export async function upsertMemoContent(
+  characterId: string,
+  memoItemId: string,
+  content: string
+): Promise<AmplifyMemoContent> {
+  try {
+    // 既存のメモ内容を査す
+    const existing = await getMemoContent(characterId, memoItemId)
+    
+    if (existing) {
+      // 更新
+      return await updateMemoContent({
+        id: existing.id,
+        content
+      })
+    } else {
+      // 作成
+      return await createMemoContent({
+        characterId,
+        memoItemId,
+        content
+      })
+    }
+  } catch (error) {
+    console.error('メモ内容のupsertに失敗:', error)
+    throw new Error('メモ内容の保存に失敗しました')
   }
 }
 

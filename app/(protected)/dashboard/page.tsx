@@ -13,7 +13,7 @@ export default function Dashboard() {
   const [editingCategory, setEditingCategory] = useState<CharacterCategory | null>(null)
 
   // データ管理
-  const { state, getCharactersInCategory, getUncategorizedCharacters, updateCategories, setMode } = useDashboardData()
+  const { state, getCharactersInCategory, getUncategorizedCharacters, updateCategories } = useDashboardData()
   
   // カテゴリー操作
   const categoryActions = useCategoryActions(state.categories, updateCategories)
@@ -56,17 +56,6 @@ export default function Dashboard() {
   }
 
   /**
-   * キャラクタークリック処理
-   */
-  const handleCharacterClick = (character: Character) => {
-    if (state.mode === 'edit') {
-      toast.info('編集モードではキャラクターの詳細を表示できません')
-      return
-    }
-    // メモ画面への遷移は CharacterCard コンポーネント内で処理
-  }
-
-  /**
    * 新規カテゴリー追加
    */
   const handleAddCategory = () => {
@@ -101,8 +90,6 @@ export default function Dashboard() {
               updatedAt: new Date().toISOString()
             }}
             characters={state.characters}
-            mode={state.mode}
-            onCharacterClick={handleCharacterClick}
             onEditCategory={() => {}} // カテゴリなしの場合は編集不可
           />
         )}
@@ -116,8 +103,6 @@ export default function Dashboard() {
               key={category.id}
               category={category}
               characters={charactersInCategory}
-              mode={state.mode}
-              onCharacterClick={handleCharacterClick}
               onEditCategory={handleEditCategory}
             />
           )

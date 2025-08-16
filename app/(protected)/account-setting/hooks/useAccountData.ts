@@ -22,9 +22,7 @@ export function useAccountData({ updateState }: UseAccountDataProps) {
         const userInfo: UserInfo = {
           id: authUser.id,
           username: authUser.username,
-          email: authUser.email,
-          displayName: authUser.displayName,
-          email_verified: authUser.email_verified,
+          email: authUser.email
         }
         updateState({
           user: userInfo,
