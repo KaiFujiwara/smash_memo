@@ -2,13 +2,11 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { fetchCharacter } from '@/services/characterService'
 import { getMemoItems } from '@/services/memoItemService'
 import { getMemoContentsByCharacter, upsertMemoContent } from '@/services/memoContentService'
 import { useHeader } from '@/contexts/headerContext'
-import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import Loading from '@/app/loading'
 import type { Character, MemoItem } from '@/types'
 
@@ -32,8 +30,6 @@ export default function CharacterMemoPage() {
   const [memoItems, setMemoItems] = useState<MemoItem[]>([])
   const [memoContents, setMemoContents] = useState<MemoContentState>({})
   const [isLoading, setIsLoading] = useState(true)
-  const [isSaving, setIsSaving] = useState<string | null>(null)
-  const [clearConfirm, setClearConfirm] = useState<{ itemId: string; itemName: string } | null>(null)
   const saveTimeoutRef = useRef<Record<string, NodeJS.Timeout>>({})
 
   // データの初期読み込み
@@ -167,42 +163,12 @@ export default function CharacterMemoPage() {
     scheduleAutoSave(memoItemId, newContent)
   }
 
-  // メモクリア
-  const clearMemo = async (memoItemId: string) => {
-    try {
-      setIsSaving(memoItemId)
-      
-      // 空の内容で保存
-      await upsertMemoContent(characterId, memoItemId, '')
-      
-      setMemoContents(prev => ({
-        ...prev,
-        [memoItemId]: {
-          ...prev[memoItemId],
-          content: '',
-          originalContent: '',
-          hasUnsavedChanges: false,
-          lastSavedAt: new Date()
-        }
-      }))
-
-      toast.success('メモをクリアしました')
-      setClearConfirm(null)
-    } catch (error) {
-      console.error('メモのクリアに失敗:', error)
-      toast.error('メモのクリアに失敗しました')
-    } finally {
-      setIsSaving(null)
-    }
-  }
 
   // メモ保存
   const saveMemo = async (memoItemId: string, content?: string) => {
     const contentToSave = content || memoContents[memoItemId]?.content || ''
     
     try {
-      setIsSaving(memoItemId)
-      
       await upsertMemoContent(characterId, memoItemId, contentToSave)
       
       setMemoContents(prev => ({
@@ -222,8 +188,6 @@ export default function CharacterMemoPage() {
     } catch (error) {
       console.error('メモの保存に失敗:', error)
       toast.error('メモの保存に失敗しました')
-    } finally {
-      setIsSaving(null)
     }
   }
 
@@ -268,16 +232,6 @@ export default function CharacterMemoPage() {
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 px-4 py-3">
                   <div className="flex items-center justify-between">
                     <h2 className="text-base font-medium text-gray-800">{item.name}</h2>
-                    {content.content && (
-                      <button
-                        onClick={() => setClearConfirm({ itemId: item.id, itemName: item.name })}
-                        className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors text-xs"
-                        disabled={isSaving === item.id}
-                      >
-                        <Trash2 size={14} />
-                        クリア
-                      </button>
-                    )}
                   </div>
                 </div>
 
@@ -320,18 +274,6 @@ export default function CharacterMemoPage() {
         )}
       </div>
 
-      {/* クリア確認ダイアログ */}
-      <ConfirmDialog
-        isOpen={!!clearConfirm}
-        title="メモのクリア"
-        message={`「${clearConfirm?.itemName}」のメモ内容をクリアしますか？\nこの操作は取り消せません。`}
-        confirmText="クリア"
-        cancelText="キャンセル"
-        variant="danger"
-        isLoading={isSaving === clearConfirm?.itemId}
-        onConfirm={() => clearConfirm && clearMemo(clearConfirm.itemId)}
-        onCancel={() => setClearConfirm(null)}
-      />
     </div>
   )
 }
