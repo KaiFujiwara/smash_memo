@@ -12,36 +12,14 @@ describe('UserInfoCard', () => {
   const mockUser: UserInfo = {
     id: 'user-1',
     username: 'testuser',
-    email: 'test@example.com',
-    displayName: 'Test User',
-    email_verified: true as boolean | undefined,
+    email: 'test@example.com'
   }
 
   it('ユーザー情報が正しく表示される', () => {
     render(<UserInfoCard user={mockUser} />)
     
     expect(screen.getByText('ユーザー情報')).toBeInTheDocument()
-    expect(screen.getByText('testuser')).toBeInTheDocument()
     expect(screen.getByText('test@example.com')).toBeInTheDocument()
-  })
-
-  it('メール認証済みバッジが表示される', () => {
-    render(<UserInfoCard user={mockUser} />)
-    
-    expect(screen.getByText('認証済み')).toBeInTheDocument()
-    
-    const badge = screen.getByText('認証済み').closest('span')
-    expect(badge).toHaveClass('bg-green-100', 'text-green-800')
-  })
-
-  it('メール未認証の場合、未認証バッジが表示される', () => {
-    const unverifiedUser = { ...mockUser, email_verified: false }
-    render(<UserInfoCard user={unverifiedUser} />)
-    
-    expect(screen.getByText('未認証')).toBeInTheDocument()
-    
-    const badge = screen.getByText('未認証').closest('span')
-    expect(badge).toHaveClass('bg-yellow-100', 'text-yellow-800')
   })
 
   it('ユーザーアイコンとメールアイコンが表示される', () => {
@@ -71,10 +49,6 @@ describe('UserInfoCard', () => {
   it('情報項目が適切に構造化される', () => {
     render(<UserInfoCard user={mockUser} />)
     
-    // ユーザー名の項目
-    const usernameLabel = screen.getByText('ユーザー名')
-    expect(usernameLabel).toHaveClass('text-sm', 'text-gray-600')
-    
     // メールアドレスの項目
     const emailLabel = screen.getByText('メールアドレス')
     expect(emailLabel).toHaveClass('text-sm', 'text-gray-600')
@@ -88,26 +62,10 @@ describe('UserInfoCard', () => {
     expect(headerIcon).toHaveAttribute('width', '20')
     expect(headerIcon).toHaveAttribute('height', '20')
     
-    // 情報項目のアイコンは16px（User, Mail）
-    const userIcon = container.querySelector('svg[class*="lucide-user"]:not(h2 svg)')
+    // 情報項目のアイコンは16px（Mail）
     const mailIcon = container.querySelector('svg[class*="lucide-mail"]')
     
-    expect(userIcon).toHaveAttribute('width', '16')
-    expect(userIcon).toHaveAttribute('height', '16')
     expect(mailIcon).toHaveAttribute('width', '16')
     expect(mailIcon).toHaveAttribute('height', '16')
-  })
-
-  it('メール認証ステータスのチェックアイコンが表示される', () => {
-    render(<UserInfoCard user={mockUser} />)
-    
-    expect(screen.getByText('認証済み')).toBeInTheDocument()
-  })
-
-  it('メール未認証の場合、アラートアイコンが表示される', () => {
-    const unverifiedUser = { ...mockUser, email_verified: false }
-    render(<UserInfoCard user={unverifiedUser} />)
-    
-    expect(screen.getByText('未認証')).toBeInTheDocument()
   })
 })

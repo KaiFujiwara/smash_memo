@@ -4,6 +4,6 @@ export const messages = {
       myTodos: 'スマブラ対策メモ',
       appHosted: 'このアプリはAWS Amplifyでホストされています',
       signOut: 'ログアウト',
-      signInWithAuth0: 'Auth0でログイン',
+      signInWithGoogle: 'Googleでログイン',
     },
   };

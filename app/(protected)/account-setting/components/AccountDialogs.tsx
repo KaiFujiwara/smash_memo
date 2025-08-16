@@ -90,9 +90,19 @@ export function AccountDialogs({
             </div>
             
             <div className="mb-6 text-gray-700">
-              <p className="mb-2">
-                アカウントを削除すると、すべてのメモデータと設定が完全に削除されます。
+              <p className="mb-3">
+                アカウントとすべてのデータを削除します。
               </p>
+              
+              <div className="mb-4 rounded-lg bg-yellow-50 border border-yellow-200 p-3">
+                <p className="text-sm font-medium text-yellow-800 mb-2">⚠️ 重要な注意事項</p>
+                <ul className="text-sm text-yellow-700 space-y-1">
+                  <li>• Googleアカウントとの連携は残ります</li>
+                  <li>• 再ログイン時は新規アカウントとして作成されます</li>
+                  <li>• 削除されたデータは復元できません</li>
+                </ul>
+              </div>
+              
               <p className="font-semibold text-red-600">
                 本当に削除しますか？
               </p>

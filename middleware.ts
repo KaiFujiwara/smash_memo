@@ -19,8 +19,8 @@ const publicRoutes = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
-  // Auth0のセッションクッキーをチェック
-  const isAuthenticated = request.cookies.has('auth_session');
+  // Amplify/Cognitoのセッションクッキーをチェック
+  const isAuthenticated = request.cookies.has('amplify-signin-with-hostedUI');
   
   // パスが保護されたルートかどうかチェック
   const isProtectedRoute = protectedRoutes.some(route => 

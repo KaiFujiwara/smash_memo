@@ -1,23 +1,24 @@
-import {defineAuth, secret} from "@aws-amplify/backend";
-import 'dotenv/config';
+import { defineAuth, secret } from '@aws-amplify/backend';
 
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
 export const auth = defineAuth({
   loginWith: {
-    email: {
-      verificationEmailSubject: 'すまめも！へようこそ！メールを確認してください'
-    },
+    email: true,
     externalProviders: {
-      oidc: [
-        {
-          name: 'Auth0',
-          clientId: secret('AUTH0_CLIENT_ID'),
-          clientSecret: secret('AUTH0_CLIENT_SECRET'),
-          issuerUrl: process.env.ISSUER_URL || '',
-          scopes: ['openid', 'profile', 'email']
-        },
+      google: {
+        clientId: secret('GOOGLE_CLIENT_ID'),
+        clientSecret: secret('GOOGLE_CLIENT_SECRET'),
+        scopes: ['openid', 'profile', 'email']
+      },
+      callbackUrls: [
+        'http://localhost:3000/login'
       ],
-      callbackUrls: [process.env.CALLBACK_URL || ''],
-      logoutUrls: [process.env.LOGOUT_URL || ''],
-    },
+      logoutUrls: [
+        'http://localhost:3000/login'
+      ]
+    }
   },
 });

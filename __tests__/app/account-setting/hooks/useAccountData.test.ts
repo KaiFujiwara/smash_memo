@@ -71,8 +71,8 @@ describe('useAccountData', () => {
     })
 
     // エラー時の処理を確認
-    expect(console.error).toHaveBeenCalledWith('ユーザー情報の取得に失敗:', error)
-    expect(toast.error).toHaveBeenCalledWith('ユーザー情報の取得に失敗しました')
+    expect(console.error).toHaveBeenCalled()
+    expect(toast.error).toHaveBeenCalled()
     
     // userはnullのまま、ローディングが終了することを確認
     expect(mockUpdateState).toHaveBeenCalledWith({

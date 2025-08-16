@@ -39,13 +39,34 @@ export function useAccountActions({ state, updateState }: UseAccountActionsProps
 
   // アカウント削除処理
   const handleDeleteAccount = useCallback(async () => {
+    // ブラウザ確認ダイアログで詳細な警告を表示
+    const confirmed = window.confirm(
+      'アカウントとすべてのデータを削除します。\n\n' +
+      '⚠️ 重要な注意事項:\n' +
+      '• Googleアカウントとの連携は残ります\n' +
+      '• 再ログイン時は新規アカウントとして作成されます\n' +
+      '• 削除されたデータは復元できません\n\n' +
+      '本当に削除しますか？'
+    )
+    
+    if (!confirmed) return
+    
     updateState({ isDeleting: true })
     
     try {
       await deleteUser()
-      await signOut()
+      
+      try {
+        await signOut()
+      } catch (signOutError) {
+        console.error('ログアウトエラー:', signOutError)
+        // ログアウトエラーがあってもリダイレクトは実行
+      }
+      
+      // 削除完了フラグをローカルストレージに保存
+      localStorage.setItem('accountDeleted', 'true')
       router.push('/login')
-      toast.success('アカウントを削除しました')
+      
     } catch (error) {
       console.error('アカウント削除エラー:', error)
       toast.error('アカウントの削除に失敗しました')

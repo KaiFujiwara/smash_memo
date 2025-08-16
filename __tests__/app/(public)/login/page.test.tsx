@@ -53,7 +53,7 @@ describe('LoginPage', () => {
       expect(screen.getByAltText('すまめも！')).toBeInTheDocument()
       expect(screen.getByText('スマブラSPのキャラ対策メモアプリ')).toBeInTheDocument()
       expect(screen.getByText('スマブラSPの対戦キャラごとに対策メモを残せるアプリです。')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'ログイン' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Googleでログイン' })).toBeInTheDocument()
     })
 
     it('認証状態確認中はローディング画面が表示される', () => {
@@ -68,7 +68,7 @@ describe('LoginPage', () => {
       render(<LoginPage />)
       
       expect(screen.getByText('読み込み中...')).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: 'ログイン' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Googleでログイン' })).not.toBeInTheDocument()
     })
 
     it('認証済みの場合、ダッシュボードにリダイレクトされる', () => {
@@ -77,8 +77,7 @@ describe('LoginPage', () => {
         user: {
           id: 'test-user',
           username: 'test@example.com',
-          email: 'test@example.com',
-          displayName: 'test@example.com'
+          email: 'test@example.com'
         },
         isLoading: false,
         signOut: jest.fn(),
@@ -97,12 +96,14 @@ describe('LoginPage', () => {
 
       render(<LoginPage />)
       
-      const loginButton = screen.getByRole('button', { name: 'ログイン' })
+      const loginButton = screen.getByRole('button', { name: 'Googleでログイン' })
       fireEvent.click(loginButton)
       
       await waitFor(() => {
         expect(mockSignInWithRedirect).toHaveBeenCalledWith({
-          provider: { custom: 'Auth0' }
+          provider: { 
+            custom: 'Google'
+          }
         })
       })
     })
@@ -112,7 +113,7 @@ describe('LoginPage', () => {
 
       render(<LoginPage />)
       
-      const loginButton = screen.getByRole('button', { name: 'ログイン' })
+      const loginButton = screen.getByRole('button', { name: 'Googleでログイン' })
       fireEvent.click(loginButton)
       
       await waitFor(() => {
@@ -127,12 +128,12 @@ describe('LoginPage', () => {
 
       render(<LoginPage />)
       
-      const loginButton = screen.getByRole('button', { name: 'ログイン' })
+      const loginButton = screen.getByRole('button', { name: 'Googleでログイン' })
       fireEvent.click(loginButton)
       
       await waitFor(() => {
-        expect(consoleErrorSpy).toHaveBeenCalledWith('サインインエラー:', expect.any(Error))
-        expect(screen.getByRole('button', { name: 'ログイン' })).not.toBeDisabled()
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Googleサインインエラー:', expect.any(Error))
+        expect(screen.getByRole('button', { name: 'Googleでログイン' })).not.toBeDisabled()
       })
 
       consoleErrorSpy.mockRestore()
@@ -176,8 +177,7 @@ describe('LoginPage', () => {
         user: {
           id: 'test-user',
           username: 'test@example.com', 
-          email: 'test@example.com',
-          displayName: 'test@example.com'
+          email: 'test@example.com'
         },
         isLoading: false,
         signOut: jest.fn(),
@@ -209,8 +209,7 @@ describe('LoginPage', () => {
         user: {
           id: 'test-user',
           username: 'test@example.com',
-          email: 'test@example.com', 
-          displayName: 'test@example.com'
+          email: 'test@example.com'
         },
         isLoading: false,
         signOut: jest.fn(),
@@ -248,7 +247,7 @@ describe('LoginPage', () => {
       rerender(<LoginPage />)
       
       expect(screen.queryByText('読み込み中...')).not.toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'ログイン' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Googleでログイン' })).toBeInTheDocument()
       expect(mockPush).not.toHaveBeenCalled()
     })
   })

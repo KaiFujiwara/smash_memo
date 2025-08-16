@@ -70,7 +70,9 @@ describe('AccountDialogs', () => {
       render(<AccountDialogs {...defaultProps} showDeleteConfirm={true} />)
       
       expect(screen.getByText('アカウント削除の確認')).toBeInTheDocument()
-      expect(screen.getByText(/アカウントを削除すると、すべてのメモデータと設定が完全に削除されます/)).toBeInTheDocument()
+      expect(screen.getByText('アカウントとすべてのデータを削除します。')).toBeInTheDocument()
+      expect(screen.getByText('⚠️ 重要な注意事項')).toBeInTheDocument()
+      expect(screen.getByText('• Googleアカウントとの連携は残ります')).toBeInTheDocument()
       expect(screen.getByText('本当に削除しますか？')).toBeInTheDocument()
     })
 

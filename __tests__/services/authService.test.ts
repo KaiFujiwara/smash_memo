@@ -55,9 +55,7 @@ describe('authService', () => {
       expect(result).toEqual({
         id: 'test-user-id',
         username: 'testuser@example.com',
-        email: 'testuser@example.com',
-        displayName: 'testuser@example.com',
-        email_verified: true,
+        email: 'testuser@example.com'
       })
 
       // モック関数が正しく呼び出されたことを確認
@@ -89,9 +87,7 @@ describe('authService', () => {
       expect(result).toEqual({
         id: 'test-user-id',
         username: 'testuser',
-        email: '',
-        displayName: 'testuser',
-        email_verified: false,
+        email: ''
       })
     })
 
