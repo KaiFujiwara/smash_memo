@@ -24,7 +24,7 @@ export default function CharacterMemoPage() {
   const params = useParams()
   const router = useRouter()
   const characterId = params.characterId as string
-  const { setCharacterName } = useHeader()
+  const { setCharacterName, setCharacterIcon } = useHeader()
 
   const [character, setCharacter] = useState<Character | null>(null)
   const [memoItems, setMemoItems] = useState<MemoItem[]>([])
@@ -50,12 +50,13 @@ export default function CharacterMemoPage() {
 
         if (!characterData) {
           toast.error('キャラクターが見つかりません')
-          router.push('/dashboard')
+          router.push('/character-list')
           return
         }
 
         setCharacter(characterData)
         setCharacterName(characterData.name)
+        setCharacterIcon(characterData.icon)
         setMemoItems(memoItemsData)
 
         // メモ内容を初期化
@@ -91,8 +92,9 @@ export default function CharacterMemoPage() {
         clearTimeout(timeout)
       })
       setCharacterName(null)
+      setCharacterIcon(null)
     }
-  }, [characterId, router, setCharacterName])
+  }, [characterId, router, setCharacterName, setCharacterIcon])
 
   // 自動保存機能
   const scheduleAutoSave = useCallback((memoItemId: string, content: string) => {

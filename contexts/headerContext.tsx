@@ -4,16 +4,19 @@ import { createContext, useContext, useState, ReactNode } from 'react'
 
 interface HeaderContextType {
   characterName: string | null
+  characterIcon: string | null
   setCharacterName: (name: string | null) => void
+  setCharacterIcon: (icon: string | null) => void
 }
 
 const HeaderContext = createContext<HeaderContextType | undefined>(undefined)
 
 export function HeaderProvider({ children }: { children: ReactNode }) {
   const [characterName, setCharacterName] = useState<string | null>(null)
+  const [characterIcon, setCharacterIcon] = useState<string | null>(null)
 
   return (
-    <HeaderContext.Provider value={{ characterName, setCharacterName }}>
+    <HeaderContext.Provider value={{ characterName, characterIcon, setCharacterName, setCharacterIcon }}>
       {children}
     </HeaderContext.Provider>
   )

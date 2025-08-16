@@ -13,19 +13,19 @@ export default function Header() {
   const pathname = usePathname()
   const userMenuRef = useRef<HTMLDivElement>(null)
   const spUserMenuRef = useRef<HTMLDivElement>(null)
-  const { characterName } = useHeader()
+  const { characterName, characterIcon } = useHeader()
 
   // パス名からページタイトルとアイコンを取得
   const getPageInfo = (path: string) => {
     // キャラ対策メモページの場合
     if (path.startsWith('/memo/')) {
       const title = characterName || 'キャラ対策メモ'
-      return { title, icon: FileText }
+      return { title, icon: null }
     }
     
     switch (path) {
-      case '/dashboard':
-        return { title: 'キャラ一覧', icon: Home }
+      case '/character-list':
+        return { title: 'キャラクターリスト', icon: Home }
       case '/memo-settings':
         return { title: 'メモ項目設定', icon: Settings }
       case '/account-setting':
@@ -68,7 +68,13 @@ export default function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         {/* ページタイトル */}
         <div className="flex items-center gap-2">
-          {pageInfo.icon && (
+          {pathname.startsWith('/memo/') && characterIcon ? (
+            <img
+              src={characterIcon}
+              alt={characterName || 'キャラクター'}
+              className="w-8 h-8 rounded-full object-contain bg-white border-2 border-gray-400"
+            />
+          ) : pageInfo.icon && (
             <pageInfo.icon className="text-white" size={20} />
           )}
           <h1 className="text-lg sm:text-xl font-bold text-white">
@@ -79,15 +85,15 @@ export default function Header() {
         {/* PCナビゲーション */}
         <nav className="hidden md:flex items-center gap-1">
           <Link 
-            href="/dashboard" 
+            href="/character-list" 
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2 ${
-              isActive('/dashboard') 
+              isActive('/character-list') 
                 ? 'bg-white/20 text-white' 
                 : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
           >
             <Home size={18} />
-            <span>キャラ一覧</span>
+            <span>キャラクターリスト</span>
           </Link>
           
           {/* ユーザーメニュー (PC) */}
@@ -164,12 +170,12 @@ export default function Header() {
           
           <nav className="flex flex-col gap-4 mt-4">
             <Link 
-              href="/dashboard" 
+              href="/character-list" 
               className="flex items-center gap-3 rounded-lg px-4 py-3 text-white hover:bg-white/10"
               onClick={closeMenu}
             >
               <Home size={20} />
-              <span>キャラ一覧</span>
+              <span>キャラクターリスト</span>
             </Link>
           </nav>
         </div>

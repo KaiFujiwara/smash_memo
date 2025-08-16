@@ -30,26 +30,3 @@ export async function fetchCharacter(id: string): Promise<Character | null> {
   }
 }
 
-/**
- * orderでソートされたキャラクター一覧を取得
- */
-export async function fetchSortedCharacters(): Promise<Character[]> {
-  const characters = await fetchCharacters()
-  return characters.sort((a, b) => a.order - b.order)
-}
-
-/**
- * カテゴリー別にグループ化されたキャラクター一覧を取得
- */
-export async function fetchCharactersByCategory(): Promise<Record<string, Character[]>> {
-  const characters = await fetchCharacters()
-  
-  return characters.reduce((acc, character) => {
-    const categoryId = character.categoryId || 'uncategorized'
-    if (!acc[categoryId]) {
-      acc[categoryId] = []
-    }
-    acc[categoryId].push(character)
-    return acc
-  }, {} as Record<string, Character[]>)
-}

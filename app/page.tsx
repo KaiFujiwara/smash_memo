@@ -2,7 +2,7 @@
  * アプリケーションのルートページ
  * 
  * このページは認証状態に基づいてリダイレクトを行います。
- * - 認証済み: /dashboard にリダイレクト
+ * - 認証済み: /character-list にリダイレクト
  * - 未認証: /login にリダイレクト
  * 
  * 実際のコンテンツは表示せず、リダイレクト処理のみを行う
@@ -38,8 +38,8 @@ export default function RootPage(): JSX.Element {
     // 認証状態の確認が完了するまで待機
     if (!isLoading) {
       if (isAuthenticated) {
-        // 認証済みの場合はダッシュボードへ
-        router.push('/dashboard')
+        // 認証済みの場合はキャラクター一覧へ
+        router.push('/character-list')
       } else {
         // 未認証の場合はログイン画面へ
         router.push('/login')

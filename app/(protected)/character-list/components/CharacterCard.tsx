@@ -8,7 +8,6 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Card } from '@/components/ui/card'
 import type { Character } from '@/types'
 
 /**
@@ -36,21 +35,23 @@ export function CharacterCard({
   }
 
   return (
-    <Card 
-      className="relative overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-105"
+    <div 
+      className="relative overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 rounded-full aspect-square"
       onClick={handleClick}
+      title={character.name}
     >
-      <div className="aspect-square p-4 flex flex-col items-center justify-center">
-        {/* キャラクター画像プレースホルダー */}
-        <div className="w-16 h-16 bg-gray-200 rounded-full mb-2 flex items-center justify-center">
+      {/* キャラクター画像 */}
+      {character.icon ? (
+        <img
+          src={character.icon}
+          alt={character.name}
+          className="w-full h-full object-contain rounded-full bg-white border-4 border-gray-400 hover:border-blue-600 transition-colors"
+        />
+      ) : (
+        <div className="w-full h-full bg-gray-200 rounded-full border-4 border-gray-400 flex items-center justify-center hover:border-blue-600 transition-colors">
           <span className="text-gray-500 text-xs">IMG</span>
         </div>
-        
-        {/* キャラクター名 */}
-        <h3 className="text-sm font-medium text-center truncate w-full">
-          {character.name}
-        </h3>
-      </div>
-    </Card>
+      )}
+    </div>
   )
 }

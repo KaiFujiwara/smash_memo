@@ -41,7 +41,6 @@ export async function listCharacters(): Promise<Character[]> {
         name: char.name,
         icon: char.icon,
         order: char.order,
-        categoryId: null, // 初期状態ではカテゴリなし
         createdAt: char.createdAt,
         updatedAt: char.updatedAt
       }))
@@ -77,7 +76,6 @@ export async function getCharacter(id: string): Promise<Character | null> {
       name: result.data.name,
       icon: result.data.icon,
       order: result.data.order,
-      categoryId: null, // 初期状態ではカテゴリなし
       createdAt: result.data.createdAt,
       updatedAt: result.data.updatedAt
     }

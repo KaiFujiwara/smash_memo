@@ -28,8 +28,7 @@ export type {
 
 // キャラクター関連の型をエクスポート
 export type {
-  Character,
-  CharacterCategory
+  Character
 } from './character'
 
 // メモ内容関連の型をエクスポート
