@@ -19,7 +19,7 @@ interface MemoItemProps {
   onSaveEdit: () => void
   onCancelEdit: () => void
   onEditingNameChange: (name: string) => void
-  onDeleteConfirm: (id: string) => void
+  onDeleteConfirm: (item: MemoItem) => void
 }
 
 export function MemoItem({
@@ -88,7 +88,7 @@ export function MemoItem({
                       value={editingName}
                       onChange={(e) => onEditingNameChange(e.target.value)}
                       maxLength={MAX_ITEM_NAME_LENGTH}
-                      className={`w-full rounded-md border px-2 py-1 pr-12 text-sm focus:outline-none focus:ring-1 transition ${
+                      className={`w-full rounded-md border px-2 py-1 pr-12 text-base focus:outline-none focus:ring-1 transition ${
                         !editingValidation.isValid && editingName
                           ? 'border-red-300 bg-red-50 focus:border-red-500 focus:ring-red-500/40'
                           : 'border-indigo-300 focus:border-indigo-500 focus:ring-indigo-500/40'
@@ -97,7 +97,7 @@ export function MemoItem({
                         if (e.key === 'Enter' && editingValidation.isValid) onSaveEdit()
                         if (e.key === 'Escape') onCancelEdit()
                       }}
-                      autoFocus
+                      // autoFocus disabled to prevent mobile zoom
                     />
                     <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400">
                       {editingName.length}/{MAX_ITEM_NAME_LENGTH}
@@ -144,7 +144,7 @@ export function MemoItem({
                     <Edit2 size={14} />
                   </button>
                   <button
-                    onClick={() => onDeleteConfirm(item.id)}
+                    onClick={() => onDeleteConfirm(item)}
                     className="rounded-md p-1.5 text-red-600 hover:bg-red-100 hover:scale-110 transition-transform"
                     title="削除"
                   >

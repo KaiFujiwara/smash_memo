@@ -140,7 +140,7 @@ describe('AccountDialogs', () => {
         <AccountDialogs {...defaultProps} showSignOutConfirm={true} />
       )
       
-      const backdrop = container.querySelector('.fixed.inset-0.z-50')
+      const backdrop = container.querySelector('.fixed.top-0.left-0.right-0.bottom-0.z-\\[200\\]')
       expect(backdrop).toHaveClass('flex', 'items-center', 'justify-center', 'bg-black/50')
       
       const dialog = container.querySelector('.rounded-xl.bg-white')

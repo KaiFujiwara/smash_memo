@@ -20,7 +20,7 @@ interface MemoItemsListProps {
   onSaveEdit: () => void
   onCancelEdit: () => void
   onEditingNameChange: (name: string) => void
-  onDeleteConfirm: (id: string) => void
+  onDeleteConfirm: (item: MemoItemType) => void
 }
 
 export function MemoItemsList({

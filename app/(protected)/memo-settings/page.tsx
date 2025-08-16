@@ -13,18 +13,20 @@ import { useAuth } from '@/hooks/useAuth'
 // Types and Utils
 import type { MemoSettingsState } from './types'
 import { MAX_ITEMS_COUNT } from './types'
+import type { MemoItem } from '@/types'
 
 // Custom Hooks
 import { useMemoValidation } from './hooks/useMemoValidation'
 import { useMemoActions } from './hooks/useMemoActions'
 import { useDragDropActions } from './hooks/useDragDropActions'
 import { useEffect } from 'react'
-import { getMemoItems } from '@/services/memoItemService'
+import { getMemoItems, deleteMemoItemCascade } from '@/services/memoItemService'
 import { toast } from 'sonner'
 
 // Components
 import { AddNewItemSection } from './components/AddNewItemSection'
 import { MemoItemsList } from './components/MemoItemsList'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import Loading from '@/app/loading'
 
 /**
@@ -44,6 +46,9 @@ export default function MemoSettingsPage() {
     isAdding: false,
     draggingId: null,
   })
+  
+  const [deleteConfirm, setDeleteConfirm] = useState<{ item: MemoItem } | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const updateState = useCallback((updates: Partial<MemoSettingsState>) => {
     setState(prev => ({ ...prev, ...updates }))
@@ -61,6 +66,39 @@ export default function MemoSettingsPage() {
     state,
     updateState
   })
+  
+  // カスタムダイアログ用の削除処理
+  const handleDeleteItem = useCallback(async () => {
+    if (!deleteConfirm) return
+    
+    setIsDeleting(true)
+    try {
+      // DBからカスケード削除（関連メモ内容も含む）
+      const result = await deleteMemoItemCascade({ id: deleteConfirm.item.id })
+      
+      if (result.success) {
+        // 成功したらローカル状態を更新
+        updateState({ 
+          items: state.items.filter(item => item.id !== deleteConfirm.item.id)
+        })
+        
+        // 削除されたメモ内容数も表示
+        const deletedCount = result.deletedMemoContentsCount || 0
+        if (deletedCount > 0) {
+          toast.success(`項目と関連する${deletedCount}件のメモを削除しました`)
+        } else {
+          toast.success('項目を削除しました')
+        }
+        setDeleteConfirm(null)
+      } else {
+        throw new Error(result.error || '項目の削除に失敗しました')
+      }
+    } catch (error) {
+      toast.error('項目の削除に失敗しました')
+    } finally {
+      setIsDeleting(false)
+    }
+  }, [deleteConfirm, state.items, updateState])
 
   const dragActions = useDragDropActions({
     state,
@@ -133,9 +171,21 @@ export default function MemoSettingsPage() {
         onSaveEdit={memoActions.handleSaveEdit}
         onCancelEdit={() => updateState({ editingId: null })}
         onEditingNameChange={(name) => updateState({ editingName: name })}
-        onDeleteConfirm={memoActions.handleDeleteItem}
+        onDeleteConfirm={(item) => setDeleteConfirm({ item })}
       />
 
+      {/* 削除確認ダイアログ */}
+      <ConfirmDialog
+        isOpen={!!deleteConfirm}
+        title="メモ項目の削除"
+        message={`「${deleteConfirm?.item.name}」を削除してもよろしいですか？\nこの操作は取り消せません。`}
+        confirmText="削除"
+        cancelText="キャンセル"
+        variant="danger"
+        isLoading={isDeleting}
+        onConfirm={handleDeleteItem}
+        onCancel={() => setDeleteConfirm(null)}
+      />
     </div>
   )
 } 

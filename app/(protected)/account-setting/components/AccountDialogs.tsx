@@ -32,9 +32,10 @@ export function AccountDialogs({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed top-0 left-0 right-0 bottom-0 z-[200] flex items-center justify-center bg-black/50 p-4"
       onClick={onCancel}
       data-testid="dialog-backdrop"
+      style={{ margin: 0 }}
     >
       <div 
         className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl"

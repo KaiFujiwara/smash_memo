@@ -8,6 +8,7 @@ import { fetchCharacter } from '@/services/characterService'
 import { getMemoItems } from '@/services/memoItemService'
 import { getMemoContentsByCharacter, upsertMemoContent } from '@/services/memoContentService'
 import { useHeader } from '@/contexts/headerContext'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import Loading from '@/app/loading'
 import type { Character, MemoItem } from '@/types'
 
@@ -32,6 +33,7 @@ export default function CharacterMemoPage() {
   const [memoContents, setMemoContents] = useState<MemoContentState>({})
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState<string | null>(null)
+  const [clearConfirm, setClearConfirm] = useState<{ itemId: string; itemName: string } | null>(null)
   const saveTimeoutRef = useRef<Record<string, NodeJS.Timeout>>({})
 
   // データの初期読み込み
@@ -167,9 +169,6 @@ export default function CharacterMemoPage() {
 
   // メモクリア
   const clearMemo = async (memoItemId: string) => {
-    const confirmed = window.confirm('このメモ項目の内容をクリアしますか？')
-    if (!confirmed) return
-
     try {
       setIsSaving(memoItemId)
       
@@ -188,6 +187,7 @@ export default function CharacterMemoPage() {
       }))
 
       toast.success('メモをクリアしました')
+      setClearConfirm(null)
     } catch (error) {
       console.error('メモのクリアに失敗:', error)
       toast.error('メモのクリアに失敗しました')
@@ -243,7 +243,7 @@ export default function CharacterMemoPage() {
     <div className="space-y-6">
 
       {/* メモ項目リスト */}
-      <div className="space-y-6">
+      <div className="space-y-3 sm:space-y-4">
         {memoItems.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500 mb-4">メモ項目がありません</p>
@@ -270,7 +270,7 @@ export default function CharacterMemoPage() {
                     <h2 className="text-base font-medium text-gray-800">{item.name}</h2>
                     {content.content && (
                       <button
-                        onClick={() => clearMemo(item.id)}
+                        onClick={() => setClearConfirm({ itemId: item.id, itemName: item.name })}
                         className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors text-xs"
                         disabled={isSaving === item.id}
                       >
@@ -309,7 +309,7 @@ export default function CharacterMemoPage() {
                           {content.content}
                         </pre>
                       ) : (
-                        <p className="text-gray-500 italic">クリックしてメモを入力...</p>
+                        <p className="text-gray-500 italic">メモを入力...</p>
                       )}
                     </div>
                   )}
@@ -319,6 +319,19 @@ export default function CharacterMemoPage() {
           })
         )}
       </div>
+
+      {/* クリア確認ダイアログ */}
+      <ConfirmDialog
+        isOpen={!!clearConfirm}
+        title="メモのクリア"
+        message={`「${clearConfirm?.itemName}」のメモ内容をクリアしますか？\nこの操作は取り消せません。`}
+        confirmText="クリア"
+        cancelText="キャンセル"
+        variant="danger"
+        isLoading={isSaving === clearConfirm?.itemId}
+        onConfirm={() => clearConfirm && clearMemo(clearConfirm.itemId)}
+        onCancel={() => setClearConfirm(null)}
+      />
     </div>
   )
 }

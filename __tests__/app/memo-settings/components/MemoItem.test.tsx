@@ -100,7 +100,7 @@ describe('MemoItem', () => {
       const deleteButton = screen.getByTitle('削除')
       fireEvent.click(deleteButton)
 
-      expect(defaultProps.onDeleteConfirm).toHaveBeenCalledWith('1')
+      expect(defaultProps.onDeleteConfirm).toHaveBeenCalledWith(mockItem)
     })
 
   })
@@ -287,22 +287,5 @@ describe('MemoItem', () => {
     })
   })
 
-  describe('autoFocus属性', () => {
-    it('編集モードでは入力フィールドにautoFocusが設定される', () => {
-      const editingProps = {
-        ...defaultProps,
-        isEditing: true,
-        editingName: '編集中',
-      }
-
-      render(
-        <TestWrapper>
-          <MemoItem {...editingProps} />
-        </TestWrapper>
-      )
-
-      const input = screen.getByRole('textbox')
-      expect(input).toHaveFocus()
-    })
-  })
+  // autoFocusは削除されたためテストも削除
 })

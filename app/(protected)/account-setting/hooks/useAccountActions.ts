@@ -39,18 +39,6 @@ export function useAccountActions({ state, updateState }: UseAccountActionsProps
 
   // アカウント削除処理
   const handleDeleteAccount = useCallback(async () => {
-    // ブラウザ確認ダイアログで詳細な警告を表示
-    const confirmed = window.confirm(
-      'アカウントとすべてのデータを削除します。\n\n' +
-      '⚠️ 重要な注意事項:\n' +
-      '• Googleアカウントとの連携は残ります\n' +
-      '• 再ログイン時は新規アカウントとして作成されます\n' +
-      '• 削除されたデータは復元できません\n\n' +
-      '本当に削除しますか？'
-    )
-    
-    if (!confirmed) return
-    
     updateState({ isDeleting: true })
     
     try {

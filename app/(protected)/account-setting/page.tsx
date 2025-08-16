@@ -75,17 +75,17 @@ export default function AccountSettingsPage() {
         isSigningOut={state.isSigningOut}
         isDeleting={state.isDeleting}
         onSignOut={actions.showSignOutConfirm}
-        onDeleteAccount={actions.handleDeleteAccount}
+        onDeleteAccount={actions.showDeleteConfirm}
       />
 
-      {/* ログアウト確認ダイアログ */}
+      {/* 確認ダイアログ */}
       <AccountDialogs
         showSignOutConfirm={state.showSignOutConfirm}
-        showDeleteConfirm={false}
+        showDeleteConfirm={state.showDeleteConfirm}
         isSigningOut={state.isSigningOut}
         isDeleting={state.isDeleting}
         onConfirmSignOut={actions.handleSignOut}
-        onConfirmDelete={() => {}}
+        onConfirmDelete={actions.handleDeleteAccount}
         onCancel={actions.cancelAction}
       />
     </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { ExternalLink, Mail, FileText, Shield } from 'lucide-react'
+import { toast } from 'sonner'
 
 export default function HelpPage() {
   const contactFormUrl = process.env.NEXT_PUBLIC_CONTACT_FORM_URL
@@ -9,7 +10,7 @@ export default function HelpPage() {
     if (contactFormUrl) {
       window.open(contactFormUrl, '_blank')
     } else {
-      alert('お問い合わせフォームのURLが設定されていません。')
+      toast.error('お問い合わせフォームのURLが設定されていません。')
     }
   }
 

@@ -123,9 +123,7 @@ describe('useAccountActions', () => {
   })
 
   describe('handleDeleteAccount', () => {
-    it('確認ダイアログで承認した場合、アカウント削除を実行する', async () => {
-      mockConfirm.mockReturnValue(true)
-      
+    it('アカウント削除を実行する', async () => {
       const { result } = renderHook(() =>
         useAccountActions({ state: mockState, updateState: mockUpdateState })
       )
@@ -134,7 +132,6 @@ describe('useAccountActions', () => {
         await result.current.handleDeleteAccount()
       })
 
-      expect(mockConfirm).toHaveBeenCalledWith(expect.stringContaining('アカウントとすべてのデータを削除します'))
       expect(mockUpdateState).toHaveBeenCalledWith({ isDeleting: true })
       expect(mockDeleteUser).toHaveBeenCalled()
       expect(mockSignOut).toHaveBeenCalled()
@@ -142,26 +139,9 @@ describe('useAccountActions', () => {
       expect(mockPush).toHaveBeenCalledWith('/login')
     })
     
-    it('確認ダイアログでキャンセルした場合、削除を実行しない', async () => {
-      mockConfirm.mockReturnValue(false)
-      
-      const { result } = renderHook(() =>
-        useAccountActions({ state: mockState, updateState: mockUpdateState })
-      )
-
-      await act(async () => {
-        await result.current.handleDeleteAccount()
-      })
-
-      expect(mockConfirm).toHaveBeenCalled()
-      expect(mockUpdateState).not.toHaveBeenCalledWith({ isDeleting: true })
-      expect(mockDeleteUser).not.toHaveBeenCalled()
-      expect(mockSignOut).not.toHaveBeenCalled()
-      expect(mockPush).not.toHaveBeenCalled()
-    })
+    // 確認ダイアログはカスタムコンポーネントで管理されるため、キャンセルテストは不要
 
     it('アカウント削除エラー時にトーストエラーを表示する', async () => {
-      mockConfirm.mockReturnValue(true)
       const error = new Error('削除エラー')
       mockDeleteUser.mockRejectedValueOnce(error)
 

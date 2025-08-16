@@ -48,7 +48,7 @@ export function AddNewItemSection({
                 placeholder="例：立ち回り、コンボ"
                 maxLength={MAX_ITEM_NAME_LENGTH}
                 disabled={isMaxItemsReached}
-                className={`w-full rounded-full border px-4 py-2 pr-12 text-sm sm:text-base sm:pr-16 focus:outline-none focus:ring-1 transition ${
+                className={`w-full rounded-full border px-4 py-2 pr-12 text-base sm:pr-16 focus:outline-none focus:ring-1 transition ${
                   !validation.isValid && newItemName
                     ? 'border-red-300 bg-red-50 focus:border-red-500 focus:ring-red-500/40'
                     : 'border-gray-300 bg-gray-50 focus:border-indigo-500 focus:bg-white focus:ring-indigo-500/40'
