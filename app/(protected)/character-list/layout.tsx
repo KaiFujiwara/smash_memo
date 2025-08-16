@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { withSiteTitle } from '@/lib/metadata'
 
 export const metadata: Metadata = {
-  title: withSiteTitle('ダッシュボード'),
+  title: withSiteTitle('キャラクターリスト'),
 };
 
-export default function DashboardLayout({
+export default function CharacterListLayout({
   children,
 }: {
   children: React.ReactNode;

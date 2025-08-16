@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'キャラクターメモ - すまめも！',
-  description: 'スマッシュブラザーズのキャラクター別対戦メモ',
+  title: 'キャラクターメモ ',
 }
 
 export default function CharacterMemoLayout({

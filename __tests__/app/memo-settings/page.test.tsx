@@ -192,7 +192,7 @@ describe('MemoSettingsPage', () => {
 
     it('AddNewItemSectionが正しく表示される', () => {
       expect(screen.getByText('新しいメモ項目を追加')).toBeInTheDocument()
-      expect(screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('例：立ち回り、コンボ')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: '追加' })).toBeInTheDocument()
     })
 
@@ -212,7 +212,7 @@ describe('MemoSettingsPage', () => {
     })
 
     it('新規項目名の入力が状態に反映される', () => {
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       
       fireEvent.change(input, { target: { value: '新しい項目' } })
       
@@ -220,7 +220,7 @@ describe('MemoSettingsPage', () => {
     })
 
     it('文字数カウンターが更新される', () => {
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       
       fireEvent.change(input, { target: { value: 'テスト' } })
       
@@ -252,7 +252,7 @@ describe('MemoSettingsPage', () => {
       })
       
       // 入力フィールドが無効化されている
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       expect(input).toBeDisabled()
       
       // 追加ボタンが無効化されている

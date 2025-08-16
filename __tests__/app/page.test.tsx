@@ -37,7 +37,7 @@ describe('RootPage', () => {
   })
 
   describe('認証状態によるリダイレクト', () => {
-    it('認証済みユーザーはダッシュボードにリダイレクトされる', () => {
+    it('認証済みユーザーはキャラクター一覧にリダイレクトされる', () => {
       mockUseAuth.mockReturnValue({
         isAuthenticated: true,
         user: {
@@ -53,7 +53,7 @@ describe('RootPage', () => {
 
       render(<RootPage />)
       
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
 
     it('未認証ユーザーはログインページにリダイレクトされる', () => {
@@ -87,7 +87,7 @@ describe('RootPage', () => {
   })
 
   describe('認証状態の変化に対する反応', () => {
-    it('ローディング完了後に認証済みならダッシュボードにリダイレクト', () => {
+    it('ローディング完了後に認証済みならキャラクター一覧にリダイレクト', () => {
       // 最初はローディング中
       mockUseAuth.mockReturnValue({
         isAuthenticated: false,
@@ -117,7 +117,7 @@ describe('RootPage', () => {
       
       rerender(<RootPage />)
       
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
 
     it('ローディング完了後に未認証ならログインページにリダイレクト', () => {
@@ -190,7 +190,7 @@ describe('RootPage', () => {
       })
       
       rerender(<RootPage />)
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
   })
 
@@ -228,7 +228,7 @@ describe('RootPage', () => {
       })
       
       rerender(<RootPage />)
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
   })
 
@@ -258,7 +258,7 @@ describe('RootPage', () => {
 
       render(<RootPage />)
       
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
   })
 

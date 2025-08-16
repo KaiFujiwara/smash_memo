@@ -8,6 +8,7 @@ import { fetchCharacter } from '@/services/characterService'
 import { getMemoItems } from '@/services/memoItemService'
 import { getMemoContentsByCharacter, upsertMemoContent } from '@/services/memoContentService'
 import { useHeader } from '@/contexts/headerContext'
+import Loading from '@/app/loading'
 import type { Character, MemoItem } from '@/types'
 
 interface MemoContentState {
@@ -227,11 +228,7 @@ export default function CharacterMemoPage() {
   }
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">読み込み中...</div>
-      </div>
-    )
+    return <Loading />
   }
 
   if (!character) {

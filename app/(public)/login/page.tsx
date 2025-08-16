@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import Image from 'next/image';
 import Loading from '@/app/loading';
+import Footer from '@/components/ui/footer';
 
 export default function LoginPage() {
   const [isSigningIn, setIsSigningIn] = useState(false);
@@ -15,7 +16,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      router.push('/dashboard');
+      router.push('/character-list');
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -55,21 +56,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
+    <div className="relative min-h-screen w-full overflow-hidden flex flex-col">
       {/* 背景画像 - 画像はpublic/imagesに配置する想定 */}
       <div className="absolute inset-0 z-0">
 
       </div>
       
       {/* コンテンツ */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-6 sm:py-12">
+      <div className="relative z-10 flex flex-1 items-center justify-center px-4 py-6 sm:py-12">
         <div className=" overflow-hidden rounded-xl sm:rounded-2xl bg-white/90 shadow-xl backdrop-blur-sm">
           {/* ヘッダー部分 */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-5 py-4 sm:px-8 sm:py-6 text-white">
             <div className="flex justify-center mb-2">
               <Image
                 src="/logo.svg"
-                alt="すまめも！"
+                alt="すまめも"
                 width={180}
                 height={54}
                 priority
@@ -82,9 +83,6 @@ export default function LoginPage() {
           
           {/* 本体部分 */}
           <div className="p-5 sm:p-8 flex flex-col ">
-            <p className="mb-6 sm:mb-8 text-center text-sm sm:text-base text-gray-700">
-              スマブラSPの対戦キャラごとに対策メモを残せるアプリです。
-            </p>
             
             <button
               onClick={handleGoogleSignIn}
@@ -122,6 +120,8 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   )
 }

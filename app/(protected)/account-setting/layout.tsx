@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: withSiteTitle('アカウント設定'),
 };
 
-export default function LoginLayout({
+export default function AccountSettingayout({
   children,
 }: {
   children: React.ReactNode;

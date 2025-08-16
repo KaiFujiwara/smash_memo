@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: withSiteTitle('メモ項目設定'),
 };
 
-export default function DashboardLayout({
+export default function MemoSettingLayout({
   children,
 }: {
   children: React.ReactNode;

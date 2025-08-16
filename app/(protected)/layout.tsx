@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import Loading from '@/app/loading'
 import Header from '@/app/(protected)/components/header'
+import SimpleFooter from '@/components/ui/simple-footer'
 import { HeaderProvider } from '@/contexts/headerContext'
 
 export default function ProtectedLayout({
@@ -35,6 +36,7 @@ export default function ProtectedLayout({
             {children}
           </div>
         </main>
+        <SimpleFooter />
       </div>
     </HeaderProvider>
   ) : null

@@ -30,7 +30,7 @@ describe('AddNewItemSection', () => {
       
       expect(screen.getByText('新しいメモ項目を追加')).toBeInTheDocument()
       expect(screen.getByText('3 / 20 項目')).toBeInTheDocument()
-      expect(screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('例：立ち回り、コンボ')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: '追加' })).toBeInTheDocument()
     })
 
@@ -58,7 +58,7 @@ describe('AddNewItemSection', () => {
     it('入力時にonNameChangeが呼ばれる', () => {
       render(<AddNewItemSection {...defaultProps} />)
       
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       fireEvent.change(input, { target: { value: '新しい項目' } })
       
       expect(mockOnNameChange).toHaveBeenCalledWith('新しい項目')
@@ -67,7 +67,7 @@ describe('AddNewItemSection', () => {
     it('Enterキーで有効な場合に追加が実行される', () => {
       render(<AddNewItemSection {...defaultProps} />)
       
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       fireEvent.keyDown(input, { key: 'Enter' })
       
       expect(mockOnAddItem).toHaveBeenCalled()
@@ -77,7 +77,7 @@ describe('AddNewItemSection', () => {
       const invalidValidation = { isValid: false, error: 'エラー' }
       render(<AddNewItemSection {...defaultProps} validation={invalidValidation} />)
       
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       fireEvent.keyDown(input, { key: 'Enter' })
       
       expect(mockOnAddItem).not.toHaveBeenCalled()
@@ -152,7 +152,7 @@ describe('AddNewItemSection', () => {
     it('最大数に達した場合は入力フィールドが無効', () => {
       render(<AddNewItemSection {...defaultProps} itemsCount={20} />)
       
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       expect(input).toBeDisabled()
     })
 
@@ -166,7 +166,7 @@ describe('AddNewItemSection', () => {
     it('最大数に達した場合はEnterキーで追加されない', () => {
       render(<AddNewItemSection {...defaultProps} itemsCount={20} />)
       
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       fireEvent.keyDown(input, { key: 'Enter' })
       
       expect(mockOnAddItem).not.toHaveBeenCalled()
@@ -175,7 +175,7 @@ describe('AddNewItemSection', () => {
     it('最大数-1の場合は正常に動作する', () => {
       render(<AddNewItemSection {...defaultProps} itemsCount={19} />)
       
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       const button = screen.getByRole('button', { name: '追加' })
       
       expect(input).not.toBeDisabled()
@@ -188,7 +188,7 @@ describe('AddNewItemSection', () => {
     it('他のキーでは追加されない', () => {
       render(<AddNewItemSection {...defaultProps} />)
       
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       fireEvent.keyDown(input, { key: 'Space' })
       fireEvent.keyDown(input, { key: 'Tab' })
       fireEvent.keyDown(input, { key: 'Escape' })
@@ -201,7 +201,7 @@ describe('AddNewItemSection', () => {
     it('入力フィールドにmaxLength=50が設定されている', () => {
       render(<AddNewItemSection {...defaultProps} />)
       
-      const input = screen.getByPlaceholderText('例: 立ち回り、コンボ、崖狩りなど')
+      const input = screen.getByPlaceholderText('例：立ち回り、コンボ')
       expect(input).toHaveAttribute('maxLength', '50')
     })
   })
