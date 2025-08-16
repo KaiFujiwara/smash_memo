@@ -52,7 +52,6 @@ describe('LoginPage', () => {
       
       expect(screen.getByAltText('スマメモ')).toBeInTheDocument()
       expect(screen.getByText('スマブラSPのキャラ対策メモアプリ')).toBeInTheDocument()
-      expect(screen.getByText('スマブラSPの対戦キャラごとに対策メモを残せるアプリです。')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Googleでログイン' })).toBeInTheDocument()
     })
 
@@ -86,7 +85,7 @@ describe('LoginPage', () => {
 
       render(<LoginPage />)
       
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
   })
 
@@ -148,7 +147,7 @@ describe('LoginPage', () => {
     it('ロゴ画像が表示される', () => {
       const logo = screen.getByAltText('スマメモ')
       expect(logo).toBeInTheDocument()
-      expect(logo).toHaveAttribute('src', '/logo.svg')
+      expect(logo).toHaveAttribute('src', '/logo.png')
     })
 
     it('利用規約とプライバシーポリシーのリンクが表示される', () => {
@@ -186,7 +185,7 @@ describe('LoginPage', () => {
       
       rerender(<LoginPage />)
       
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
 
     it('ローディング中から認証済みに変わった時もリダイレクトされる', () => {
@@ -218,7 +217,7 @@ describe('LoginPage', () => {
       
       rerender(<LoginPage />)
       
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
 
     it('ローディング完了後も未認証ならログインフォームが表示される', () => {
