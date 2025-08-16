@@ -14,10 +14,12 @@ export const auth = defineAuth({
         scopes: ['openid', 'profile', 'email']
       },
       callbackUrls: [
-        'http://localhost:3000/login'
+        'http://localhost:3000/login',
+        ...(process.env.AMPLIFY_CALLBACK_URL ? [process.env.AMPLIFY_CALLBACK_URL] : [])
       ],
       logoutUrls: [
-        'http://localhost:3000/login'
+        'http://localhost:3000/login',
+        ...(process.env.AMPLIFY_LOGOUT_URL ? [process.env.AMPLIFY_LOGOUT_URL] : [])
       ]
     }
   },

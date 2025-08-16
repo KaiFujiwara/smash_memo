@@ -50,7 +50,7 @@ describe('LoginPage', () => {
     it('未認証の場合、ログインフォームが表示される', () => {
       render(<LoginPage />)
       
-      expect(screen.getByAltText('すまめも')).toBeInTheDocument()
+      expect(screen.getByAltText('スマメモ')).toBeInTheDocument()
       expect(screen.getByText('スマブラSPのキャラ対策メモアプリ')).toBeInTheDocument()
       expect(screen.getByText('スマブラSPの対戦キャラごとに対策メモを残せるアプリです。')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Googleでログイン' })).toBeInTheDocument()
@@ -146,7 +146,7 @@ describe('LoginPage', () => {
     })
 
     it('ロゴ画像が表示される', () => {
-      const logo = screen.getByAltText('すまめも')
+      const logo = screen.getByAltText('スマメモ')
       expect(logo).toBeInTheDocument()
       expect(logo).toHaveAttribute('src', '/logo.svg')
     })

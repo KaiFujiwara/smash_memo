@@ -26,7 +26,7 @@ export default function LoginPage() {
     if (accountDeleted === 'true') {
       localStorage.removeItem('accountDeleted');
       toast.success(
-        'アカウントを削除しました。\n\nGoogleアカウントとの連携を完全に解除するには:\n1. Googleアカウント設定を開く\n2. セキュリティ > サードパーティアプリ\n3. 「すまめも」を削除',
+        'アカウントを削除しました。\n\nGoogleアカウントとの連携を完全に解除するには:\n1. Googleアカウント設定を開く\n2. セキュリティ > サードパーティアプリ\n3. 「スマメモ」を削除',
         { 
           duration: 10000,
           style: {
@@ -66,23 +66,24 @@ export default function LoginPage() {
       <div className="relative z-10 flex flex-1 items-center justify-center px-4 py-6 sm:py-12">
         <div className=" overflow-hidden rounded-xl sm:rounded-2xl bg-white/90 shadow-xl backdrop-blur-sm">
           {/* ヘッダー部分 */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-5 py-4 sm:px-8 sm:py-6 text-white">
-            <div className="flex justify-center mb-2">
+          <div className="bg-white px-5 pt-6 sm:px-8 sm:pt-8">
+            <div className="flex items-center justify-center">
               <Image
-                src="/logo.svg"
-                alt="すまめも"
-                width={180}
-                height={54}
+                src="/logo.png"
+                alt="スマメモ"
+                width={240}
+                height={240}
+                className="sm:w-80"
                 priority
               />
             </div>
-            <p className="mt-1 sm:mt-2 text-xs sm:text-sm font-medium text-blue-100 text-center">
-              スマブラSPのキャラ対策メモアプリ
-            </p>
           </div>
           
           {/* 本体部分 */}
-          <div className="p-5 sm:p-8 flex flex-col ">
+          <div className="px-5 py-4 sm:px-8 sm:py-6 flex flex-col ">
+            <p className="text-center text-gray-700 mb-4 text-sm sm:text-base">
+              スマブラSPのキャラ対策メモアプリ
+            </p>
             
             <button
               onClick={handleGoogleSignIn}
@@ -110,8 +111,8 @@ export default function LoginPage() {
               )}
             </button>
             
-            <p className="mt-4 sm:mt-6 text-center text-[10px] sm:text-xs text-gray-500">
-              ※ ログインすることで、
+            <p className="mt-4 sm:mt-6 text-left sm:text-center text-[10px] sm:text-xs text-gray-500 before:content-['※_'] before:absolute before:left-0 relative pl-4 sm:pl-0 sm:before:content-none">
+              ログインすることで、
               <a href="/terms" className="text-blue-500 hover:underline" target="_blank">利用規約</a>
               および
               <a href="/privacy-policy" className="text-blue-500 hover:underline" target="_blank">プライバシーポリシー</a>

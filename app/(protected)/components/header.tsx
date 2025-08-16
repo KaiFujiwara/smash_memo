@@ -50,7 +50,7 @@ export default function Header() {
       case '/help':
         return { title: 'ヘルプ', icon: HelpCircle }
       default:
-        return { title: 'すまメモ！', icon: null }
+        return { title: 'スマメモ', icon: null }
     }
   }
 

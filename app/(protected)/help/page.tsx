@@ -14,7 +14,7 @@ export default function HelpPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-4">
 
       {/* お問い合わせセクション */}
       <div className="bg-white rounded-2xl shadow-md p-6">
