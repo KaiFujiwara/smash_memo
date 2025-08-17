@@ -118,12 +118,15 @@ export default function CharacterMemoPage() {
       }
     }))
     
-    // textareaの高さを調整するために少し遅延
+    // textareaの高さを調整とカーソル位置を設定するために少し遅延
     setTimeout(() => {
       const textarea = document.querySelector(`textarea[data-memo-id="${memoItemId}"]`) as HTMLTextAreaElement
       if (textarea) {
         textarea.style.height = 'auto'
-        textarea.style.height = `${Math.max(100, textarea.scrollHeight)}px`
+        textarea.style.height = `${textarea.scrollHeight}px`
+        // カーソルを最後に移動
+        textarea.setSelectionRange(textarea.value.length, textarea.value.length)
+        textarea.focus()
       }
     }, 0)
   }
@@ -209,17 +212,24 @@ export default function CharacterMemoPage() {
       {/* メモ項目リスト */}
       <div className="space-y-3 sm:space-y-4">
         {memoItems.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">メモ項目がありません</p>
-            <p className="text-sm text-gray-400">
-              <button
-                onClick={() => router.push('/memo-settings')}
-                className="text-blue-600 hover:underline"
-              >
-                メモ項目設定
-              </button>
-              でメモ項目を作成してください
-            </p>
+          <div className="text-center">
+            <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-6 max-w-md mx-auto">
+              <div className="space-y-3">
+                <p className="text-blue-900 dark:text-blue-100 font-semibold">
+                  メモ項目がまだ設定されていません
+                </p>
+                <div className="text-sm text-blue-800 dark:text-blue-200">
+                  {/* PC版の導線 */}
+                  <p className="hidden sm:block">
+                    画面上部の<span className="font-semibold">「共通メモ項目設定」</span>から設定してください
+                  </p>
+                  {/* SP版の導線 */}
+                  <p className="sm:hidden">
+                    画面右上のメニュー（≡）を開いて下部にある<span className="font-semibold">「共通メモ項目設定」</span>から設定してください
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         ) : (
           memoItems.map(item => {
@@ -229,14 +239,14 @@ export default function CharacterMemoPage() {
             return (
               <div key={item.id} className="bg-white rounded-xl shadow-md overflow-hidden">
                 {/* メモ項目ヘッダー */}
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 px-4 py-3">
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 px-3 py-2 sm:px-4 sm:py-3">
                   <div className="flex items-center justify-between">
                     <h2 className="text-base font-medium text-gray-800">{item.name}</h2>
                   </div>
                 </div>
 
                 {/* メモ内容 */}
-                <div className="p-4">
+                <div className="p-2 sm:p-4">
                   {content.isEditing ? (
                     <textarea
                       data-memo-id={item.id}
@@ -244,18 +254,18 @@ export default function CharacterMemoPage() {
                       onChange={(e) => handleContentChange(item.id, e.target.value)}
                       onBlur={() => finishEditing(item.id)}
                       placeholder="メモを入力してください..."
-                      className="w-full min-h-[100px] p-3 border border-gray-300 rounded-lg resize-vertical focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg resize-vertical focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       style={{ height: 'auto' }}
                       autoFocus
                       onInput={(e) => {
                         const target = e.target as HTMLTextAreaElement;
                         target.style.height = 'auto';
-                        target.style.height = `${Math.max(100, target.scrollHeight)}px`;
+                        target.style.height = `${target.scrollHeight}px`;
                       }}
                     />
                   ) : (
                     <div 
-                      className="min-h-[80px] p-3 bg-gray-50 rounded-lg cursor-text hover:bg-gray-100 transition-colors"
+                      className="sm:min-h-[80px] p-3 bg-gray-50 rounded-lg cursor-text hover:bg-gray-100 transition-colors"
                       onClick={() => startEditing(item.id)}
                     >
                       {content.content ? (

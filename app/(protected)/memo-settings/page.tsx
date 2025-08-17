@@ -9,6 +9,7 @@
 
 import { useState, useCallback, useMemo } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { Info } from 'lucide-react'
 
 // Types and Utils
 import type { MemoSettingsState } from './types'
@@ -148,6 +149,16 @@ export default function MemoSettingsPage() {
 
   return (
     <div className="space-y-4">
+      {/* 説明文 */}
+      <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
+        <div className="flex items-start gap-2">
+          <Info size={16} className="text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-blue-900 dark:text-blue-100">
+            設定したメモ項目は全キャラクター共通で使用されます。
+          </p>
+        </div>
+      </div>
+
       {/* 新規項目の追加 */}
       <AddNewItemSection
         newItemName={state.newItemName}

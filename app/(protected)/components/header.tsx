@@ -44,7 +44,7 @@ export default function Header() {
       case '/character-list':
         return { title: 'キャラクターリスト', icon: Home }
       case '/memo-settings':
-        return { title: 'メモ項目設定', icon: Settings }
+        return { title: '共通メモ項目設定', icon: Settings }
       case '/account-setting':
         return { title: 'アカウント設定', icon: User }
       case '/help':
@@ -201,6 +201,15 @@ export default function Header() {
             )}
           </div>
           
+          {/* 共通メモ項目設定 (PC) */}
+          <Link 
+            href="/memo-settings"
+            className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/20 ml-2"
+          >
+            <Settings size={20} />
+            <span>共通メモ項目設定</span>
+          </Link>
+          
           {/* ユーザーメニュー (PC) */}
           <div className="relative ml-2" ref={userMenuRef}>
             <button 
@@ -216,14 +225,6 @@ export default function Header() {
             {/* ドロップダウンメニュー - PC */}
             {isUserMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                <Link 
-                  href="/memo-settings" 
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={() => setIsUserMenuOpen(false)}
-                >
-                  <Settings size={16} />
-                  <span>メモ項目設定</span>
-                </Link>
                 <Link 
                   href="/account-setting" 
                   className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -322,6 +323,16 @@ export default function Header() {
           className="mt-auto border-t border-white/20 p-4" 
           ref={spUserMenuRef}
         >
+          {/* 共通メモ項目設定 (SP) */}
+          <Link 
+            href="/memo-settings"
+            className="flex items-center gap-3 rounded-lg px-4 py-3 text-white hover:bg-white/20 mb-2"
+            onClick={closeMenu}
+          >
+            <Settings size={20} />
+            <span>共通メモ項目設定</span>
+          </Link>
+          
           <button 
             onClick={toggleUserMenu}
             className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-white hover:bg-white/10"
@@ -336,14 +347,6 @@ export default function Header() {
           {/* SPユーザードロップダウン */}
           {isUserMenuOpen && (
             <div className="mt-2 rounded-xl bg-white/10 py-1 overflow-hidden">
-              <Link 
-                href="/memo-settings" 
-                className="flex items-center gap-3 rounded-lg px-4 py-3 text-white hover:bg-white/20"
-                onClick={closeMenu}
-              >
-                <Settings size={20} />
-                <span>メモ項目設定</span>
-              </Link>
               <Link 
                 href="/account-setting" 
                 className="flex items-center gap-3 rounded-lg px-4 py-3 text-white hover:bg-white/20"
