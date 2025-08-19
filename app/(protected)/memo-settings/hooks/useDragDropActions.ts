@@ -37,7 +37,7 @@ export function useDragDropActions({
     
     const updatedItems = currentItems.map((item, index) => ({
       ...item,
-      order: index,
+      order: index + 1,
       updatedAt: new Date().toISOString()
     }))
     

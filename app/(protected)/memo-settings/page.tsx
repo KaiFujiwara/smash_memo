@@ -165,12 +165,13 @@ export default function MemoSettingsPage() {
           <div className="flex items-start gap-2">
             <Info size={16} className="text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
             <div className="text-sm text-amber-900 dark:text-amber-100">
-              <p className="font-semibold mb-2">メモ項目の編集に関するお知らせ</p>
+              <p className="font-semibold mb-2">現在、メモ項目の編集で不具合が発生しています</p>
               <ul className="space-y-1 list-disc list-inside">
+                <li>追加したメモ項目が反映されない場合があります</li>
                 <li>メモ項目の順序が意図せず変更される場合があります</li>
                 <li>編集前にページを更新することをお勧めします</li>
                 <li>問題が発生した場合は、ページを再読み込みしてください</li>
-                <li>ご不便をおかけして申し訳ございません。改善作業を進めております</li>
+                <li>ご不便をおかけして申し訳ございません。修正作業を進めております</li>
               </ul>
             </div>
           </div>
