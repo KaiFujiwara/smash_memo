@@ -149,13 +149,31 @@ export default function MemoSettingsPage() {
 
   return (
     <div className="space-y-4">
-      {/* 説明文 */}
-      <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
-        <div className="flex items-start gap-2">
-          <Info size={16} className="text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-blue-900 dark:text-blue-100">
-            設定したメモ項目は全キャラクター共通で使用されます。
-          </p>
+      {/* 説明文と警告 */}
+      <div className="space-y-4">
+        <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
+          <div className="flex items-start gap-2">
+            <Info size={16} className="text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+            <p className="text-sm text-blue-900 dark:text-blue-100">
+              設定したメモ項目は全キャラクター共通で使用されます。
+            </p>
+          </div>
+        </div>
+
+        {/* 警告メッセージ */}
+        <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+          <div className="flex items-start gap-2">
+            <Info size={16} className="text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+            <div className="text-sm text-amber-900 dark:text-amber-100">
+              <p className="font-semibold mb-2">メモ項目の編集に関するお知らせ</p>
+              <ul className="space-y-1 list-disc list-inside">
+                <li>メモ項目の順序が意図せず変更される場合があります</li>
+                <li>編集前にページを更新することをお勧めします</li>
+                <li>問題が発生した場合は、ページを再読み込みしてください</li>
+                <li>ご不便をおかけして申し訳ございません。改善作業を進めております</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
