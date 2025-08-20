@@ -161,18 +161,17 @@ export default function MemoSettingsPage() {
           </div>
         </div>
 
-        {/* 警告メッセージ */}
-        <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+        {/* 対応完了メッセージ */}
+        <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-xl p-4">
           <div className="flex items-start gap-2">
-            <Info size={16} className="text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
-            <div className="text-sm text-amber-900 dark:text-amber-100">
-              <p className="font-semibold mb-2">現在、メモ項目の編集で不具合が発生しています</p>
+            <Info size={16} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+            <div className="text-sm text-green-900 dark:text-green-100">
+              <p className="font-semibold mb-2">メモ項目の不具合を対応いたしました</p>
               <ul className="space-y-1 list-disc list-inside">
-                <li>追加したメモ項目が反映されない場合があります</li>
-                <li>メモ項目の順序が意図せず変更される場合があります</li>
-                <li>編集前にページを更新することをお勧めします</li>
-                <li>問題が発生した場合は、ページを再読み込みしてください</li>
-                <li>ご不便をおかけして申し訳ございません。修正作業を進めております</li>
+                <li>追加したにも関わらず消えていたメモ項目とメモ項目に紐づくメモ内容も復活しております</li>
+                <li>申し訳ございませんが、不要な項目は削除してください</li>
+                <li>削除ボタンを押すと紐づいているメモ件数が表示されますので、内容をご確認の上、削除してください</li>
+                <li>ご不便をおかけして申し訳ございませんでした</li>
               </ul>
             </div>
           </div>
