@@ -22,6 +22,7 @@ import { useMemoActions } from './hooks/useMemoActions'
 import { useDragDropActions } from './hooks/useDragDropActions'
 import { useEffect } from 'react'
 import { getMemoItems, deleteMemoItemCascade } from '@/services/memoItemService'
+import { getMemoContentsByItemId } from '@/services/memoContentService'
 import { toast } from 'sonner'
 
 // Components
@@ -48,7 +49,7 @@ export default function MemoSettingsPage() {
     draggingId: null,
   })
   
-  const [deleteConfirm, setDeleteConfirm] = useState<{ item: MemoItem } | null>(null)
+  const [deleteConfirm, setDeleteConfirm] = useState<{ item: MemoItem; memoContentCount: number } | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
 
   const updateState = useCallback((updates: Partial<MemoSettingsState>) => {
@@ -201,14 +202,21 @@ export default function MemoSettingsPage() {
         onSaveEdit={memoActions.handleSaveEdit}
         onCancelEdit={() => updateState({ editingId: null })}
         onEditingNameChange={(name) => updateState({ editingName: name })}
-        onDeleteConfirm={(item) => setDeleteConfirm({ item })}
+        onDeleteConfirm={async (item) => {
+          try {
+            const memoContents = await getMemoContentsByItemId(item.id)
+            setDeleteConfirm({ item, memoContentCount: memoContents.length })
+          } catch (error) {
+            setDeleteConfirm({ item, memoContentCount: 0 })
+          }
+        }}
       />
 
       {/* 削除確認ダイアログ */}
       <ConfirmDialog
         isOpen={!!deleteConfirm}
         title="メモ項目の削除"
-        message={`「${deleteConfirm?.item.name}」を削除してもよろしいですか？\nこの操作は取り消せません。`}
+        message={`「${deleteConfirm?.item.name}」を削除してもよろしいですか？\n関連する${deleteConfirm?.memoContentCount || 0}件のメモ内容も削除されます。\nこの操作は取り消せません。`}
         confirmText="削除"
         cancelText="キャンセル"
         variant="danger"

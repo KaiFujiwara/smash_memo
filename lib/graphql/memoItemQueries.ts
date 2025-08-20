@@ -6,21 +6,18 @@
  */
 
 /**
- * ユーザーのメモ項目一覧を取得するクエリ
- * 
- * 現在ログインしているユーザーのメモ項目を表示順序でソートして取得します。
- * Amplifyの認証機能により、自動的にowner制限が適用されます。
+ * GSIを使用してユーザーのメモ項目一覧を取得するクエリ
  */
-export const LIST_MEMO_ITEMS = `
-  query ListMemoItems(
+export const LIST_MEMO_ITEMS_BY_OWNER = `
+  query MemoItemsByOwner(
+    $owner: String!
+    $sortDirection: ModelSortDirection
     $filter: ModelMemoItemFilterInput
-    $limit: Int
-    $nextToken: String
   ) {
-    listMemoItems(
+    memoItemsByOwner(
+      owner: $owner
+      sortDirection: $sortDirection
       filter: $filter
-      limit: $limit
-      nextToken: $nextToken
     ) {
       items {
         id
@@ -32,8 +29,6 @@ export const LIST_MEMO_ITEMS = `
         owner
         __typename
       }
-      nextToken
-      __typename
     }
   }
 `

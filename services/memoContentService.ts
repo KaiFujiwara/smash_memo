@@ -6,6 +6,7 @@
  */
 
 import { generateClient } from 'aws-amplify/api'
+import { getCurrentUser } from 'aws-amplify/auth'
 import type { GraphQLResult } from '@aws-amplify/api-graphql'
 
 // GraphQL レスポンスの型定義
@@ -20,9 +21,6 @@ interface AmplifyMemoContent {
   __typename: string
 }
 
-interface GetMemoContentResponse {
-  getMemoContent: AmplifyMemoContent | null
-}
 
 interface CreateMemoContentResponse {
   createMemoContent: AmplifyMemoContent
@@ -32,10 +30,16 @@ interface UpdateMemoContentResponse {
   updateMemoContent: AmplifyMemoContent
 }
 
+interface ListMemoContentsByMemoItemResponse {
+  listMemoContentsByMemoItem: {
+    items: AmplifyMemoContent[]
+    __typename: string
+  }
+}
+
 interface ListMemoContentsResponse {
   listMemoContents: {
     items: AmplifyMemoContent[]
-    nextToken?: string | null
     __typename: string
   }
 }
@@ -53,10 +57,16 @@ interface DeleteMemoContentResponse {
 // Amplify GraphQLクライアントのインスタンス
 const client = generateClient()
 
-// GraphQLクエリ定義
+// Helper function to get the federated identity owner format
+async function getOwnerIdentifier(): Promise<string> {
+  const user = await getCurrentUser()
+  return `${user.userId}::${user.username}`
+}
+
+// GSI対応GraphQLクエリ定義（シンプルなGSIのみ使用）
 const LIST_MEMO_CONTENTS_BY_ITEM_ID = `
-  query ListMemoContentsByItemId($memoItemId: String!) {
-    listMemoContents(filter: { memoItemId: { eq: $memoItemId } }) {
+  query ListMemoContentsByMemoItem($memoItemId: String!) {
+    listMemoContentsByMemoItem(memoItemId: $memoItemId) {
       items {
         id
         characterId
@@ -67,39 +77,14 @@ const LIST_MEMO_CONTENTS_BY_ITEM_ID = `
         owner
         __typename
       }
-      nextToken
-      __typename
     }
   }
 `
 
+// 複合キーGSIは問題があるため、基本的なフィルタクエリを使用
 const LIST_MEMO_CONTENTS_BY_CHARACTER = `
-  query ListMemoContentsByCharacter($characterId: String!) {
-    listMemoContents(filter: { characterId: { eq: $characterId } }) {
-      items {
-        id
-        characterId
-        memoItemId
-        content
-        createdAt
-        updatedAt
-        owner
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`
-
-const GET_MEMO_CONTENT = `
-  query GetMemoContent($characterId: String!, $memoItemId: String!) {
-    listMemoContents(filter: { 
-      and: [
-        { characterId: { eq: $characterId } },
-        { memoItemId: { eq: $memoItemId } }
-      ]
-    }) {
+  query ListMemoContentsByCharacter($filter: ModelMemoContentFilterInput) {
+    listMemoContents(filter: $filter) {
       items {
         id
         characterId
@@ -166,10 +151,11 @@ export async function getMemoContentsByItemId(memoItemId: string): Promise<Ampli
   try {
     const response = await client.graphql({
       query: LIST_MEMO_CONTENTS_BY_ITEM_ID,
-      variables: { memoItemId }
-    }) as GraphQLResult<ListMemoContentsResponse>
+      variables: { memoItemId },
+      authMode: 'userPool'
+    }) as GraphQLResult<ListMemoContentsByMemoItemResponse>
 
-    return response.data?.listMemoContents?.items || []
+    return response.data?.listMemoContentsByMemoItem?.items || []
   } catch (error) {
     console.error('メモ内容の取得に失敗:', error)
     throw new Error('メモ内容の取得に失敗しました')
@@ -184,9 +170,19 @@ export async function getMemoContentsByItemId(memoItemId: string): Promise<Ampli
  */
 export async function getMemoContentsByCharacter(characterId: string): Promise<AmplifyMemoContent[]> {
   try {
+    const ownerId = await getOwnerIdentifier()
+    
     const response = await client.graphql({
       query: LIST_MEMO_CONTENTS_BY_CHARACTER,
-      variables: { characterId }
+      variables: { 
+        filter: {
+          and: [
+            { owner: { eq: ownerId } },
+            { characterId: { eq: characterId } }
+          ]
+        }
+      },
+      authMode: 'userPool'
     }) as GraphQLResult<ListMemoContentsResponse>
 
     return response.data?.listMemoContents?.items || []
@@ -205,9 +201,20 @@ export async function getMemoContentsByCharacter(characterId: string): Promise<A
  */
 export async function getMemoContent(characterId: string, memoItemId: string): Promise<AmplifyMemoContent | null> {
   try {
+    const ownerId = await getOwnerIdentifier()
+    
     const response = await client.graphql({
-      query: GET_MEMO_CONTENT,
-      variables: { characterId, memoItemId }
+      query: LIST_MEMO_CONTENTS_BY_CHARACTER,
+      variables: { 
+        filter: {
+          and: [
+            { owner: { eq: ownerId } },
+            { characterId: { eq: characterId } },
+            { memoItemId: { eq: memoItemId } }
+          ]
+        }
+      },
+      authMode: 'userPool'
     }) as GraphQLResult<ListMemoContentsResponse>
 
     const items = response.data?.listMemoContents?.items || []

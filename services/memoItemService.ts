@@ -7,6 +7,7 @@
  */
 
 import { generateClient } from 'aws-amplify/api'
+import { getCurrentUser } from 'aws-amplify/auth'
 import type { GraphQLResult } from '@aws-amplify/api-graphql'
 import type { 
   MemoItem, 
@@ -17,7 +18,7 @@ import type {
   MemoItemListResult
 } from '@/types'
 import {
-  LIST_MEMO_ITEMS,
+  LIST_MEMO_ITEMS_BY_OWNER,
   GET_MEMO_ITEM,
   CREATE_MEMO_ITEM,
   UPDATE_MEMO_ITEM,
@@ -38,10 +39,9 @@ interface AmplifyMemoItem {
   __typename: string
 }
 
-interface ListMemoItemsResponse {
-  listMemoItems: {
+interface MemoItemsByOwnerResponse {
+  memoItemsByOwner: {
     items: AmplifyMemoItem[]
-    nextToken?: string | null
     __typename: string
   }
 }
@@ -101,39 +101,43 @@ function convertAmplifyToMemoItem(amplifyItem: AmplifyMemoItem): MemoItem {
  */
 export async function getMemoItems(options: {
   visibleOnly?: boolean
-  limit?: number
-  nextToken?: string
 } = {}): Promise<MemoItemListResult> {
   try {
-    const { visibleOnly = true, limit = 100, nextToken } = options
+    const { visibleOnly = true } = options
     
     // フィルター条件の設定
     const filter = visibleOnly ? MEMO_ITEM_FILTERS.VISIBLE_ONLY : undefined
     
-    const response = await client.graphql({
-      query: LIST_MEMO_ITEMS,
-      variables: {
-        filter,
-        limit,
-        nextToken
-      }
-    }) as GraphQLResult<ListMemoItemsResponse>
+    // 現在のユーザー情報を取得
+    const user = await getCurrentUser()
     
-    if (!response.data?.listMemoItems) {
+    // Federated identityの場合、DynamoDBのownerフィールドは「userId::username」の形式
+    // userIdはCognito Identity Pool ID、usernameはプロバイダーのユーザーID
+    const ownerId = `${user.userId}::${user.username}`
+    
+    const response = await client.graphql({
+      query: LIST_MEMO_ITEMS_BY_OWNER,
+      variables: {
+        owner: ownerId,
+        sortDirection: 'ASC', // orderでソート（昇順）
+        filter
+      },
+      authMode: 'userPool' // 明示的にuserPool認証を使用
+    }) as GraphQLResult<MemoItemsByOwnerResponse>
+    
+    if (!response.data?.memoItemsByOwner) {
       throw new Error('GraphQLレスポンスが無効です')
     }
     
-    const items = response.data.listMemoItems.items || []
+    const items = response.data.memoItemsByOwner.items || []
     
-    // 表示順序でソート（orderフィールドの昇順）
-    const sortedItems = items
-      .map(convertAmplifyToMemoItem)
-      .sort((a: MemoItem, b: MemoItem) => a.order - b.order)
+    // GSIでorderソート済みなので変換のみ
+    const sortedItems = items.map(convertAmplifyToMemoItem)
     
     return {
       items: sortedItems,
-      hasNextPage: !!response.data.listMemoItems.nextToken,
-      nextToken: response.data.listMemoItems.nextToken || undefined
+      hasNextPage: false,
+      nextToken: undefined
     }
   } catch (error) {
     console.error('メモ項目の取得に失敗:', error)
@@ -329,7 +333,7 @@ export async function bulkUpdateMemoItemOrder(items: Array<{
       }) as unknown as GraphQLResult<UpdateMemoItemResponse>
     })
     
-    const results = await Promise.all(updatePromises)
+    await Promise.all(updatePromises)
     
     return {
       success: true
