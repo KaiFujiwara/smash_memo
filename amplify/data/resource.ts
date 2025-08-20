@@ -17,8 +17,13 @@ const schema = a.schema({
     .model({
       name: a.string().required(),
       visible: a.boolean().default(true),
-      order: a.integer().required()
+      order: a.integer().required(),
+      owner: a.string(), 
     })
+    .secondaryIndexes(index => [
+      // ownerパーティション内をorderでソート
+      index("owner").sortKeys(["order"]).queryField("memoItemsByOwner"),
+    ])
     .authorization(allow => [
       // 所有者は全操作可能
       allow.owner(),
@@ -29,8 +34,15 @@ const schema = a.schema({
     .model({
       characterId: a.string().required(),
       memoItemId: a.string().required(),
-      content: a.string()
+      content: a.string(),
+      owner: a.string(), 
     })
+    .secondaryIndexes(index => [
+      // characterIdでクエリするためのGSI
+      index("owner").sortKeys(["characterId", "memoItemId"]).queryField("memoContentsByOwnerCharacter"),
+      // memoItemIdでクエリするためのGSI（削除時に使用）
+      index("memoItemId").queryField("listMemoContentsByMemoItem"),
+    ])
     .authorization(allow => [
       // 所有者は全操作可能
       allow.owner(),
