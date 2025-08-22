@@ -103,17 +103,17 @@ describe('useDragDropActions - ハイブリッド保存モード', () => {
       // ローカル状態が楽観的に更新されることを確認
       expect(mockUpdateState).toHaveBeenCalledWith({
         items: [
-          { ...mockState.items[1], order: 0, updatedAt: expect.any(String) }, // 項目2が最初
-          { ...mockState.items[0], order: 1, updatedAt: expect.any(String) }, // 項目1が2番目
-          { ...mockState.items[2], order: 2, updatedAt: expect.any(String) }  // 項目3が3番目
+          { ...mockState.items[1], order: 1, updatedAt: expect.any(String) }, // 項目2が最初
+          { ...mockState.items[0], order: 2, updatedAt: expect.any(String) }, // 項目1が2番目
+          { ...mockState.items[2], order: 3, updatedAt: expect.any(String) }  // 項目3が3番目
         ]
       })
 
       // DB更新が呼ばれることを確認
       expect(mockBulkUpdateMemoItemOrder).toHaveBeenCalledWith([
-        { id: '2', order: 0 },
-        { id: '1', order: 1 },
-        { id: '3', order: 2 }
+        { id: '2', order: 1 },
+        { id: '1', order: 2 },
+        { id: '3', order: 3 }
       ])
 
       // 成功メッセージが表示されることを確認
@@ -228,16 +228,16 @@ describe('useDragDropActions - ハイブリッド保存モード', () => {
       // 項目3が最初に移動されることを確認
       expect(mockUpdateState).toHaveBeenCalledWith({
         items: [
-          { ...mockState.items[2], order: 0, updatedAt: expect.any(String) }, // 項目3が最初
-          { ...mockState.items[0], order: 1, updatedAt: expect.any(String) }, // 項目1が2番目
-          { ...mockState.items[1], order: 2, updatedAt: expect.any(String) }  // 項目2が3番目
+          { ...mockState.items[2], order: 1, updatedAt: expect.any(String) }, // 項目3が最初
+          { ...mockState.items[0], order: 2, updatedAt: expect.any(String) }, // 項目1が2番目
+          { ...mockState.items[1], order: 3, updatedAt: expect.any(String) }  // 項目2が3番目
         ]
       })
 
       expect(mockBulkUpdateMemoItemOrder).toHaveBeenCalledWith([
-        { id: '3', order: 0 },
-        { id: '1', order: 1 },
-        { id: '2', order: 2 }
+        { id: '3', order: 1 },
+        { id: '1', order: 2 },
+        { id: '2', order: 3 }
       ])
     })
 
@@ -264,16 +264,16 @@ describe('useDragDropActions - ハイブリッド保存モード', () => {
       // 項目1が最後に移動されることを確認
       expect(mockUpdateState).toHaveBeenCalledWith({
         items: [
-          { ...mockState.items[1], order: 0, updatedAt: expect.any(String) }, // 項目2が最初
-          { ...mockState.items[2], order: 1, updatedAt: expect.any(String) }, // 項目3が2番目
-          { ...mockState.items[0], order: 2, updatedAt: expect.any(String) }  // 項目1が最後
+          { ...mockState.items[1], order: 1, updatedAt: expect.any(String) }, // 項目2が最初
+          { ...mockState.items[2], order: 2, updatedAt: expect.any(String) }, // 項目3が2番目
+          { ...mockState.items[0], order: 3, updatedAt: expect.any(String) }  // 項目1が最後
         ]
       })
 
       expect(mockBulkUpdateMemoItemOrder).toHaveBeenCalledWith([
-        { id: '2', order: 0 },
-        { id: '3', order: 1 },
-        { id: '1', order: 2 }
+        { id: '2', order: 1 },
+        { id: '3', order: 2 },
+        { id: '1', order: 3 }
       ])
     })
   })

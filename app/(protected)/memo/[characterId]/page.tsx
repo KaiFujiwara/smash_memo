@@ -30,7 +30,9 @@ export default function CharacterMemoPage() {
   const [memoItems, setMemoItems] = useState<MemoItem[]>([])
   const [memoContents, setMemoContents] = useState<MemoContentState>({})
   const [isLoading, setIsLoading] = useState(true)
-  const saveTimeoutRef = useRef<Record<string, NodeJS.Timeout>>({})
+  const debounceTimeoutRef = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
+  // 古い保存レスポンスが最新を上書きしないように連番管理
+  const saveSeqRef = useRef<Record<string, number>>({})
 
   // データの初期読み込み
   useEffect(() => {
@@ -87,7 +89,7 @@ export default function CharacterMemoPage() {
     
     // クリーンアップ処理
     return () => {
-      Object.values(saveTimeoutRef.current).forEach(timeout => {
+      Object.values(debounceTimeoutRef.current).forEach(timeout => {
         clearTimeout(timeout)
       })
       setCharacterName(null)
@@ -95,18 +97,52 @@ export default function CharacterMemoPage() {
     }
   }, [characterId, router, setCharacterName, setCharacterIcon])
 
-  // 自動保存機能
-  const scheduleAutoSave = useCallback((memoItemId: string, content: string) => {
-    // 既存のタイマーをクリア
-    if (saveTimeoutRef.current[memoItemId]) {
-      clearTimeout(saveTimeoutRef.current[memoItemId])
+  // メモ保存（静かに自動保存、エラー時のみ通知）
+  const saveMemo = useCallback(async (memoItemId: string, content: string) => {
+    // この保存リクエストに連番を振る
+    const seq = (saveSeqRef.current[memoItemId] ?? 0) + 1
+    saveSeqRef.current[memoItemId] = seq
+
+    try {
+      await upsertMemoContent(characterId, memoItemId, content)
+
+      // 最新の保存じゃなければ無視（古い戻りを捨てる）
+      if (saveSeqRef.current[memoItemId] !== seq) return
+
+      setMemoContents(prev => {
+        const now = prev[memoItemId]
+        // 保存完了時点でユーザーがさらに入力してたら dirty 継続
+        const stillDirty = now?.content !== content
+        return {
+          ...prev,
+          [memoItemId]: {
+            ...now,
+            originalContent: content,
+            hasUnsavedChanges: stillDirty,
+            lastSavedAt: new Date()
+          }
+        }
+      })
+      // 成功トーストは出さない（静かに自動保存）
+    } catch (error) {
+      console.error('メモの保存に失敗:', error)
+      toast.error('メモの保存に失敗しました')
+    }
+  }, [characterId])
+
+  // デバウンス保存機能（PC・SP共通）
+  const debouncedSave = useCallback((memoItemId: string, content: string) => {
+    // 既存のデバウンスタイマーをクリア
+    if (debounceTimeoutRef.current[memoItemId]) {
+      clearTimeout(debounceTimeoutRef.current[memoItemId])
     }
 
-    // 新しいタイマーを設定（2秒後に保存）
-    saveTimeoutRef.current[memoItemId] = setTimeout(() => {
+    // 新しいデバウンスタイマーを設定（0.5秒後に保存）
+    // contentを直接渡すことで、古い値の問題を回避
+    debounceTimeoutRef.current[memoItemId] = setTimeout(() => {
       saveMemo(memoItemId, content)
-    }, 2000)
-  }, [])
+    }, 500)
+  }, [saveMemo])
 
   // 編集開始
   const startEditing = (memoItemId: string) => {
@@ -131,17 +167,8 @@ export default function CharacterMemoPage() {
     }, 0)
   }
 
-  // 編集終了（自動保存）
+  // 編集終了
   const finishEditing = (memoItemId: string) => {
-    const content = memoContents[memoItemId]
-    if (content?.hasUnsavedChanges) {
-      // 未保存の変更がある場合は即座に保存
-      if (saveTimeoutRef.current[memoItemId]) {
-        clearTimeout(saveTimeoutRef.current[memoItemId])
-      }
-      saveMemo(memoItemId, content.content)
-    }
-    
     setMemoContents(prev => ({
       ...prev,
       [memoItemId]: {
@@ -151,7 +178,7 @@ export default function CharacterMemoPage() {
     }))
   }
 
-  // メモ内容変更（自動保存付き）
+  // メモ内容変更（デバウンス保存付き）
   const handleContentChange = (memoItemId: string, newContent: string) => {
     setMemoContents(prev => ({
       ...prev,
@@ -162,36 +189,8 @@ export default function CharacterMemoPage() {
       }
     }))
     
-    // 自動保存をスケジュール
-    scheduleAutoSave(memoItemId, newContent)
-  }
-
-
-  // メモ保存
-  const saveMemo = async (memoItemId: string, content?: string) => {
-    const contentToSave = content || memoContents[memoItemId]?.content || ''
-    
-    try {
-      await upsertMemoContent(characterId, memoItemId, contentToSave)
-      
-      setMemoContents(prev => ({
-        ...prev,
-        [memoItemId]: {
-          ...prev[memoItemId],
-          originalContent: contentToSave,
-          hasUnsavedChanges: false,
-          lastSavedAt: new Date()
-        }
-      }))
-
-      // 自動保存の場合はトーストを表示しない
-      if (!content) {
-        toast.success('メモを保存しました')
-      }
-    } catch (error) {
-      console.error('メモの保存に失敗:', error)
-      toast.error('メモの保存に失敗しました')
-    }
+    // デバウンス保存をトリガー
+    debouncedSave(memoItemId, newContent)
   }
 
   if (isLoading) {

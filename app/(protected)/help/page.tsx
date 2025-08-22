@@ -1,17 +1,10 @@
 'use client'
 
 import { ExternalLink, Mail, FileText, Shield } from 'lucide-react'
-import { toast } from 'sonner'
 
 export default function HelpPage() {
-  const contactFormUrl = process.env.NEXT_PUBLIC_CONTACT_FORM_URL
-
-  const handleContactClick = () => {
-    if (contactFormUrl) {
-      window.open(contactFormUrl, '_blank')
-    } else {
-      toast.error('お問い合わせフォームのURLが設定されていません。')
-    }
+  const handleTwitterContact = () => {
+    window.open('https://x.com/minaissb', '_blank')
   }
 
   return (
@@ -25,14 +18,14 @@ export default function HelpPage() {
         </h2>
         <div className="space-y-4">
           <p className="text-gray-700">
-            ご質問やご要望、不具合報告などがございましたら、お気軽にお問い合わせください。
+            ご質問やご要望、不具合報告などがございましたら、X（旧Twitter）にてお気軽にお声がけください。
           </p>
           <button
-            onClick={handleContactClick}
+            onClick={handleTwitterContact}
             className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors"
           >
             <Mail size={20} />
-            お問い合わせフォームを開く
+            @minaissb にお問い合わせ
             <ExternalLink size={16} />
           </button>
         </div>

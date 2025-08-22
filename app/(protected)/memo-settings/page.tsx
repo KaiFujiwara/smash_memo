@@ -150,31 +150,13 @@ export default function MemoSettingsPage() {
 
   return (
     <div className="space-y-4">
-      {/* 説明文と警告 */}
-      <div className="space-y-4">
-        <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
-          <div className="flex items-start gap-2">
-            <Info size={16} className="text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-blue-900 dark:text-blue-100">
-              設定したメモ項目は全キャラクター共通で使用されます。
-            </p>
-          </div>
-        </div>
-
-        {/* 対応完了メッセージ */}
-        <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-xl p-4">
-          <div className="flex items-start gap-2">
-            <Info size={16} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-            <div className="text-sm text-green-900 dark:text-green-100">
-              <p className="font-semibold mb-2">メモ項目の不具合を対応いたしました</p>
-              <ul className="space-y-1 list-disc list-inside">
-                <li>追加したにも関わらず消えていたメモ項目とメモ項目に紐づくメモ内容も復活しております</li>
-                <li>申し訳ございませんが、不要な項目は削除してください</li>
-                <li>削除ボタンを押すと紐づいているメモ件数が表示されますので、内容をご確認の上、削除してください</li>
-                <li>ご不便をおかけして申し訳ございませんでした</li>
-              </ul>
-            </div>
-          </div>
+      {/* 説明文 */}
+      <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
+        <div className="flex items-start gap-2">
+          <Info size={16} className="text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-blue-900 dark:text-blue-100">
+            設定したメモ項目は全キャラクター共通で使用されます。
+          </p>
         </div>
       </div>
 
