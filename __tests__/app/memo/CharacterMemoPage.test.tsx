@@ -81,8 +81,8 @@ describe('CharacterMemoPage', () => {
     jest.clearAllTimers()
   })
 
-  describe('デバウンス保存機能', () => {
-    it('入力後500msで保存が実行される', async () => {
+  describe('手動保存機能', () => {
+    it('変更あり時に保存ボタンと未保存マークが表示される', async () => {
       await act(async () => {
         render(<CharacterMemoPage />)
       })
@@ -101,31 +101,23 @@ describe('CharacterMemoPage', () => {
       // textarea要素を取得
       const textarea = await screen.findByPlaceholderText('メモを入力してください...')
       
+      // 最初はボタンやマークが表示されていない
+      expect(screen.queryByTitle('保存')).not.toBeInTheDocument()
+      expect(screen.queryByText('未保存')).not.toBeInTheDocument()
+      
       // テキストを入力
       await act(async () => {
         fireEvent.change(textarea, { target: { value: '新しいメモ内容' } })
       })
 
-      // デバウンス前は保存されていない
-      expect(upsertMemoContent).not.toHaveBeenCalled()
-
-      // 500ms進める
-      await act(async () => {
-        jest.advanceTimersByTime(500)
-      })
-
-      // 保存が実行される
+      // 保存ボタンと未保存マークが表示される
       await waitFor(() => {
-        expect(upsertMemoContent).toHaveBeenCalledWith(
-          'test-character-id',
-          'item-1',
-          '新しいメモ内容',
-          { keepalive: false }
-        )
+        expect(screen.getByTitle('保存')).toBeInTheDocument()
+        expect(screen.getByText('未保存')).toBeInTheDocument()
       })
     })
 
-    it('連続入力時は最後の入力から500ms後に保存される', async () => {
+    it('保存ボタンをクリックで保存される', async () => {
       await act(async () => {
         render(<CharacterMemoPage />)
       })
@@ -142,38 +134,57 @@ describe('CharacterMemoPage', () => {
 
       const textarea = await screen.findByPlaceholderText('メモを入力してください...')
       
-      // 1回目の入力
+      // テキスト変更
       await act(async () => {
-        fireEvent.change(textarea, { target: { value: '入力1' } })
+        fireEvent.change(textarea, { target: { value: '新しいメモ内容' } })
       })
 
-      // 300ms待つ
+      // 保存ボタンをクリック
+      const saveButton = await screen.findByTitle('保存')
       await act(async () => {
-        jest.advanceTimersByTime(300)
+        fireEvent.click(saveButton)
       })
 
-      // まだ保存されていない
-      expect(upsertMemoContent).not.toHaveBeenCalled()
-
-      // 2回目の入力（タイマーリセット）
-      await act(async () => {
-        fireEvent.change(textarea, { target: { value: '入力2' } })
-      })
-
-      // さらに500ms待つ
-      await act(async () => {
-        jest.advanceTimersByTime(500)
-      })
-
-      // 最後の入力内容で保存される
+      // 保存が実行される
       await waitFor(() => {
-        expect(upsertMemoContent).toHaveBeenCalledTimes(1)
         expect(upsertMemoContent).toHaveBeenCalledWith(
           'test-character-id',
           'item-1',
-          '入力2',
-          { keepalive: false }
+          '新しいメモ内容'
         )
+      })
+    })
+
+    it('編集中でなくても変更があれば保存ボタンが表示される', async () => {
+      await act(async () => {
+        render(<CharacterMemoPage />)
+      })
+
+      await waitFor(() => {
+        expect(screen.getByText('コンボ')).toBeInTheDocument()
+      })
+
+      // 編集モードにしてテキスト変更
+      const memoArea = screen.getAllByText('既存のメモ内容')[0].parentElement
+      await act(async () => {
+        fireEvent.click(memoArea!)
+      })
+
+      const textarea = await screen.findByPlaceholderText('メモを入力してください...')
+      
+      await act(async () => {
+        fireEvent.change(textarea, { target: { value: '新しいメモ内容' } })
+      })
+
+      // 編集モードを終了（onBlur）
+      await act(async () => {
+        fireEvent.blur(textarea)
+      })
+
+      // 編集モードが終了しても、変更があるので保存ボタンと未保存マークが表示される
+      await waitFor(() => {
+        expect(screen.getByTitle('保存')).toBeInTheDocument()
+        expect(screen.getByText('未保存')).toBeInTheDocument()
       })
     })
   })
@@ -274,8 +285,7 @@ describe('CharacterMemoPage', () => {
   })
 
   describe('保存成功・失敗の処理', () => {
-    it('保存成功時は静かに自動保存される（トーストなし）', async () => {
-      
+    it('保存成功時に成功トーストを表示する', async () => {
       await act(async () => {
         render(<CharacterMemoPage />)
       })
@@ -294,10 +304,11 @@ describe('CharacterMemoPage', () => {
       await act(async () => {
         fireEvent.change(textarea, { target: { value: '更新内容' } })
       })
-      
-      // デバウンス時間を待つ（500ms）
+
+      // 保存ボタンをクリック
+      const saveButton = await screen.findByTitle('保存')
       await act(async () => {
-        jest.advanceTimersByTime(500)
+        fireEvent.click(saveButton)
       })
 
       // 保存処理の完了を待つ
@@ -305,17 +316,17 @@ describe('CharacterMemoPage', () => {
         expect(upsertMemoContent).toHaveBeenCalledWith(
           'test-character-id',
           'item-1',
-          '更新内容',
-          { keepalive: false }
+          '更新内容'
         )
       })
 
-      // 成功時はトーストが表示されないことを確認
-      expect(toast.success).not.toHaveBeenCalled()
+      // 成功トーストの表示を確認
+      await waitFor(() => {
+        expect(toast.success).toHaveBeenCalledWith('メモを保存しました')
+      })
     })
 
     it('保存失敗時にエラートーストを表示する', async () => {
-      
       await act(async () => {
         render(<CharacterMemoPage />)
       })
@@ -331,16 +342,17 @@ describe('CharacterMemoPage', () => {
 
       const textarea = await screen.findByPlaceholderText('メモを入力してください...')
       
-      // 保存失敗を設定（ここで設定しないと初期化時の成功モックが使われる）
+      // 保存失敗を設定
       ;(upsertMemoContent as jest.Mock).mockImplementation(() => Promise.reject(new Error('保存エラー')))
       
       await act(async () => {
         fireEvent.change(textarea, { target: { value: '更新内容' } })
       })
-      
-      // デバウンス時間を待つ（500ms）
+
+      // 保存ボタンをクリック
+      const saveButton = await screen.findByTitle('保存')
       await act(async () => {
-        jest.advanceTimersByTime(500)
+        fireEvent.click(saveButton)
       })
 
       // エラー処理の完了を待つ
@@ -348,18 +360,14 @@ describe('CharacterMemoPage', () => {
         expect(upsertMemoContent).toHaveBeenCalledWith(
           'test-character-id',
           'item-1',
-          '更新内容',
-          { keepalive: false }
+          '更新内容'
         )
       })
 
-      // Promiseのエラーが処理されるまで待つ
-      await act(async () => {
-        await Promise.resolve()
-      })
-
       // エラートーストの表示を確認
-      expect(toast.error).toHaveBeenCalledWith('メモの保存に失敗しました')
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledWith('メモの保存に失敗しました')
+      })
     })
   })
 })
