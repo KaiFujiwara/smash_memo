@@ -119,7 +119,8 @@ describe('CharacterMemoPage', () => {
         expect(upsertMemoContent).toHaveBeenCalledWith(
           'test-character-id',
           'item-1',
-          '新しいメモ内容'
+          '新しいメモ内容',
+          { keepalive: false }
         )
       })
     })
@@ -170,7 +171,8 @@ describe('CharacterMemoPage', () => {
         expect(upsertMemoContent).toHaveBeenCalledWith(
           'test-character-id',
           'item-1',
-          '入力2'
+          '入力2',
+          { keepalive: false }
         )
       })
     })
@@ -303,7 +305,8 @@ describe('CharacterMemoPage', () => {
         expect(upsertMemoContent).toHaveBeenCalledWith(
           'test-character-id',
           'item-1',
-          '更新内容'
+          '更新内容',
+          { keepalive: false }
         )
       })
 
@@ -345,7 +348,8 @@ describe('CharacterMemoPage', () => {
         expect(upsertMemoContent).toHaveBeenCalledWith(
           'test-character-id',
           'item-1',
-          '更新内容'
+          '更新内容',
+          { keepalive: false }
         )
       })
 

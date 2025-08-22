@@ -286,15 +286,19 @@ export async function updateMemoContent(input: {
  * @param characterId - キャラクターID
  * @param memoItemId - メモ項目ID
  * @param content - メモ内容
+ * @param options - リクエストオプション
  * @returns Promise<AmplifyMemoContent> 作成または更新されたメモ内容
  */
 export async function upsertMemoContent(
   characterId: string,
   memoItemId: string,
-  content: string
+  content: string,
+  options?: { keepalive?: boolean }
 ): Promise<AmplifyMemoContent> {
   try {
-    // 既存のメモ内容を査す
+    // 離脱時の確実送信（keepalive）は呼び出し側で最適化版を使用
+
+    // 通常の処理
     const existing = await getMemoContent(characterId, memoItemId)
     
     if (existing) {
@@ -316,6 +320,8 @@ export async function upsertMemoContent(
     throw new Error('メモ内容の保存に失敗しました')
   }
 }
+
+
 
 /**
  * 指定されたメモ項目IDに関連するすべてのメモ内容を削除します
