@@ -8,6 +8,13 @@
 import { generateClient } from 'aws-amplify/api'
 import { getCurrentUser } from 'aws-amplify/auth'
 import type { GraphQLResult } from '@aws-amplify/api-graphql'
+import {
+  LIST_MEMO_CONTENTS_BY_ITEM_ID,
+  CREATE_MEMO_CONTENT,
+  UPDATE_MEMO_CONTENT,
+  DELETE_MEMO_CONTENT,
+  GET_MEMO_CONTENTS_BY_CHARACTER_GSI
+} from '@/lib/graphql/memoContentQueries'
 
 // GraphQL レスポンスの型定義
 interface AmplifyMemoContent {
@@ -37,12 +44,6 @@ interface ListMemoContentsByMemoItemResponse {
   }
 }
 
-interface ListMemoContentsResponse {
-  listMemoContents: {
-    items: AmplifyMemoContent[]
-    __typename: string
-  }
-}
 
 interface DeleteMemoContentResponse {
   deleteMemoContent: {
@@ -63,83 +64,6 @@ async function getOwnerIdentifier(): Promise<string> {
   return `${user.userId}::${user.username}`
 }
 
-// GSI対応GraphQLクエリ定義（シンプルなGSIのみ使用）
-const LIST_MEMO_CONTENTS_BY_ITEM_ID = `
-  query ListMemoContentsByMemoItem($memoItemId: String!) {
-    listMemoContentsByMemoItem(memoItemId: $memoItemId) {
-      items {
-        id
-        characterId
-        memoItemId
-        content
-        createdAt
-        updatedAt
-        owner
-        __typename
-      }
-    }
-  }
-`
-
-// 複合キーGSIは問題があるため、基本的なフィルタクエリを使用
-const LIST_MEMO_CONTENTS_BY_CHARACTER = `
-  query ListMemoContentsByCharacter($filter: ModelMemoContentFilterInput) {
-    listMemoContents(filter: $filter) {
-      items {
-        id
-        characterId
-        memoItemId
-        content
-        createdAt
-        updatedAt
-        owner
-        __typename
-      }
-    }
-  }
-`
-
-const CREATE_MEMO_CONTENT = `
-  mutation CreateMemoContent($input: CreateMemoContentInput!) {
-    createMemoContent(input: $input) {
-      id
-      characterId
-      memoItemId
-      content
-      createdAt
-      updatedAt
-      owner
-      __typename
-    }
-  }
-`
-
-const UPDATE_MEMO_CONTENT = `
-  mutation UpdateMemoContent($input: UpdateMemoContentInput!) {
-    updateMemoContent(input: $input) {
-      id
-      characterId
-      memoItemId
-      content
-      createdAt
-      updatedAt
-      owner
-      __typename
-    }
-  }
-`
-
-const DELETE_MEMO_CONTENT = `
-  mutation DeleteMemoContent($input: DeleteMemoContentInput!) {
-    deleteMemoContent(input: $input) {
-      id
-      createdAt
-      updatedAt
-      owner
-      __typename
-    }
-  }
-`
 
 /**
  * 指定されたメモ項目IDに関連するすべてのメモ内容を取得します
@@ -169,61 +93,44 @@ export async function getMemoContentsByItemId(memoItemId: string): Promise<Ampli
  * @returns Promise<AmplifyMemoContent[]> キャラクターのメモ内容リスト
  */
 export async function getMemoContentsByCharacter(characterId: string): Promise<AmplifyMemoContent[]> {
+  const ownerId = await getOwnerIdentifier()
+  
   try {
-    const ownerId = await getOwnerIdentifier()
-    
+    // GSIでowner + characterId beginWithsで絞り込み（サーバー側）
     const response = await client.graphql({
-      query: LIST_MEMO_CONTENTS_BY_CHARACTER,
+      query: GET_MEMO_CONTENTS_BY_CHARACTER_GSI,
       variables: { 
-        filter: {
-          and: [
-            { owner: { eq: ownerId } },
-            { characterId: { eq: characterId } }
-          ]
+        owner: ownerId,
+        characterIdMemoItemId: {
+          beginsWith: {
+            characterId: characterId
+          }
         }
-      },
-      authMode: 'userPool'
-    }) as GraphQLResult<ListMemoContentsResponse>
+      }
+    }) as GraphQLResult<{ memoContentsByOwnerCharacter: { items: AmplifyMemoContent[] } }>
 
-    return response.data?.listMemoContents?.items || []
+    const allItems = response.data?.memoContentsByOwnerCharacter?.items || []
+    
+    // memoItemIdごとにグループ化し、最新のupdatedAtのみ残す
+    // バグが発生していたことによって、同じメモ項目に複数データが存在する可能性があるため、最新のもののみを取得
+    const latestItemsMap = new Map<string, AmplifyMemoContent>()
+    
+    allItems.forEach(item => {
+      const existing = latestItemsMap.get(item.memoItemId)
+      if (!existing || (item.updatedAt && existing.updatedAt && item.updatedAt > existing.updatedAt)) {
+        latestItemsMap.set(item.memoItemId, item)
+      }
+    })
+    
+    const latestItems = Array.from(latestItemsMap.values())
+    
+    return latestItems
   } catch (error) {
     console.error('キャラクターのメモ内容取得に失敗:', error)
     throw new Error('キャラクターのメモ内容取得に失敗しました')
   }
 }
 
-/**
- * 特定のキャラクターとメモ項目の組み合わせでメモ内容を取得します
- * 
- * @param characterId - キャラクターID
- * @param memoItemId - メモ項目ID
- * @returns Promise<AmplifyMemoContent | null> メモ内容またはnull
- */
-export async function getMemoContent(characterId: string, memoItemId: string): Promise<AmplifyMemoContent | null> {
-  try {
-    const ownerId = await getOwnerIdentifier()
-    
-    const response = await client.graphql({
-      query: LIST_MEMO_CONTENTS_BY_CHARACTER,
-      variables: { 
-        filter: {
-          and: [
-            { owner: { eq: ownerId } },
-            { characterId: { eq: characterId } },
-            { memoItemId: { eq: memoItemId } }
-          ]
-        }
-      },
-      authMode: 'userPool'
-    }) as GraphQLResult<ListMemoContentsResponse>
-
-    const items = response.data?.listMemoContents?.items || []
-    return items.length > 0 ? items[0] : null
-  } catch (error) {
-    console.error('メモ内容取得に失敗:', error)
-    throw new Error('メモ内容取得に失敗しました')
-  }
-}
 
 /**
  * メモ内容を作成します

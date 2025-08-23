@@ -15,14 +15,7 @@ const client = generateClient<Schema>({
  */
 export async function listCharacters(): Promise<Character[]> {
   try {
-    console.log('キャラクター一覧を取得中...')
     const result = await client.models.Character.list()
-    
-    console.log('GraphQL結果:', { 
-      dataCount: result.data?.length || 0, 
-      errors: result.errors,
-      firstItem: result.data?.[0] 
-    })
     
     if (result.errors) {
       console.error('キャラクター一覧取得時にエラーが発生しました:', result.errors)
@@ -46,7 +39,6 @@ export async function listCharacters(): Promise<Character[]> {
       }))
       .sort((a, b) => a.order - b.order)
       
-    console.log(`${characters.length}件のキャラクターを取得しました`)
     return characters
       
   } catch (error) {
