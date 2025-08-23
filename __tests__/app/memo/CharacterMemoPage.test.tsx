@@ -5,7 +5,7 @@ import { act } from 'react'
 import CharacterMemoPage from '@/app/(protected)/memo/[characterId]/page'
 import { fetchCharacter } from '@/services/characterService'
 import { getMemoItems } from '@/services/memoItemService'
-import { getMemoContentsByCharacter, upsertMemoContent } from '@/services/memoContentService'
+import { getMemoContentsByCharacter, updateMemoContent, createMemoContent } from '@/services/memoContentService'
 import { useParams, useRouter } from 'next/navigation'
 import { useHeader } from '@/contexts/headerContext'
 import { toast } from 'sonner'
@@ -74,7 +74,8 @@ describe('CharacterMemoPage', () => {
     ;(fetchCharacter as jest.Mock).mockResolvedValue(mockCharacter)
     ;(getMemoItems as jest.Mock).mockResolvedValue({ items: mockMemoItems })
     ;(getMemoContentsByCharacter as jest.Mock).mockResolvedValue(mockMemoContents)
-    ;(upsertMemoContent as jest.Mock).mockImplementation(() => Promise.resolve(undefined))
+    ;(updateMemoContent as jest.Mock).mockImplementation(() => Promise.resolve({ id: 'test-id', content: 'updated' }))
+    ;(createMemoContent as jest.Mock).mockImplementation(() => Promise.resolve({ id: 'test-id', content: 'created' }))
   })
 
   afterEach(() => {
@@ -145,13 +146,12 @@ describe('CharacterMemoPage', () => {
         fireEvent.click(saveButton)
       })
 
-      // 保存が実行される
+      // 保存が実行される（既存データがあるので更新）
       await waitFor(() => {
-        expect(upsertMemoContent).toHaveBeenCalledWith(
-          'test-character-id',
-          'item-1',
-          '新しいメモ内容'
-        )
+        expect(updateMemoContent).toHaveBeenCalledWith({
+          id: 'content-1',
+          content: '新しいメモ内容'
+        })
       })
     })
 
@@ -311,13 +311,12 @@ describe('CharacterMemoPage', () => {
         fireEvent.click(saveButton)
       })
 
-      // 保存処理の完了を待つ
+      // 保存処理の完了を待つ（既存データがあるので更新）
       await waitFor(() => {
-        expect(upsertMemoContent).toHaveBeenCalledWith(
-          'test-character-id',
-          'item-1',
-          '更新内容'
-        )
+        expect(updateMemoContent).toHaveBeenCalledWith({
+          id: 'content-1',
+          content: '更新内容'
+        })
       })
 
       // 成功トーストの表示を確認
@@ -342,8 +341,8 @@ describe('CharacterMemoPage', () => {
 
       const textarea = await screen.findByPlaceholderText('メモを入力してください...')
       
-      // 保存失敗を設定
-      ;(upsertMemoContent as jest.Mock).mockImplementation(() => Promise.reject(new Error('保存エラー')))
+      // 保存失敗を設定（既存データがあるので更新処理が失敗）
+      ;(updateMemoContent as jest.Mock).mockImplementation(() => Promise.reject(new Error('保存エラー')))
       
       await act(async () => {
         fireEvent.change(textarea, { target: { value: '更新内容' } })
@@ -355,13 +354,12 @@ describe('CharacterMemoPage', () => {
         fireEvent.click(saveButton)
       })
 
-      // エラー処理の完了を待つ
+      // エラー処理の完了を待つ（既存データがあるので更新）
       await waitFor(() => {
-        expect(upsertMemoContent).toHaveBeenCalledWith(
-          'test-character-id',
-          'item-1',
-          '更新内容'
-        )
+        expect(updateMemoContent).toHaveBeenCalledWith({
+          id: 'content-1',
+          content: '更新内容'
+        })
       })
 
       // エラートーストの表示を確認

@@ -5,13 +5,14 @@ import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { fetchCharacter } from '@/services/characterService'
 import { getMemoItems } from '@/services/memoItemService'
-import { getMemoContentsByCharacter, upsertMemoContent } from '@/services/memoContentService'
+import { getMemoContentsByCharacter, updateMemoContent, createMemoContent } from '@/services/memoContentService'
 import { useHeader } from '@/contexts/headerContext'
 import Loading from '@/app/loading'
 import type { Character, MemoItem } from '@/types'
 
 interface MemoContentState {
   [memoItemId: string]: {
+    id?: string           // DynamoDBのレコードID
     content: string
     isEditing: boolean
     originalContent: string
@@ -65,6 +66,7 @@ export default function CharacterMemoPage() {
           )
           
           contentState[item.id] = {
+            id: existingContent?.id,  // DynamoDBのレコードIDを保持
             content: existingContent?.content || '',
             isEditing: false,
             originalContent: existingContent?.content || '',
@@ -96,12 +98,29 @@ export default function CharacterMemoPage() {
   // メモ保存
   const saveMemo = useCallback(async (memoItemId: string, content: string) => {
     try {
-      await upsertMemoContent(characterId, memoItemId, content)
+      const currentState = memoContents[memoItemId]
+      let result
+      
+      if (currentState?.id) {
+        // IDがある場合は直接更新（検索不要）
+        result = await updateMemoContent({
+          id: currentState.id,
+          content
+        })
+      } else {
+        // IDがない場合のみ新規作成
+        result = await createMemoContent({
+          characterId,
+          memoItemId,
+          content
+        })
+      }
 
       setMemoContents(prev => ({
         ...prev,
         [memoItemId]: {
           ...prev[memoItemId],
+          id: result.id,           // 作成時のIDを保存
           originalContent: content,
           hasUnsavedChanges: false,
           lastSavedAt: new Date()
@@ -113,11 +132,7 @@ export default function CharacterMemoPage() {
       console.error('メモの保存に失敗:', error)
       toast.error('メモの保存に失敗しました')
     }
-  }, [characterId])
-
-
-
-
+  }, [characterId, memoContents])
 
   // 編集開始
   const startEditing = (memoItemId: string) => {

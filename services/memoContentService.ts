@@ -280,41 +280,6 @@ export async function updateMemoContent(input: {
   }
 }
 
-/**
- * メモ内容を作成または更新します（upsert）
- * 
- * @param characterId - キャラクターID
- * @param memoItemId - メモ項目ID
- * @param content - メモ内容
- * @returns Promise<AmplifyMemoContent> 作成または更新されたメモ内容
- */
-export async function upsertMemoContent(
-  characterId: string,
-  memoItemId: string,
-  content: string
-): Promise<AmplifyMemoContent> {
-  try {
-    const existing = await getMemoContent(characterId, memoItemId)
-    
-    if (existing) {
-      // 更新
-      return await updateMemoContent({
-        id: existing.id,
-        content
-      })
-    } else {
-      // 作成
-      return await createMemoContent({
-        characterId,
-        memoItemId,
-        content
-      })
-    }
-  } catch (error) {
-    console.error('メモ内容のupsertに失敗:', error)
-    throw new Error('メモ内容の保存に失敗しました')
-  }
-}
 
 
 
