@@ -151,7 +151,7 @@ describe('MemoSettingsPage', () => {
       render(<MemoSettingsPage />)
       
       await waitFor(() => {
-        expect(mockToast.error).toHaveBeenCalledWith('データの取得に失敗しました')
+        expect(mockToast.error).toHaveBeenCalledWith('データの読み込みに失敗しました')
       })
       
       expect(screen.getByText('0 / 20 項目')).toBeInTheDocument()
@@ -268,7 +268,7 @@ describe('MemoSettingsPage', () => {
       render(<MemoSettingsPage />)
       
       await waitFor(() => {
-        expect(mockToast.error).toHaveBeenCalledWith('データの取得に失敗しました')
+        expect(mockToast.error).toHaveBeenCalledWith('データの読み込みに失敗しました')
       })
       
       // エラー後も画面は表示される
@@ -282,7 +282,7 @@ describe('MemoSettingsPage', () => {
       render(<MemoSettingsPage />)
       
       await waitFor(() => {
-        expect(mockToast.error).toHaveBeenCalledWith('データの取得に失敗しました')
+        expect(mockToast.error).toHaveBeenCalledWith('データの読み込みに失敗しました')
       })
       
       // エラー後も画面は表示される

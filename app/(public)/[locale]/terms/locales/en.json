@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "title": "Terms of Service | SmashMemo",
+    "description": "Terms of Service for SmashMemo"
+  },
+  "title": "Terms of Service",
+  "sections": [
+    {
+      "title": "Article 1 (Application)",
+      "content": "These Terms of Service define the rights and obligations between the service operator (hereinafter referred to as 'we') and users (hereinafter referred to as 'users') regarding the use of the service 'SmashMemo'."
+    },
+    {
+      "title": "Article 2 (Registration)",
+      "content": "Use of this service requires authentication with a Google account. Registration constitutes agreement to these terms."
+    },
+    {
+      "title": "Article 3 (Prohibited Activities)",
+      "content": "Users shall not engage in the following activities when using this service:",
+      "list": [
+        "Activities that violate laws or public order and morals",
+        "Activities related to criminal acts",
+        "Activities that destroy or interfere with the functions of our servers or networks",
+        "Activities that collect or store personal information about other users",
+        "Unauthorized access or attempts thereof",
+        "Other activities deemed inappropriate by us"
+      ]
+    },
+    {
+      "title": "Article 4 (Suspension of Service)",
+      "content": "We may suspend or interrupt all or part of the service without prior notice to users in any of the following cases:",
+      "list": [
+        "When performing maintenance, inspection, or updates on the computer system",
+        "When service provision becomes difficult due to force majeure such as earthquakes, lightning, fire, power outages, or natural disasters",
+        "When we determine that service provision is difficult"
+      ]
+    },
+    {
+      "title": "Article 5 (Disclaimer)",
+      "content": "We make no warranties, express or implied, regarding completeness, accuracy, reliability, or usefulness of this service. We assume no responsibility for any damages incurred by users through the use of this service."
+    },
+    {
+      "title": "Article 6 (Changes to Service)",
+      "content": "We may change or terminate the service content without notice to users."
+    },
+    {
+      "title": "Article 7 (Changes to Terms)",
+      "content": "We may change these terms at any time without notice to users. Continued use of the service after changes constitutes agreement to the revised terms."
+    },
+    {
+      "title": "Article 8 (Governing Law and Jurisdiction)",
+      "content": "These terms shall be governed by Japanese law. Any disputes regarding this service shall be subject to the exclusive jurisdiction of the court having jurisdiction over our location."
+    }
+  ],
+  "footer": {
+    "enacted": "Enacted: January 1, 2025",
+    "updated": "Last Updated: January 1, 2025"
+  }
+}

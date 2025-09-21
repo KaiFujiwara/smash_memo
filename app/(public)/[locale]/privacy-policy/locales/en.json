@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "title": "Privacy Policy | SmashMemo",
+    "description": "Privacy Policy for SmashMemo"
+  },
+  "title": "Privacy Policy",
+  "sections": [
+    {
+      "title": "Article 1 (Definition of Personal Information)",
+      "content": "In this Privacy Policy, 'personal information' refers to 'personal information' as defined in the Personal Information Protection Act."
+    },
+    {
+      "title": "Article 2 (Method of Collecting Personal Information)",
+      "content": "This service collects the following personal information when users register:",
+      "list": [
+        "Information related to Google account (email address, name, profile picture, etc.)",
+        "Usage history of this service"
+      ]
+    },
+    {
+      "title": "Article 3 (Purpose of Collecting and Using Personal Information)",
+      "content": "The purposes for which this service collects and uses personal information are as follows:",
+      "list": [
+        "To provide and operate this service",
+        "To respond to user inquiries",
+        "To improve and add features to this service",
+        "To identify users who violate the terms of use or attempt to use the service for fraudulent or improper purposes",
+        "Purposes incidental to the above purposes"
+      ]
+    },
+    {
+      "title": "Article 4 (Changes to Purpose of Use)",
+      "content": "This service will change the purpose of use of personal information only when it is reasonably recognized that the purpose after the change is related to the purpose before the change."
+    },
+    {
+      "title": "Article 5 (Third-Party Provision of Personal Information)",
+      "content": "We will not provide personal information to third parties without obtaining the user's consent in advance, except in the following cases:",
+      "list": [
+        "When based on laws and regulations",
+        "When necessary to protect the life, body, or property of a person and it is difficult to obtain the consent of the person",
+        "When it is particularly necessary for improving public health or promoting the sound growth of children and it is difficult to obtain the consent of the person"
+      ]
+    },
+    {
+      "title": "Article 6 (Disclosure of Personal Information)",
+      "content": "When requested by the person to disclose personal information, we will disclose it to the person without delay. However, if disclosure would fall under any of the following cases, we may not disclose all or part of it, and if we decide not to disclose, we will notify the person of this decision without delay.",
+      "list": [
+        "When there is a risk of harming the life, body, property, or other rights and interests of the person or a third party",
+        "When there is a risk of significantly hindering the proper implementation of our service operations",
+        "When it would otherwise violate laws and regulations"
+      ]
+    },
+    {
+      "title": "Article 7 (Correction and Deletion of Personal Information)",
+      "content": "If the personal information held by us is incorrect, users may request us to correct, add, or delete (hereinafter referred to as 'correction, etc.') their personal information through the procedures established by us."
+    },
+    {
+      "title": "Article 8 (Suspension of Use of Personal Information)",
+      "content": "When requested by the person to suspend or delete the use of personal information (hereinafter referred to as 'suspension of use, etc.') on the grounds that personal information is being handled beyond the scope of the purpose of use or was obtained by fraudulent means, we will conduct the necessary investigation without delay."
+    },
+    {
+      "title": "Article 9 (Changes to Privacy Policy)",
+      "content": "The contents of this policy can be changed without notice to users, except for matters separately stipulated by law or otherwise in this policy. Unless otherwise specified by us, the changed privacy policy will take effect when posted on this website."
+    },
+    {
+      "title": "Article 10 (Contact Information)",
+      "content": "For inquiries regarding this policy, please use the contact form available on the help page of this service."
+    }
+  ],
+  "footer": {
+    "enacted": "Enacted: January 1, 2025",
+    "updated": "Last Updated: January 1, 2025"
+  }
+}

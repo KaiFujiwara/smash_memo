@@ -1,0 +1,16 @@
+{
+  "metadata": {
+    "title": "Login | SmashMemo",
+    "description": "Super Smash Bros. Ultimate Character Matchup Notes"
+  },
+  "appDescription": "Super Smash Bros. Ultimate Character Matchup Notes",
+  "googleLoginButton": "Sign in with Google",
+  "loggingIn": "Signing in...",
+  "consentText": "By signing in, you agree to our ",
+  "termsLink": "Terms of Service",
+  "and": " and ",
+  "privacyLink": "Privacy Policy",
+  "consentTextEnd": ".",
+  "accountDeletedMessage": "Account deleted successfully.\n\nTo completely remove Google account integration:\n1. Open Google Account settings\n2. Go to Security > Third-party apps\n3. Remove \"SmashMemo\"",
+  "googleSignInError": "Google sign-in error:"
+}

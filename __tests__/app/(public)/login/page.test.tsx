@@ -7,7 +7,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { useRouter } from 'next/navigation'
 import { signInWithRedirect } from 'aws-amplify/auth'
 import { useAuth } from '@/hooks/useAuth'
-import LoginPage from '@/app/(public)/login/page'
+import LoginPage from '@/app/(public)/[locale]/login/page'
 
 // モック設定
 jest.mock('next/navigation')
@@ -48,7 +48,7 @@ describe('LoginPage', () => {
 
   describe('認証状態による表示', () => {
     it('未認証の場合、ログインフォームが表示される', () => {
-      render(<LoginPage />)
+      render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       expect(screen.getByAltText('スマメモ')).toBeInTheDocument()
       expect(screen.getByText('スマブラSPのキャラ対策メモアプリ')).toBeInTheDocument()
@@ -64,7 +64,7 @@ describe('LoginPage', () => {
         refreshUser: jest.fn()
       })
 
-      render(<LoginPage />)
+      render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       expect(screen.getByText('読み込み中...')).toBeInTheDocument()
       expect(screen.queryByRole('button', { name: 'Googleでログイン' })).not.toBeInTheDocument()
@@ -83,7 +83,7 @@ describe('LoginPage', () => {
         refreshUser: jest.fn()
       })
 
-      render(<LoginPage />)
+      render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
@@ -93,7 +93,7 @@ describe('LoginPage', () => {
     it('ログインボタンクリックでsignInWithRedirectが呼ばれる', async () => {
       mockSignInWithRedirect.mockResolvedValue()
 
-      render(<LoginPage />)
+      render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       const loginButton = screen.getByRole('button', { name: 'Googleでログイン' })
       fireEvent.click(loginButton)
@@ -110,7 +110,7 @@ describe('LoginPage', () => {
     it('サインイン中はローディング状態が表示される', async () => {
       mockSignInWithRedirect.mockImplementation(() => new Promise(() => {})) // 保留状態
 
-      render(<LoginPage />)
+      render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       const loginButton = screen.getByRole('button', { name: 'Googleでログイン' })
       fireEvent.click(loginButton)
@@ -125,7 +125,7 @@ describe('LoginPage', () => {
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
       mockSignInWithRedirect.mockRejectedValue(new Error('サインインエラー'))
 
-      render(<LoginPage />)
+      render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       const loginButton = screen.getByRole('button', { name: 'Googleでログイン' })
       fireEvent.click(loginButton)
@@ -141,7 +141,7 @@ describe('LoginPage', () => {
 
   describe('UI要素', () => {
     beforeEach(() => {
-      render(<LoginPage />)
+      render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
     })
 
     it('ロゴ画像が表示される', () => {
@@ -165,7 +165,7 @@ describe('LoginPage', () => {
 
   describe('認証状態の変化', () => {
     it('認証状態が未認証から認証済みに変わった時にリダイレクトされる', () => {
-      const { rerender } = render(<LoginPage />)
+      const { rerender } = render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       // 初期は未認証でリダイレクトされない
       expect(mockPush).not.toHaveBeenCalled()
@@ -183,7 +183,7 @@ describe('LoginPage', () => {
         refreshUser: jest.fn()
       })
       
-      rerender(<LoginPage />)
+      rerender(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
@@ -198,7 +198,7 @@ describe('LoginPage', () => {
         refreshUser: jest.fn()
       })
 
-      const { rerender } = render(<LoginPage />)
+      const { rerender } = render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       expect(mockPush).not.toHaveBeenCalled()
       
@@ -215,7 +215,7 @@ describe('LoginPage', () => {
         refreshUser: jest.fn()
       })
       
-      rerender(<LoginPage />)
+      rerender(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       expect(mockPush).toHaveBeenCalledWith('/character-list')
     })
@@ -230,7 +230,7 @@ describe('LoginPage', () => {
         refreshUser: jest.fn()
       })
 
-      const { rerender } = render(<LoginPage />)
+      const { rerender } = render(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       expect(screen.getByText('読み込み中...')).toBeInTheDocument()
       
@@ -243,7 +243,7 @@ describe('LoginPage', () => {
         refreshUser: jest.fn()
       })
       
-      rerender(<LoginPage />)
+      rerender(<LoginPage params={Promise.resolve({ locale: 'ja' })} />)
       
       expect(screen.queryByText('読み込み中...')).not.toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Googleでログイン' })).toBeInTheDocument()

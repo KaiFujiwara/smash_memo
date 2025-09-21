@@ -1,0 +1,16 @@
+{
+  "metadata": {
+    "title": "ログイン | スマメモ",
+    "description": "スマブラSPのキャラ対策メモアプリ"
+  },
+  "appDescription": "スマブラSPのキャラ対策メモアプリ",
+  "googleLoginButton": "Googleでログイン",
+  "loggingIn": "ログイン中...",
+  "consentText": "ログインすることで、",
+  "termsLink": "利用規約",
+  "and": "および",
+  "privacyLink": "プライバシーポリシー",
+  "consentTextEnd": "に同意したものとみなされます。",
+  "accountDeletedMessage": "アカウントを削除しました。\n\nGoogleアカウントとの連携を完全に解除するには:\n1. Googleアカウント設定を開く\n2. セキュリティ > サードパーティアプリ\n3. 「スマメモ」を削除してください",
+  "googleSignInError": "Googleサインインエラー:"
+}

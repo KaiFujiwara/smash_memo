@@ -123,7 +123,7 @@ export default function MemoSettingsPage() {
           items: [],
           isLoading: false 
         })
-        toast.error('データの取得に失敗しました')
+        toast.error('データの読み込みに失敗しました')
       }
     }
 

@@ -1,0 +1,16 @@
+{
+  "metadata": {
+    "title": "登录 | SmashMemo",
+    "description": "大乱斗SP角色对策备忘录"
+  },
+  "appDescription": "大乱斗SP角色对策备忘录",
+  "googleLoginButton": "Google登录",
+  "loggingIn": "登录中…",
+  "consentText": "登录即表示您同意我们的",
+  "termsLink": "服务条款",
+  "and": "和",
+  "privacyLink": "隐私政策",
+  "consentTextEnd": "。",
+  "accountDeletedMessage": "账户已成功删除。\n\n要完全移除Google账户关联：\n1. 打开Google账户设置\n2. 前往安全性 > 第三方应用\n3. 删除「SmashMemo」",
+  "googleSignInError": "Google登录错误："
+}
