@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "title": "Memo Settings | Smash Memo",
+    "description": "Customize memo items for Super Smash Bros. SP character matchups"
+  },
+  "title": "Memo Settings",
+  "description": "Customize memo items to record character matchups more efficiently.",
+  "addNewItem": {
+    "title": "Add New Item",
+    "placeholder": "Enter item name",
+    "button": "Add"
+  },
+  "validation": {
+    "required": "Item name is required",
+    "maxLength": "Item name must be 20 characters or less",
+    "duplicate": "This item name already exists",
+    "maxItems": "Maximum number of items ({max}) reached"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "info": {
+    "dragAndDrop": "Drag and drop to reorder items",
+    "maxItems": "You can add up to {max} items",
+    "description": "Configured memo items will be used across all characters."
+  },
+  "messages": {
+    "itemAdded": "Item added successfully",
+    "itemUpdated": "Item updated successfully", 
+    "itemDeleted": "Item deleted successfully",
+    "itemDeletedWithMemos": "Item and {count} related memos deleted",
+    "orderUpdated": "Order updated successfully",
+    "dataLoadError": "Failed to load data",
+    "itemAddError": "Failed to add item",
+    "itemUpdateError": "Failed to update item", 
+    "itemDeleteError": "Failed to delete item",
+    "orderUpdateError": "Failed to update order"
+  },
+  "dialog": {
+    "deleteTitle": "Delete Memo Item",
+    "deleteMessage": "Are you sure you want to delete \"{itemName}\"?\n{memoCount} related memo contents will also be deleted.\nThis action cannot be undone.",
+    "confirmText": "Delete",
+    "cancelText": "Cancel"
+  },
+  "tooltip": {
+    "editDisabled": "Cannot drag while editing",
+    "dragToReorder": "Drag to reorder",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "validation2": {
+    "nameRequired": "Please enter item name",
+    "nameTooLong": "Item name must be {max} characters or less",
+    "nameDuplicate": "This item name is already in use"
+  },
+  "fallback": {
+    "item": "Item"
+  },
+  "itemsList": {
+    "title": "Memo Items List",
+    "dragHint": "Drag & drop to reorder",
+    "empty": "No memo items",
+    "emptyHint": "Add a new item from the form above"
+  },
+  "addSection": {
+    "title": "Add New Memo Item",
+    "placeholder": "e.g., Strategy, Combos",
+    "itemsCount": "{count} / {max} items",
+    "limitReached": "(Limit reached)",
+    "addButton": "Add",
+    "adding": "Adding..."
+  }
+}

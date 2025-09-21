@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "title": "标题栏",
+    "description": "标题栏组件"
+  },
+  "navigation": {
+    "characterList": "所有角色",
+    "character": "角色",
+    "memoSettings": "通用备忘录项目设置",
+    "account": "账号",
+    "accountSettings": "账号设置",
+    "help": "帮助",
+    "logout": "退出登录"
+  },
+  "pages": {
+    "characterList": "角色列表",
+    "memoSettings": "通用备忘项目",
+    "accountSettings": "账户设置",
+    "help": "帮助",
+    "characterMemo": "角色备忘录",
+    "smashmemo": "Smash Memo"
+  },
+  "accessibility": {
+    "characterSelect": "选择角色",
+    "userMenu": "用户菜单",
+    "menu": "菜单",
+    "close": "关闭"
+  },
+  "errors": {
+    "characterLoadError": "角色加载错误:",
+    "logoutError": "登出错误:"
+  },
+  "common": {
+    "character": "角色"
+  }
+}

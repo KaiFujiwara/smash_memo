@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "title": "Header",
+    "description": "Header component"
+  },
+  "navigation": {
+    "characterList": "All Characters",
+    "character": "Character",
+    "memoSettings": "Common Memo Items",
+    "account": "Account",
+    "accountSettings": "Account Settings",
+    "help": "Help",
+    "logout": "Logout"
+  },
+  "pages": {
+    "characterList": "Character List",
+    "memoSettings": "Common Memo Items",
+    "accountSettings": "Account Settings",
+    "help": "Help",
+    "characterMemo": "Character Matchup",
+    "smashmemo": "Smash Memo"
+  },
+  "accessibility": {
+    "characterSelect": "Select Character",
+    "userMenu": "User Menu",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "errors": {
+    "characterLoadError": "Character loading error:",
+    "logoutError": "Logout error:"
+  },
+  "common": {
+    "character": "Character"
+  }
+}

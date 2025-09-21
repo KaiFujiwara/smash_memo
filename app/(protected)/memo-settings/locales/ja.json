@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "title": "メモ設定 | スマメモ",
+    "description": "スマブラSPのキャラ対策メモ項目をカスタマイズ"
+  },
+  "title": "メモ設定",
+  "description": "メモ項目をカスタマイズして、より効率的にキャラ対策を記録しましょう。",
+  "addNewItem": {
+    "title": "新しい項目を追加",
+    "placeholder": "項目名を入力してください",
+    "button": "追加"
+  },
+  "validation": {
+    "required": "項目名は必須です",
+    "maxLength": "項目名は20文字以内で入力してください",
+    "duplicate": "この項目名は既に存在します",
+    "maxItems": "項目数の上限（{max}個）に達しています"
+  },
+  "actions": {
+    "edit": "編集",
+    "delete": "削除",
+    "save": "保存",
+    "cancel": "キャンセル"
+  },
+  "info": {
+    "dragAndDrop": "ドラッグ&ドロップで並び替えができます",
+    "maxItems": "最大{max}個まで項目を追加できます",
+    "description": "設定したメモ項目は全キャラクター共通で使用されます。"
+  },
+  "messages": {
+    "itemAdded": "項目を追加しました",
+    "itemUpdated": "項目を更新しました", 
+    "itemDeleted": "項目を削除しました",
+    "itemDeletedWithMemos": "項目と関連する{count}件のメモを削除しました",
+    "orderUpdated": "順序を更新しました",
+    "dataLoadError": "データの読み込みに失敗しました",
+    "itemAddError": "項目の追加に失敗しました",
+    "itemUpdateError": "項目の更新に失敗しました", 
+    "itemDeleteError": "項目の削除に失敗しました",
+    "orderUpdateError": "順序の更新に失敗しました"
+  },
+  "dialog": {
+    "deleteTitle": "メモ項目の削除",
+    "deleteMessage": "「{itemName}」を削除してもよろしいですか？\n関連する{memoCount}件のメモ内容も削除されます。\nこの操作は取り消せません。",
+    "confirmText": "削除",
+    "cancelText": "キャンセル"
+  },
+  "tooltip": {
+    "editDisabled": "編集中はドラッグできません",
+    "dragToReorder": "ドラッグして並び替え",
+    "edit": "編集",
+    "delete": "削除"
+  },
+  "validation2": {
+    "nameRequired": "項目名を入力してください",
+    "nameTooLong": "項目名は{max}文字以内で入力してください",
+    "nameDuplicate": "この項目名は既に使用されています"
+  },
+  "fallback": {
+    "item": "項目"
+  },
+  "itemsList": {
+    "title": "メモ項目一覧",
+    "dragHint": "ドラッグ&ドロップで順序を変更",
+    "empty": "メモ項目がありません",
+    "emptyHint": "上記のフォームから新しい項目を追加してください"
+  },
+  "addSection": {
+    "title": "新しいメモ項目を追加",
+    "placeholder": "例：立ち回り、コンボ",
+    "itemsCount": "{count} / {max} 項目",
+    "limitReached": "（上限達成）",
+    "addButton": "追加",
+    "adding": "追加中..."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "title": "ヘルプ | スマメモ",
+    "description": "スマメモのヘルプページ - お問い合わせ、利用規約、プライバシーポリシー"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "description": "ご質問やご要望、不具合報告などがございましたら、X（旧Twitter）にてお気軽にお声がけください。",
+    "button": "@minaissb にお問い合わせ"
+  },
+  "policies": {
+    "title": "規約・ポリシー",
+    "terms": {
+      "title": "利用規約",
+      "description": "サービスの利用規約"
+    },
+    "privacy": {
+      "title": "プライバシーポリシー",
+      "description": "個人情報の取り扱い"
+    }
+  },
+  "disclaimer": {
+    "title": "免責事項",
+    "content": "大乱闘スマッシュブラザーズは、任天堂株式会社様の登録商標です。\n当サイトは個人のスマブラファンが運営する非公式のWebサービスです。\n任天堂株式会社様、他関連企業様とは一切関係ありません。\n下記はサイト独自の内容に関する著作権を示すものです。\nCopyright © smashmemo All rights reserved."
+  }
+}

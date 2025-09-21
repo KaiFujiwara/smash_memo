@@ -11,11 +11,16 @@ import type { MemoSettingsState } from '../types'
 interface UseDragDropActionsProps {
   state: MemoSettingsState
   updateState: (updates: Partial<MemoSettingsState>) => void
+  messages: {
+    orderUpdated: string
+    orderUpdateError: string
+  }
 }
 
 export function useDragDropActions({
   state,
-  updateState
+  updateState,
+  messages
 }: UseDragDropActionsProps) {
 
   // ドラッグ開始
@@ -56,12 +61,12 @@ export function useDragDropActions({
       if (!result.success) {
         // 失敗したら元に戻す
         updateState({ items: state.items })
-        throw new Error(result.error || '順序の更新に失敗しました')
+        throw new Error(result.error || messages.orderUpdateError)
       }
       
-      toast.success('順序を更新しました')
+      toast.success(messages.orderUpdated)
     } catch (error) {
-      toast.error('順序の更新に失敗しました')
+      toast.error(messages.orderUpdateError)
     }
     
     requestAnimationFrame(() => {

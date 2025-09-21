@@ -12,11 +12,22 @@ import type { MemoSettingsState } from '../types'
 interface UseMemoActionsProps {
   state: MemoSettingsState
   updateState: (updates: Partial<MemoSettingsState>) => void
+  messages: {
+    itemAdded: string
+    itemAddError: string
+    itemUpdated: string
+    itemUpdateError: string
+    itemDeleted: string
+    itemDeletedWithMemos: string
+    itemDeleteError: string
+    item: string
+  }
 }
 
 export function useMemoActions({
   state,
-  updateState
+  updateState,
+  messages
 }: UseMemoActionsProps) {
 
   // 項目追加（即座にDB保存）
@@ -39,12 +50,12 @@ export function useMemoActions({
           items: [...state.items, result.item],
           newItemName: ''
         })
-        toast.success('項目を追加しました')
+        toast.success(messages.itemAdded)
       } else {
-        throw new Error(result.error || '項目の追加に失敗しました')
+        throw new Error(result.error || messages.itemAddError)
       }
     } catch (error) {
-      toast.error('項目の追加に失敗しました')
+      toast.error(messages.itemAddError)
     } finally {
       updateState({ isAdding: false })
     }
@@ -77,12 +88,12 @@ export function useMemoActions({
           ),
           editingId: null
         })
-        toast.success('項目を更新しました')
+        toast.success(messages.itemUpdated)
       } else {
-        throw new Error(result.error || '項目の更新に失敗しました')
+        throw new Error(result.error || messages.itemUpdateError)
       }
     } catch (error) {
-      toast.error('項目の更新に失敗しました')
+      toast.error(messages.itemUpdateError)
     }
   }, [state.editingId, state.editingName, state.items, updateState])
 
@@ -90,7 +101,7 @@ export function useMemoActions({
   const handleDeleteItem = useCallback(async (id: string) => {
     // 削除対象の項目名を取得
     const targetItem = state.items.find(item => item.id === id)
-    const itemName = targetItem?.name || '項目'
+    const itemName = targetItem?.name || messages.item
     
     // ブラウザ確認ダイアログ
     if (!window.confirm(`「${itemName}」を削除してもよろしいですか？\nこの操作は取り消せません。`)) {
@@ -110,15 +121,15 @@ export function useMemoActions({
         // 削除されたメモ内容数も表示
         const deletedCount = result.deletedMemoContentsCount || 0
         if (deletedCount > 0) {
-          toast.success(`項目と関連する${deletedCount}件のメモを削除しました`)
+          toast.success(messages.itemDeletedWithMemos.replace('{count}', deletedCount.toString()))
         } else {
-          toast.success('項目を削除しました')
+          toast.success(messages.itemDeleted)
         }
       } else {
-        throw new Error(result.error || '項目の削除に失敗しました')
+        throw new Error(result.error || messages.itemDeleteError)
       }
     } catch (error) {
-      toast.error('項目の削除に失敗しました')
+      toast.error(messages.itemDeleteError)
     }
   }, [state.items, updateState])
 

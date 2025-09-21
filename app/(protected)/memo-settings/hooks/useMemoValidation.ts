@@ -12,13 +12,19 @@ interface UseMemoValidationProps {
   newItemName: string
   editingName: string
   editingId: string | null
+  messages: {
+    nameRequired: string
+    nameTooLong: string
+    nameDuplicate: string
+  }
 }
 
 export function useMemoValidation({
   items,
   newItemName,
   editingName,
-  editingId
+  editingId,
+  messages
 }: UseMemoValidationProps) {
   const isDuplicateName = useCallback((name: string, excludeId?: string) => {
     return items.some(item => 
@@ -31,15 +37,15 @@ export function useMemoValidation({
     const trimmedName = name.trim()
     
     if (trimmedName.length < MIN_ITEM_NAME_LENGTH) {
-      return { isValid: false, error: '項目名を入力してください' }
+      return { isValid: false, error: messages.nameRequired }
     }
     
     if (trimmedName.length > MAX_ITEM_NAME_LENGTH) {
-      return { isValid: false, error: `項目名は${MAX_ITEM_NAME_LENGTH}文字以内で入力してください` }
+      return { isValid: false, error: messages.nameTooLong.replace('{max}', MAX_ITEM_NAME_LENGTH.toString()) }
     }
     
     if (isDuplicateName(trimmedName, excludeId)) {
-      return { isValid: false, error: 'この項目名は既に使用されています' }
+      return { isValid: false, error: messages.nameDuplicate }
     }
     
     return { isValid: true, error: '' }

@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "title": "Help | Smash Memo",
+    "description": "Smash Memo help page - Contact, Terms of Service, Privacy Policy"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "If you have any questions, requests, or bug reports, please feel free to contact us on X (formerly Twitter).",
+    "button": "Contact @minaissb"
+  },
+  "policies": {
+    "title": "Terms & Policies",
+    "terms": {
+      "title": "Terms of Service",
+      "description": "Service terms and conditions"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "Personal information handling"
+    }
+  },
+  "disclaimer": {
+    "title": "Disclaimer",
+    "content": "Super Smash Bros. is a registered trademark of Nintendo Co., Ltd.\nThis site is an unofficial web service operated by individual Smash fans.\nWe have no affiliation with Nintendo Co., Ltd. or other related companies.\nThe following indicates copyright for the site's original content.\nCopyright © smashmemo All rights reserved."
+  }
+}

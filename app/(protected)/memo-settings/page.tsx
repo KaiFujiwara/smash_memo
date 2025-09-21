@@ -9,7 +9,11 @@
 
 import { useState, useCallback, useMemo } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { useProtectedTranslations } from '@/hooks/useProtectedTranslations'
 import { Info } from 'lucide-react'
+import jaTranslations from './locales/ja.json'
+import enTranslations from './locales/en.json'
+import zhTranslations from './locales/zh.json'
 
 // Types and Utils
 import type { MemoSettingsState } from './types'
@@ -36,6 +40,9 @@ import Loading from '@/app/loading'
  */
 export default function MemoSettingsPage() {
   const { isAuthenticated } = useAuth()
+  
+  // 言語検出と翻訳テキスト取得
+  const { t } = useProtectedTranslations(jaTranslations, enTranslations, zhTranslations)
 
   // === 状態管理 ===
   const [state, setState] = useState<MemoSettingsState>({
@@ -61,12 +68,27 @@ export default function MemoSettingsPage() {
     items: state.items,
     newItemName: state.newItemName,
     editingName: state.editingName,
-    editingId: state.editingId
+    editingId: state.editingId,
+    messages: {
+      nameRequired: t.validation2.nameRequired,
+      nameTooLong: t.validation2.nameTooLong,
+      nameDuplicate: t.validation2.nameDuplicate
+    }
   })
 
   const memoActions = useMemoActions({
     state,
-    updateState
+    updateState,
+    messages: {
+      itemAdded: t.messages.itemAdded,
+      itemAddError: t.messages.itemAddError,
+      itemUpdated: t.messages.itemUpdated,
+      itemUpdateError: t.messages.itemUpdateError,
+      itemDeleted: t.messages.itemDeleted,
+      itemDeletedWithMemos: t.messages.itemDeletedWithMemos,
+      itemDeleteError: t.messages.itemDeleteError,
+      item: t.fallback.item
+    }
   })
   
   // カスタムダイアログ用の削除処理
@@ -87,16 +109,16 @@ export default function MemoSettingsPage() {
         // 削除されたメモ内容数も表示
         const deletedCount = result.deletedMemoContentsCount || 0
         if (deletedCount > 0) {
-          toast.success(`項目と関連する${deletedCount}件のメモを削除しました`)
+          toast.success(t.messages.itemDeletedWithMemos.replace('{count}', deletedCount.toString()))
         } else {
-          toast.success('項目を削除しました')
+          toast.success(t.messages.itemDeleted)
         }
         setDeleteConfirm(null)
       } else {
-        throw new Error(result.error || '項目の削除に失敗しました')
+        throw new Error(result.error || t.messages.itemDeleteError)
       }
     } catch (error) {
-      toast.error('項目の削除に失敗しました')
+      toast.error(t.messages.itemDeleteError)
     } finally {
       setIsDeleting(false)
     }
@@ -104,7 +126,11 @@ export default function MemoSettingsPage() {
 
   const dragActions = useDragDropActions({
     state,
-    updateState
+    updateState,
+    messages: {
+      orderUpdated: t.messages.orderUpdated,
+      orderUpdateError: t.messages.orderUpdateError
+    }
   })
 
   // データ取得
@@ -123,7 +149,7 @@ export default function MemoSettingsPage() {
           items: [],
           isLoading: false 
         })
-        toast.error('データの読み込みに失敗しました')
+        toast.error(t.messages.dataLoadError)
       }
     }
 
@@ -155,7 +181,7 @@ export default function MemoSettingsPage() {
         <div className="flex items-start gap-2">
           <Info size={16} className="text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
           <p className="text-sm text-blue-900 dark:text-blue-100">
-            設定したメモ項目は全キャラクター共通で使用されます。
+            {t.info.description}
           </p>
         </div>
       </div>
@@ -168,6 +194,14 @@ export default function MemoSettingsPage() {
         validation={validation.newItemValidation}
         onNameChange={(name) => updateState({ newItemName: name })}
         onAddItem={handleAddNewItem}
+        addSection={{
+          title: t.addSection.title,
+          placeholder: t.addSection.placeholder,
+          itemsCount: t.addSection.itemsCount,
+          limitReached: t.addSection.limitReached,
+          addButton: t.addSection.addButton,
+          adding: t.addSection.adding
+        }}
       />
 
       {/* メモ項目一覧 */}
@@ -191,15 +225,30 @@ export default function MemoSettingsPage() {
             setDeleteConfirm({ item, memoContentCount: 0 })
           }
         }}
+        tooltip={{
+          editDisabled: t.tooltip.editDisabled,
+          dragToReorder: t.tooltip.dragToReorder,
+          edit: t.tooltip.edit,
+          delete: t.tooltip.delete
+        }}
+        itemsList={{
+          title: t.itemsList.title,
+          dragHint: t.itemsList.dragHint,
+          empty: t.itemsList.empty,
+          emptyHint: t.itemsList.emptyHint
+        }}
       />
 
       {/* 削除確認ダイアログ */}
       <ConfirmDialog
         isOpen={!!deleteConfirm}
-        title="メモ項目の削除"
-        message={`「${deleteConfirm?.item.name}」を削除してもよろしいですか？\n関連する${deleteConfirm?.memoContentCount || 0}件のメモ内容も削除されます。\nこの操作は取り消せません。`}
-        confirmText="削除"
-        cancelText="キャンセル"
+        title={t.dialog.deleteTitle}
+        message={t.dialog.deleteMessage
+          .replace('{itemName}', deleteConfirm?.item.name || '')
+          .replace('{memoCount}', (deleteConfirm?.memoContentCount || 0).toString())
+        }
+        confirmText={t.dialog.confirmText}
+        cancelText={t.dialog.cancelText}
         variant="danger"
         isLoading={isDeleting}
         onConfirm={handleDeleteItem}

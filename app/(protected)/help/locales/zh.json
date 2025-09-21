@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "title": "帮助 | Smash Memo",
+    "description": "Smash Memo帮助页面 - 联系方式、服务条款、隐私政策"
+  },
+  "contact": {
+    "title": "联系我们",
+    "description": "如有任何疑问、建议或错误报告，请通过X（原Twitter）联系我们。",
+    "button": "联系 @minaissb"
+  },
+  "policies": {
+    "title": "条款与政策",
+    "terms": {
+      "title": "服务条款",
+      "description": "服务使用条款"
+    },
+    "privacy": {
+      "title": "隐私政策",
+      "description": "个人信息处理"
+    }
+  },
+  "disclaimer": {
+    "title": "免责声明",
+    "content": "《任天堂明星大乱斗》是任天堂株式会社的注册商标。\n本网站由《大乱斗》粉丝个人运营，为非官方Web服务。\n与任天堂株式会社及其他相关企业没有任何关联。\n以下内容的著作权归本网站所有。\nCopyright © smashmemo All rights reserved."
+  }
+}

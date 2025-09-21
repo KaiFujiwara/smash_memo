@@ -4,10 +4,15 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { signOut } from 'aws-amplify/auth'
-import { User, Settings, LogOut, Home, Menu, X, ChevronDown, FileText, HelpCircle } from 'lucide-react'
+import { User, Settings, LogOut, Home, Menu, X, ChevronDown, HelpCircle } from 'lucide-react'
 import { useHeader } from '@/contexts/headerContext'
 import { fetchCharacters } from '@/services/characterService'
+import { useProtectedTranslations } from '@/hooks/useProtectedTranslations'
+import ProtectedLanguageSelector from './ProtectedLanguageSelector'
 import type { Character } from '@/types'
+import jaTranslations from './locales/ja.json'
+import enTranslations from './locales/en.json'
+import zhTranslations from './locales/zh.json'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -21,6 +26,9 @@ export default function Header() {
   const characterMenuRef = useRef<HTMLDivElement>(null)
   const characterListRef = useRef<HTMLDivElement>(null)
   const { characterName, characterIcon } = useHeader()
+  
+  // 翻訳テキスト取得
+  const { locale, t } = useProtectedTranslations(jaTranslations, enTranslations, zhTranslations)
 
   // 現在のキャラクターIDを取得
   const getCurrentCharacterId = () => {
@@ -36,21 +44,21 @@ export default function Header() {
   const getPageInfo = (path: string) => {
     // キャラ対策メモページの場合
     if (path.startsWith('/memo/')) {
-      const title = characterName || 'キャラ対策メモ'
+      const title = characterName || t.pages.characterMemo
       return { title, icon: null }
     }
     
     switch (path) {
       case '/character-list':
-        return { title: 'キャラクターリスト', icon: Home }
+        return { title: t.pages.characterList, icon: Home }
       case '/memo-settings':
-        return { title: '共通メモ項目設定', icon: Settings }
+        return { title: t.pages.memoSettings, icon: Settings }
       case '/account-setting':
-        return { title: 'アカウント設定', icon: User }
+        return { title: t.pages.accountSettings, icon: User }
       case '/help':
-        return { title: 'ヘルプ', icon: HelpCircle }
+        return { title: t.pages.help, icon: HelpCircle }
       default:
-        return { title: 'スマメモ', icon: null }
+        return { title: t.pages.smashmemo, icon: null }
     }
   }
 
@@ -63,7 +71,7 @@ export default function Header() {
         const charactersData = await fetchCharacters()
         setCharacters(charactersData)
       } catch (error) {
-        console.error('キャラクター読み込みエラー:', error)
+        console.error(t.errors.characterLoadError, error)
       }
     }
     loadCharacters()
@@ -104,7 +112,7 @@ export default function Header() {
     try {
       await signOut()
     } catch (error) {
-      console.error('ログアウトエラー:', error)
+      console.error(t.errors.logoutError, error)
     }
   }
 
@@ -123,7 +131,6 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const isActive = (path: string) => pathname === path
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-blue-700 to-purple-700 shadow-md">
@@ -133,7 +140,7 @@ export default function Header() {
           {pathname.startsWith('/memo/') && characterIcon ? (
             <img
               src={characterIcon}
-              alt={characterName || 'キャラクター'}
+              alt={characterName || t.common.character}
               className="w-8 h-8 rounded-full object-contain bg-white border-2 border-gray-400"
             />
           ) : pageInfo.icon && (
@@ -155,10 +162,10 @@ export default function Header() {
                   ? 'bg-white/20 text-white' 
                   : 'text-white/80 hover:bg-white/10 hover:text-white'
               }`}
-              aria-label="キャラクター選択"
+              aria-label={t.accessibility.characterSelect}
             >
               <Home size={18} />
-              <span>キャラクター</span>
+              <span>{t.navigation.character}</span>
               <ChevronDown size={16} className={`transition-transform ${isCharacterMenuOpen ? 'rotate-180' : ''}`} />
             </button>
             
@@ -174,7 +181,7 @@ export default function Header() {
                   <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
                     <Home size={16} />
                   </div>
-                  <span className="font-medium">全てのキャラクター</span>
+                  <span className="font-medium">{t.navigation.characterList}</span>
                 </Link>
                 
                 {/* キャラクターリスト - スクロール可能 */}
@@ -207,18 +214,23 @@ export default function Header() {
             className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/20 ml-2"
           >
             <Settings size={20} />
-            <span>共通メモ項目設定</span>
+            <span>{t.navigation.memoSettings}</span>
           </Link>
+          
+          {/* 言語選択 (PC) */}
+          <div className="ml-2">
+            <ProtectedLanguageSelector currentLocale={locale} />
+          </div>
           
           {/* ユーザーメニュー (PC) */}
           <div className="relative ml-2" ref={userMenuRef}>
             <button 
               onClick={toggleUserMenu}
               className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/20"
-              aria-label="ユーザーメニュー"
+              aria-label={t.accessibility.userMenu}
             >
               <User size={20} />
-              <span>アカウント</span>
+              <span>{t.navigation.account}</span>
               <ChevronDown size={16} className={`transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
             </button>
             
@@ -231,7 +243,7 @@ export default function Header() {
                   onClick={() => setIsUserMenuOpen(false)}
                 >
                   <User size={16} />
-                  <span>アカウント設定</span>
+                  <span>{t.navigation.accountSettings}</span>
                 </Link>
                 <Link 
                   href="/help" 
@@ -239,7 +251,7 @@ export default function Header() {
                   onClick={() => setIsUserMenuOpen(false)}
                 >
                   <HelpCircle size={16} />
-                  <span>ヘルプ</span>
+                  <span>{t.navigation.help}</span>
                 </Link>
                 <button 
                   onClick={() => {
@@ -249,7 +261,7 @@ export default function Header() {
                   className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   <LogOut size={16} />
-                  <span>ログアウト</span>
+                  <span>{t.navigation.logout}</span>
                 </button>
               </div>
             )}
@@ -260,7 +272,7 @@ export default function Header() {
         <button 
           className="rounded-full p-2 text-white md:hidden" 
           onClick={toggleMenu}
-          aria-label="メニュー"
+          aria-label={t.accessibility.menu}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -277,7 +289,7 @@ export default function Header() {
           <button 
             className="self-end rounded-full p-2 text-white" 
             onClick={closeMenu}
-            aria-label="閉じる"
+            aria-label={t.accessibility.close}
           >
             <X size={24} />
           </button>
@@ -290,7 +302,7 @@ export default function Header() {
               onClick={closeMenu}
             >
               <Home size={20} />
-              <span className="font-medium">全てのキャラクター</span>
+              <span className="font-medium">{t.navigation.characterList}</span>
             </Link>
             
             {/* キャラクターリスト - スクロール可能 */}
@@ -330,8 +342,13 @@ export default function Header() {
             onClick={closeMenu}
           >
             <Settings size={20} />
-            <span>共通メモ項目設定</span>
+            <span>{t.navigation.memoSettings}</span>
           </Link>
+          
+          {/* 言語選択 (SP) */}
+          <div className="mb-2">
+            <ProtectedLanguageSelector currentLocale={locale} variant="mobile" />
+          </div>
           
           <button 
             onClick={toggleUserMenu}
@@ -339,7 +356,7 @@ export default function Header() {
           >
             <div className="flex items-center gap-3">
               <User size={20} />
-              <span>アカウント</span>
+              <span>{t.navigation.account}</span>
             </div>
             <ChevronDown size={16} className={`transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
           </button>
@@ -353,7 +370,7 @@ export default function Header() {
                 onClick={closeMenu}
               >
                 <User size={20} />
-                <span>アカウント設定</span>
+                <span>{t.navigation.accountSettings}</span>
               </Link>
               <Link 
                 href="/help" 
@@ -361,7 +378,7 @@ export default function Header() {
                 onClick={closeMenu}
               >
                 <HelpCircle size={20} />
-                <span>ヘルプ</span>
+                <span>{t.navigation.help}</span>
               </Link>
               <button 
                 onClick={() => {
@@ -371,7 +388,7 @@ export default function Header() {
                 className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-white hover:bg-white/20"
               >
                 <LogOut size={20} />
-                <span>ログアウト</span>
+                <span>{t.navigation.logout}</span>
               </button>
             </div>
           )}

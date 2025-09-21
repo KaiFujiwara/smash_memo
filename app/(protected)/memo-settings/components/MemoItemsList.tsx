@@ -21,6 +21,18 @@ interface MemoItemsListProps {
   onCancelEdit: () => void
   onEditingNameChange: (name: string) => void
   onDeleteConfirm: (item: MemoItemType) => void
+  tooltip: {
+    editDisabled: string
+    dragToReorder: string
+    edit: string
+    delete: string
+  }
+  itemsList: {
+    title: string
+    dragHint: string
+    empty: string
+    emptyHint: string
+  }
 }
 
 export function MemoItemsList({
@@ -35,7 +47,9 @@ export function MemoItemsList({
   onSaveEdit,
   onCancelEdit,
   onEditingNameChange,
-  onDeleteConfirm
+  onDeleteConfirm,
+  tooltip,
+  itemsList
 }: MemoItemsListProps) {
   return (
     <div className="overflow-hidden rounded-xl bg-white shadow-md">
@@ -43,11 +57,11 @@ export function MemoItemsList({
         <div className="flex items-center justify-between">
           <h2 className="flex items-center gap-1.5 text-base font-semibold text-gray-800">
             <Settings size={16} className="text-indigo-500" />
-            メモ項目一覧
+            {itemsList.title}
           </h2>
           <div className="flex items-center gap-1.5 text-xs text-gray-500">
             <ArrowDown size={12} className="text-indigo-400" />
-            <span>ドラッグ&ドロップで順序を変更</span>
+            <span>{itemsList.dragHint}</span>
           </div>
         </div>
       </div>
@@ -66,8 +80,8 @@ export function MemoItemsList({
                 <div className="p-6 text-center text-gray-500">
                   <div className="space-y-2">
                     <Settings className="mx-auto h-8 w-8 text-gray-300" />
-                    <p>メモ項目がありません</p>
-                    <p className="text-xs">上記のフォームから新しい項目を追加してください</p>
+                    <p>{itemsList.empty}</p>
+                    <p className="text-xs">{itemsList.emptyHint}</p>
                   </div>
                 </div>
               ) : (
@@ -87,6 +101,7 @@ export function MemoItemsList({
                       onCancelEdit={onCancelEdit}
                       onEditingNameChange={onEditingNameChange}
                       onDeleteConfirm={onDeleteConfirm}
+                      tooltip={tooltip}
                     />
                   ))
               )}

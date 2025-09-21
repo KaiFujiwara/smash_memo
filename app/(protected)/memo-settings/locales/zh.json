@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "title": "通用备忘录项目设置 | Smash Memo",
+    "description": "自定义《任天堂明星大乱斗SP》角色对策备忘项目"
+  },
+  "title": "通用备忘录项目设置",
+  "description": "自定义备忘项目，更高效地记录角色对策。",
+  "addNewItem": {
+    "title": "添加新备忘录项目",
+    "placeholder": "请输入项目名",
+    "button": "添加"
+  },
+  "validation": {
+    "required": "项目名称为必填项",
+    "maxLength": "项目名称不能超过20个字符",
+    "duplicate": "此项目名称已存在",
+    "maxItems": "已达到项目数量上限（{max}个）"
+  },
+  "actions": {
+    "edit": "编辑",
+    "delete": "删除",
+    "save": "保存",
+    "cancel": "取消"
+  },
+  "info": {
+    "dragAndDrop": "可通过拖拽进行排序",
+    "maxItems": "最多可添加{max}个项目",
+    "description": "设置的备忘录项目将应用于所有角色。"
+  },
+  "messages": {
+    "itemAdded": "项目已添加",
+    "itemUpdated": "项目已更新", 
+    "itemDeleted": "项目已删除",
+    "itemDeletedWithMemos": "已删除该项目及相关的{count}条备忘录",
+    "orderUpdated": "顺序已更新",
+    "dataLoadError": "数据加载失败",
+    "itemAddError": "添加项目失败",
+    "itemUpdateError": "更新项目失败", 
+    "itemDeleteError": "删除项目失败",
+    "orderUpdateError": "更新顺序失败"
+  },
+  "dialog": {
+    "deleteTitle": "删除备忘录项目",
+    "deleteMessage": "确定要删除「{itemName}」吗？\n与此项目相关的{memoCount}条备忘录内容也将被删除。\n此操作不可撤销。",
+    "confirmText": "删除",
+    "cancelText": "取消"
+  },
+  "tooltip": {
+    "editDisabled": "编辑时无法拖拽",
+    "dragToReorder": "拖拽重新排序",
+    "edit": "编辑",
+    "delete": "删除"
+  },
+  "validation2": {
+    "nameRequired": "请输入项目名",
+    "nameTooLong": "项目名称不能超过{max}个字符",
+    "nameDuplicate": "此项目名称已被使用"
+  },
+  "fallback": {
+    "item": "项目"
+  },
+  "itemsList": {
+    "title": "备忘录项目列表",
+    "dragHint": "拖放更改顺序",
+    "empty": "暂无备忘录项目",
+    "emptyHint": "请通过上面的表单添加新项目"
+  },
+  "addSection": {
+    "title": "添加新备忘项目",
+    "placeholder": "例如：立回、连段",
+    "itemsCount": "{count} / {max} 项目",
+    "limitReached": "（已达上限）",
+    "addButton": "添加",
+    "adding": "添加中..."
+  }
+}

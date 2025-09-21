@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "title": "ヘッダー",
+    "description": "ヘッダーコンポーネント"
+  },
+  "navigation": {
+    "characterList": "全てのキャラクター",
+    "character": "キャラクター",
+    "memoSettings": "共通メモ項目設定",
+    "account": "アカウント",
+    "accountSettings": "アカウント設定",
+    "help": "ヘルプ",
+    "logout": "ログアウト"
+  },
+  "pages": {
+    "characterList": "キャラクターリスト",
+    "memoSettings": "共通メモ項目設定",
+    "accountSettings": "アカウント設定",
+    "help": "ヘルプ",
+    "characterMemo": "キャラ対策メモ",
+    "smashmemo": "スマメモ"
+  },
+  "accessibility": {
+    "characterSelect": "キャラクター選択",
+    "userMenu": "ユーザーメニュー",
+    "menu": "メニュー",
+    "close": "閉じる"
+  },
+  "errors": {
+    "characterLoadError": "キャラクター読み込みエラー:",
+    "logoutError": "ログアウトエラー:"
+  },
+  "common": {
+    "character": "キャラクター"
+  }
+}

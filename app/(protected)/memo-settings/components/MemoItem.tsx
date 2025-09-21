@@ -20,6 +20,12 @@ interface MemoItemProps {
   onCancelEdit: () => void
   onEditingNameChange: (name: string) => void
   onDeleteConfirm: (item: MemoItem) => void
+  tooltip: {
+    editDisabled: string
+    dragToReorder: string
+    edit: string
+    delete: string
+  }
 }
 
 export function MemoItem({
@@ -33,7 +39,8 @@ export function MemoItem({
   onSaveEdit,
   onCancelEdit,
   onEditingNameChange,
-  onDeleteConfirm
+  onDeleteConfirm,
+  tooltip
 }: MemoItemProps) {
   return (
     <Draggable 
@@ -73,7 +80,7 @@ export function MemoItem({
               } active:cursor-grabbing ${
                 isEditing ? 'cursor-not-allowed opacity-50' : ''
               }`}
-              title={isEditing ? '編集中はドラッグできません' : 'ドラッグして並び替え'}
+              title={isEditing ? tooltip.editDisabled : tooltip.dragToReorder}
             >
               <Grip size={16} />
             </div>
@@ -139,14 +146,14 @@ export function MemoItem({
                   <button
                     onClick={() => onStartEditing(item)}
                     className="rounded-md p-1.5 text-indigo-600 hover:bg-indigo-100 hover:scale-110 transition-transform"
-                    title="編集"
+                    title={tooltip.edit}
                   >
                     <Edit2 size={14} />
                   </button>
                   <button
                     onClick={() => onDeleteConfirm(item)}
                     className="rounded-md p-1.5 text-red-600 hover:bg-red-100 hover:scale-110 transition-transform"
-                    title="削除"
+                    title={tooltip.delete}
                   >
                     <Trash2 size={14} />
                   </button>

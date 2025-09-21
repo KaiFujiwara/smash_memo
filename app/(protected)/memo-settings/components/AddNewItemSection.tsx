@@ -13,6 +13,14 @@ interface AddNewItemSectionProps {
   validation: ValidationResult
   onNameChange: (name: string) => void
   onAddItem: () => void
+  addSection: {
+    title: string
+    placeholder: string
+    itemsCount: string
+    limitReached: string
+    addButton: string
+    adding: string
+  }
 }
 
 export function AddNewItemSection({
@@ -21,7 +29,8 @@ export function AddNewItemSection({
   isAdding,
   validation,
   onNameChange,
-  onAddItem
+  onAddItem,
+  addSection
 }: AddNewItemSectionProps) {
   const isMaxItemsReached = itemsCount >= MAX_ITEMS_COUNT
 
@@ -30,11 +39,11 @@ export function AddNewItemSection({
       <div className="mb-3 flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-base font-semibold text-gray-800">
           <Plus size={18} className="text-indigo-500" />
-          新しいメモ項目を追加
+          {addSection.title}
         </h2>
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span>{itemsCount} / {MAX_ITEMS_COUNT} 項目</span>
-          {isMaxItemsReached && <span className="text-orange-600">（上限達成）</span>}
+          <span>{addSection.itemsCount.replace('{count}', itemsCount.toString()).replace('{max}', MAX_ITEMS_COUNT.toString())}</span>
+          {isMaxItemsReached && <span className="text-orange-600">{addSection.limitReached}</span>}
         </div>
       </div>
       <div className="space-y-3">
@@ -45,7 +54,7 @@ export function AddNewItemSection({
                 type="text"
                 value={newItemName}
                 onChange={(e) => onNameChange(e.target.value)}
-                placeholder="例：立ち回り、コンボ"
+                placeholder={addSection.placeholder}
                 maxLength={MAX_ITEM_NAME_LENGTH}
                 disabled={isMaxItemsReached}
                 className={`w-full rounded-full border px-4 py-2 pr-12 text-base sm:pr-16 focus:outline-none focus:ring-1 transition ${
@@ -75,12 +84,12 @@ export function AddNewItemSection({
             {isAdding ? (
               <>
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                <span>追加中...</span>
+                <span>{addSection.adding}</span>
               </>
             ) : (
               <>
                 <Plus size={16} />
-                <span>追加</span>
+                <span>{addSection.addButton}</span>
               </>
             )}
           </button>
