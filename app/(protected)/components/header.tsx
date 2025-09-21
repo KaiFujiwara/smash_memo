@@ -321,10 +321,10 @@ export default function Header() {
                 >
                   <img
                     src={character.icon}
-                    alt={character.name}
+                    alt={getCharacterName(character, locale)}
                     className="w-6 h-6 rounded-full object-contain bg-white/10 border border-white/20"
                   />
-                  <span className="text-sm">{character.name}</span>
+                  <span className="text-sm">{getCharacterName(character, locale)}</span>
                 </button>
               ))}
             </div>
