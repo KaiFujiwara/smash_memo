@@ -15,6 +15,29 @@ interface AccountDialogsProps {
   onConfirmSignOut: () => void
   onConfirmDelete: () => void
   onCancel: () => void
+  dialogs: {
+    signOut: {
+      title: string
+      message: string
+      confirm: string
+      confirming: string
+      cancel: string
+    }
+    deleteAccount: {
+      title: string
+      message: string
+      warning: string
+      noticeTitle: string
+      notes: {
+        '1': string
+        '2': string
+        '3': string
+      }
+      confirm: string
+      confirming: string
+      cancel: string
+    }
+  }
 }
 
 export function AccountDialogs({
@@ -25,6 +48,7 @@ export function AccountDialogs({
   onConfirmSignOut,
   onConfirmDelete,
   onCancel,
+  dialogs,
 }: AccountDialogsProps) {
   if (!showSignOutConfirm && !showDeleteConfirm) {
     return null
@@ -47,11 +71,11 @@ export function AccountDialogs({
           <>
             <div className="mb-4 flex items-center gap-3 text-blue-600">
               <LogOut size={24} />
-              <h2 className="text-xl font-bold">ログアウトの確認</h2>
+              <h2 className="text-xl font-bold">{dialogs.signOut.title}</h2>
             </div>
             
             <p className="mb-6 text-gray-700">
-              本当にログアウトしますか？
+              {dialogs.signOut.message}
             </p>
             
             <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
@@ -60,7 +84,7 @@ export function AccountDialogs({
                 disabled={isSigningOut}
                 className="rounded-full border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                キャンセル
+                {dialogs.signOut.cancel}
               </button>
               <button 
                 onClick={onConfirmSignOut}
@@ -70,12 +94,12 @@ export function AccountDialogs({
                 {isSigningOut ? (
                   <>
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                    ログアウト中...
+                    {dialogs.signOut.confirming}
                   </>
                 ) : (
                   <>
                     <LogOut size={16} />
-                    ログアウト
+                    {dialogs.signOut.confirm}
                   </>
                 )}
               </button>
@@ -87,25 +111,25 @@ export function AccountDialogs({
           <>
             <div className="mb-4 flex items-center gap-3 text-red-600">
               <AlertTriangle size={24} />
-              <h2 className="text-xl font-bold">アカウント削除の確認</h2>
+              <h2 className="text-xl font-bold">{dialogs.deleteAccount.title}</h2>
             </div>
             
             <div className="mb-6 text-gray-700">
               <p className="mb-3">
-                アカウントとすべてのデータを削除します。
+                {dialogs.deleteAccount.message}
               </p>
               
               <div className="mb-4 rounded-lg bg-yellow-50 border border-yellow-200 p-3">
-                <p className="text-sm font-medium text-yellow-800 mb-2">⚠️ 重要な注意事項</p>
+                <p className="text-sm font-medium text-yellow-800 mb-2">{dialogs.deleteAccount.noticeTitle}</p>
                 <ul className="text-sm text-yellow-700 space-y-1">
-                  <li>• Googleアカウントとの連携は残ります</li>
-                  <li>• 再ログイン時は新規アカウントとして作成されます</li>
-                  <li>• 削除されたデータは復元できません</li>
+                  <li>• {dialogs.deleteAccount.notes['1']}</li>
+                  <li>• {dialogs.deleteAccount.notes['2']}</li>
+                  <li>• {dialogs.deleteAccount.notes['3']}</li>
                 </ul>
               </div>
               
               <p className="font-semibold text-red-600">
-                本当に削除しますか？
+                {dialogs.deleteAccount.warning}
               </p>
             </div>
             
@@ -115,7 +139,7 @@ export function AccountDialogs({
                 disabled={isDeleting}
                 className="rounded-full border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                キャンセル
+                {dialogs.deleteAccount.cancel}
               </button>
               <button 
                 onClick={onConfirmDelete}
@@ -125,12 +149,12 @@ export function AccountDialogs({
                 {isDeleting ? (
                   <>
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                    削除中...
+                    {dialogs.deleteAccount.confirming}
                   </>
                 ) : (
                   <>
                     <AlertTriangle size={16} />
-                    削除する
+                    {dialogs.deleteAccount.confirm}
                   </>
                 )}
               </button>

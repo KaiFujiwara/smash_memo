@@ -13,6 +13,10 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useProtectedTranslations } from '@/hooks/useProtectedTranslations'
+import jaTranslations from './locales/ja.json'
+import enTranslations from './locales/en.json'
+import zhTranslations from './locales/zh.json'
 
 // Types
 import type { AccountSettingsState } from './types'
@@ -31,6 +35,9 @@ import Loading from '@/app/loading'
  * アカウント設定ページのメインコンポーネント
  */
 export default function AccountSettingsPage() {
+  // 翻訳テキスト取得
+  const { t } = useProtectedTranslations(jaTranslations, enTranslations, zhTranslations)
+
   // === 状態管理 ===
   const [state, setState] = useState<AccountSettingsState>({
     user: null,
@@ -46,9 +53,25 @@ export default function AccountSettingsPage() {
   }, [])
 
   // === カスタムフック ===
-  useAccountData({ updateState })
+  useAccountData({ 
+    updateState,
+    messages: {
+      fetchUserError: t.messages.fetchUserError,
+      fetchUserConsole: t.errors.fetchUserConsole
+    }
+  })
 
-  const actions = useAccountActions({ state, updateState })
+  const actions = useAccountActions({ 
+    state, 
+    updateState,
+    messages: {
+      signOutSuccess: t.messages.signOutSuccess,
+      signOutError: t.messages.signOutError,
+      deleteError: t.messages.deleteError,
+      signOutConsole: t.errors.signOutConsole,
+      deleteConsole: t.errors.deleteConsole
+    }
+  })
 
   // === レンダリング ===
   if (state.isLoading) {
@@ -59,7 +82,7 @@ export default function AccountSettingsPage() {
     return (
       <div className="flex h-[70vh] items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600">ユーザー情報を取得できませんでした</p>
+          <p className="text-gray-600">{t.userInfo.errorMessage}</p>
         </div>
       </div>
     )
@@ -68,7 +91,10 @@ export default function AccountSettingsPage() {
   return (
     <div className="space-y-6">
       {/* ユーザー情報カード */}
-      <UserInfoCard user={state.user} />
+      <UserInfoCard 
+        user={state.user}
+        userInfo={t.userInfo}
+      />
 
       {/* アカウント操作カード */}
       <AccountActionsCard
@@ -76,6 +102,7 @@ export default function AccountSettingsPage() {
         isDeleting={state.isDeleting}
         onSignOut={actions.showSignOutConfirm}
         onDeleteAccount={actions.showDeleteConfirm}
+        accountActions={t.accountActions}
       />
 
       {/* 確認ダイアログ */}
@@ -87,6 +114,7 @@ export default function AccountSettingsPage() {
         onConfirmSignOut={actions.handleSignOut}
         onConfirmDelete={actions.handleDeleteAccount}
         onCancel={actions.cancelAction}
+        dialogs={t.dialogs}
       />
     </div>
   )

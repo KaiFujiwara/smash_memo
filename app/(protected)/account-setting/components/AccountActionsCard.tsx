@@ -12,6 +12,21 @@ interface AccountActionsCardProps {
   isDeleting: boolean
   onSignOut: () => void
   onDeleteAccount: () => void
+  accountActions: {
+    title: string
+    signOut: {
+      title: string
+      description: string
+      button: string
+      processing: string
+    }
+    deleteAccount: {
+      title: string
+      description: string
+      button: string
+      processing: string
+    }
+  }
 }
 
 export function AccountActionsCard({
@@ -19,6 +34,7 @@ export function AccountActionsCard({
   isDeleting,
   onSignOut,
   onDeleteAccount,
+  accountActions,
 }: AccountActionsCardProps) {
   return (
     <div className="overflow-hidden rounded-xl bg-white shadow-md">
@@ -26,7 +42,7 @@ export function AccountActionsCard({
       <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white p-4">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-800">
           <Settings size={20} className="text-indigo-500" />
-          アカウント操作
+          {accountActions.title}
         </h2>
       </div>
 
@@ -38,8 +54,8 @@ export function AccountActionsCard({
             <div className="flex items-center gap-3">
               <LogOut size={20} className="text-gray-600" />
               <div>
-                <h3 className="font-medium text-gray-900">ログアウト</h3>
-                <p className="text-sm text-gray-600">アプリからログアウトします</p>
+                <h3 className="font-medium text-gray-900">{accountActions.signOut.title}</h3>
+                <p className="text-sm text-gray-600">{accountActions.signOut.description}</p>
               </div>
             </div>
             <button
@@ -50,12 +66,12 @@ export function AccountActionsCard({
               {isSigningOut ? (
                 <>
                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                  ログアウト中...
+                  {accountActions.signOut.processing}
                 </>
               ) : (
                 <>
                   <LogOut size={16} />
-                  ログアウト
+                  {accountActions.signOut.button}
                 </>
               )}
             </button>
@@ -66,8 +82,8 @@ export function AccountActionsCard({
             <div className="flex items-center gap-3">
               <Trash2 size={20} className="text-red-600" />
               <div>
-                <h3 className="font-medium text-gray-900">アカウント削除</h3>
-                <p className="text-sm text-gray-600">アカウントとすべてのデータを完全に削除します</p>
+                <h3 className="font-medium text-gray-900">{accountActions.deleteAccount.title}</h3>
+                <p className="text-sm text-gray-600">{accountActions.deleteAccount.description}</p>
               </div>
             </div>
             <button
@@ -78,12 +94,12 @@ export function AccountActionsCard({
               {isDeleting ? (
                 <>
                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                  削除中...
+                  {accountActions.deleteAccount.processing}
                 </>
               ) : (
                 <>
                   <Trash2 size={16} />
-                  アカウントを削除
+                  {accountActions.deleteAccount.button}
                 </>
               )}
             </button>

@@ -12,9 +12,13 @@ import type { AccountSettingsState, UserInfo } from '../types'
 
 interface UseAccountDataProps {
   updateState: (updates: Partial<AccountSettingsState>) => void
+  messages: {
+    fetchUserError: string
+    fetchUserConsole: string
+  }
 }
 
-export function useAccountData({ updateState }: UseAccountDataProps) {
+export function useAccountData({ updateState, messages }: UseAccountDataProps) {
   useEffect(() => {
     async function loadUserInfo() {
       try {
@@ -29,8 +33,8 @@ export function useAccountData({ updateState }: UseAccountDataProps) {
           isLoading: false,
         })
       } catch (error) {
-        console.error('ユーザー情報の取得に失敗:', error)
-        toast.error('ユーザー情報の取得に失敗しました')
+        console.error(messages.fetchUserConsole, error)
+        toast.error(messages.fetchUserError)
         updateState({
           user: null,
           isLoading: false,
@@ -39,5 +43,5 @@ export function useAccountData({ updateState }: UseAccountDataProps) {
     }
 
     loadUserInfo()
-  }, []) // updateStateを依存配列から除去
+  }, []) // updateStateとmessagesを依存配列から除去
 }

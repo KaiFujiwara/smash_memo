@@ -14,9 +14,16 @@ import type { AccountSettingsState } from '../types'
 interface UseAccountActionsProps {
   state: AccountSettingsState
   updateState: (updates: Partial<AccountSettingsState>) => void
+  messages: {
+    signOutSuccess: string
+    signOutError: string
+    deleteError: string
+    signOutConsole: string
+    deleteConsole: string
+  }
 }
 
-export function useAccountActions({ state, updateState }: UseAccountActionsProps) {
+export function useAccountActions({ state, updateState, messages }: UseAccountActionsProps) {
   const router = useRouter()
 
   // ログアウト処理
@@ -26,16 +33,16 @@ export function useAccountActions({ state, updateState }: UseAccountActionsProps
     try {
       await signOut()
       router.push('/login')
-      toast.success('ログアウトしました')
+      toast.success(messages.signOutSuccess)
     } catch (error) {
-      console.error('ログアウトエラー:', error)
-      toast.error('ログアウトに失敗しました')
+      console.error(messages.signOutConsole, error)
+      toast.error(messages.signOutError)
       updateState({ 
         isSigningOut: false,
         showSignOutConfirm: false 
       })
     }
-  }, [router, updateState])
+  }, [router, updateState, messages])
 
   // アカウント削除処理
   const handleDeleteAccount = useCallback(async () => {
@@ -47,7 +54,7 @@ export function useAccountActions({ state, updateState }: UseAccountActionsProps
       try {
         await signOut()
       } catch (signOutError) {
-        console.error('ログアウトエラー:', signOutError)
+        console.error(messages.signOutConsole, signOutError)
         // ログアウトエラーがあってもリダイレクトは実行
       }
       
@@ -56,14 +63,14 @@ export function useAccountActions({ state, updateState }: UseAccountActionsProps
       router.push('/login')
       
     } catch (error) {
-      console.error('アカウント削除エラー:', error)
-      toast.error('アカウントの削除に失敗しました')
+      console.error(messages.deleteConsole, error)
+      toast.error(messages.deleteError)
       updateState({ 
         isDeleting: false,
         showDeleteConfirm: false 
       })
     }
-  }, [router, updateState])
+  }, [router, updateState, messages])
 
   // ログアウト確認ダイアログ表示
   const showSignOutConfirm = useCallback(() => {

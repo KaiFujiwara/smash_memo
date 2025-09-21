@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "title": "アカウント設定 | スマメモ",
+    "description": "アカウント情報の確認と管理"
+  },
+  "title": "アカウント設定",
+  "userInfo": {
+    "title": "ユーザー情報",
+    "email": "メールアドレス",
+    "provider": "ログイン方法",
+    "errorMessage": "ユーザー情報を取得できませんでした"
+  },
+  "accountActions": {
+    "title": "アカウント操作",
+    "signOut": {
+      "title": "ログアウト",
+      "description": "アプリからログアウトします",
+      "button": "ログアウト",
+      "processing": "ログアウト中..."
+    },
+    "deleteAccount": {
+      "title": "アカウント削除",
+      "description": "アカウントとすべてのデータを完全に削除します",
+      "button": "アカウントを削除",
+      "processing": "削除中..."
+    }
+  },
+  "dialogs": {
+    "signOut": {
+      "title": "ログアウトの確認",
+      "message": "本当にログアウトしますか？",
+      "confirm": "ログアウト",
+      "confirming": "ログアウト中...",
+      "cancel": "キャンセル"
+    },
+    "deleteAccount": {
+      "title": "アカウント削除の確認",
+      "message": "アカウントとすべてのデータを削除します。",
+      "warning": "本当に削除しますか？",
+      "noticeTitle": "⚠️ 重要な注意事項",
+      "notes": {
+        "1": "Googleアカウントとの連携は残ります",
+        "2": "再ログイン時は新規アカウントとして作成されます",
+        "3": "削除されたデータは復元できません"
+      },
+      "confirm": "削除する",
+      "confirming": "削除中...",
+      "cancel": "キャンセル"
+    }
+  },
+  "messages": {
+    "signOutSuccess": "ログアウトしました",
+    "signOutError": "ログアウトに失敗しました",
+    "deleteSuccess": "アカウントを削除しました",
+    "deleteError": "アカウントの削除に失敗しました",
+    "fetchUserError": "ユーザー情報の取得に失敗しました"
+  },
+  "errors": {
+    "signOutConsole": "ログアウトエラー:",
+    "deleteConsole": "アカウント削除エラー:",
+    "fetchUserConsole": "ユーザー情報の取得に失敗:"
+  }
+}

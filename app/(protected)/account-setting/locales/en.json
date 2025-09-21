@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "title": "Account Settings | Smash Memo",
+    "description": "View and manage your account information"
+  },
+  "title": "Account Settings",
+  "userInfo": {
+    "title": "User Information",
+    "email": "Email Address",
+    "provider": "Login Method",
+    "errorMessage": "Failed to load user information"
+  },
+  "accountActions": {
+    "title": "Account Actions",
+    "signOut": {
+      "title": "Sign Out",
+      "description": "Sign out from the application",
+      "button": "Sign Out",
+      "processing": "Signing out..."
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "description": "Permanently delete your account and all data",
+      "button": "Delete Account",
+      "processing": "Deleting..."
+    }
+  },
+  "dialogs": {
+    "signOut": {
+      "title": "Confirm Sign Out",
+      "message": "Are you sure you want to sign out?",
+      "confirm": "Sign Out",
+      "confirming": "Signing out...",
+      "cancel": "Cancel"
+    },
+    "deleteAccount": {
+      "title": "Confirm Account Deletion",
+      "message": "This will delete your account and all data.",
+      "warning": "Are you sure you want to proceed?",
+      "noticeTitle": "⚠️ Important Notice",
+      "notes": {
+        "1": "Your Google account connection will remain",
+        "2": "Re-signing in will create a new account",
+        "3": "Deleted data cannot be recovered"
+      },
+      "confirm": "Delete",
+      "confirming": "Deleting...",
+      "cancel": "Cancel"
+    }
+  },
+  "messages": {
+    "signOutSuccess": "Successfully signed out",
+    "signOutError": "Failed to sign out",
+    "deleteSuccess": "Account deleted successfully",
+    "deleteError": "Failed to delete account",
+    "fetchUserError": "Failed to fetch user information"
+  },
+  "errors": {
+    "signOutConsole": "Sign out error:",
+    "deleteConsole": "Account deletion error:",
+    "fetchUserConsole": "Failed to fetch user information:"
+  }
+}
