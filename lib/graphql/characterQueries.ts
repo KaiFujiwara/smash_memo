@@ -32,6 +32,8 @@ export async function listCharacters(): Promise<Character[]> {
       .map(char => ({
         id: char.id,
         name: char.name,
+        nameEn: char.nameEn,
+        nameZh: char.nameZh,
         icon: char.icon,
         order: char.order,
         createdAt: char.createdAt,
@@ -66,6 +68,8 @@ export async function getCharacter(id: string): Promise<Character | null> {
     return {
       id: result.data.id,
       name: result.data.name,
+      nameEn: result.data.nameEn,
+      nameZh: result.data.nameZh,
       icon: result.data.icon,
       order: result.data.order,
       createdAt: result.data.createdAt,

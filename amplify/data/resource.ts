@@ -5,6 +5,8 @@ const schema = a.schema({
   Character: a
     .model({
       name: a.string().required(),
+      nameEn: a.string().required(),
+      nameZh: a.string().required(),
       icon: a.string().required(),
       order: a.integer().required()
     })

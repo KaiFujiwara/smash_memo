@@ -29,7 +29,7 @@ export default function CharacterMemoPage() {
   const params = useParams()
   const router = useRouter()
   const characterId = params.characterId as string
-  const { setCharacterName, setCharacterIcon } = useHeader()
+  const { setCharacterName, setCharacterIcon, setCurrentCharacter } = useHeader()
   const { t } = useProtectedTranslations(jaTranslations, enTranslations, zhTranslations)
 
   const [character, setCharacter] = useState<Character | null>(null)
@@ -61,6 +61,7 @@ export default function CharacterMemoPage() {
         setCharacter(characterData)
         setCharacterName(characterData.name)
         setCharacterIcon(characterData.icon)
+        setCurrentCharacter(characterData)
         setMemoItems(memoItemsData)
 
         // メモ内容を初期化
@@ -96,8 +97,9 @@ export default function CharacterMemoPage() {
     return () => {
       setCharacterName(null)
       setCharacterIcon(null)
+      setCurrentCharacter(null)
     }
-  }, [characterId, router, setCharacterName, setCharacterIcon])
+  }, [characterId, router, setCharacterName, setCharacterIcon, setCurrentCharacter])
 
 
   // メモ保存

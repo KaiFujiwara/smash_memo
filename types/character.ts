@@ -11,8 +11,12 @@
 export interface Character {
   /** キャラクターID */
   id: string
-  /** キャラクター名 */
+  /** キャラクター名 (日本語) */
   name: string
+  /** キャラクター名 (英語) */
+  nameEn?: string
+  /** キャラクター名 (中国語) */
+  nameZh?: string
   /** キャラクター画像URL */
   icon: string
   /** 表示順序 */

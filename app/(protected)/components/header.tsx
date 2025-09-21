@@ -8,6 +8,7 @@ import { User, Settings, LogOut, Home, Menu, X, ChevronDown, HelpCircle } from '
 import { useHeader } from '@/contexts/headerContext'
 import { fetchCharacters } from '@/services/characterService'
 import { useProtectedTranslations } from '@/hooks/useProtectedTranslations'
+import { getCharacterName } from '@/lib/utils/characterNameUtils'
 import ProtectedLanguageSelector from './ProtectedLanguageSelector'
 import type { Character } from '@/types'
 import jaTranslations from './locales/ja.json'
@@ -25,7 +26,7 @@ export default function Header() {
   const spUserMenuRef = useRef<HTMLDivElement>(null)
   const characterMenuRef = useRef<HTMLDivElement>(null)
   const characterListRef = useRef<HTMLDivElement>(null)
-  const { characterName, characterIcon } = useHeader()
+  const { characterName, characterIcon, currentCharacter } = useHeader()
   
   // 翻訳テキスト取得
   const { locale, t } = useProtectedTranslations(jaTranslations, enTranslations, zhTranslations)
@@ -44,7 +45,7 @@ export default function Header() {
   const getPageInfo = (path: string) => {
     // キャラ対策メモページの場合
     if (path.startsWith('/memo/')) {
-      const title = characterName || t.pages.characterMemo
+      const title = currentCharacter ? getCharacterName(currentCharacter, locale) : (characterName || t.pages.characterMemo)
       return { title, icon: null }
     }
     
@@ -140,7 +141,7 @@ export default function Header() {
           {pathname.startsWith('/memo/') && characterIcon ? (
             <img
               src={characterIcon}
-              alt={characterName || t.common.character}
+              alt={currentCharacter ? getCharacterName(currentCharacter, locale) : (characterName || t.common.character)}
               className="w-8 h-8 rounded-full object-contain bg-white border-2 border-gray-400"
             />
           ) : pageInfo.icon && (
@@ -197,10 +198,10 @@ export default function Header() {
                     >
                       <img
                         src={character.icon}
-                        alt={character.name}
+                        alt={getCharacterName(character, locale)}
                         className="w-8 h-8 rounded-full object-contain bg-white border border-gray-300"
                       />
-                      <span>{character.name}</span>
+                      <span>{getCharacterName(character, locale)}</span>
                     </button>
                   ))}
                 </div>
