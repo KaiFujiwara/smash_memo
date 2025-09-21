@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "title": "キャラクターメモ | スマメモ",
+    "description": "キャラクター対策のメモ"
+  },
+  "memo": {
+    "save": "保存する",
+    "saving": "保存中...",
+    "unsaved": "未保存",
+    "placeholder": "メモを入力してください...",
+    "emptyPlaceholder": "メモを入力...",
+    "saveTitle": "保存"
+  },
+  "messages": {
+    "characterNotFound": "キャラクターが見つかりません",
+    "dataLoadError": "データの読み込みに失敗しました",
+    "memoSaved": "メモを保存しました",
+    "memoSaveError": "メモの保存に失敗しました"
+  },
+  "errors": {
+    "dataLoadConsole": "データの読み込みに失敗:",
+    "memoSaveConsole": "メモの保存に失敗:"
+  },
+  "emptyState": {
+    "title": "メモ項目がまだ設定されていません",
+    "guidePc": "画面上部の「共通メモ項目設定」から設定してください",
+    "guideMobile": "画面右上のメニュー（≡）を開いて下部にある「共通メモ項目設定」から設定してください",
+    "settingsLinkText": "共通メモ項目設定"
+  }
+}

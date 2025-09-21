@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "title": "角色备忘录 | Smash Memo",
+    "description": "角色对策笔记"
+  },
+  "memo": {
+    "save": "保存",
+    "saving": "保存中...",
+    "unsaved": "尚未保存",
+    "placeholder": "输入内容...",
+    "emptyPlaceholder": "输入内容...",
+    "saveTitle": "保存"
+  },
+  "messages": {
+    "characterNotFound": "未查询到角色",
+    "dataLoadError": "数据加载失败",
+    "memoSaved": "忘录已保存",
+    "memoSaveError": "备忘录保存失败"
+  },
+  "errors": {
+    "dataLoadConsole": "数据加载失败:",
+    "memoSaveConsole": "备忘录保存失败:"
+  },
+  "emptyState": {
+    "title": "未设置备忘录项目",
+    "guidePc": "请点击页面上方【通用备忘录项目设置】进行设置",
+    "guideMobile": "请点击右上方的菜单栏（≡），在底部进行【通用备忘录项目设置】进行设置",
+    "settingsLinkText": "通用备忘录项目设置"
+  }
+}

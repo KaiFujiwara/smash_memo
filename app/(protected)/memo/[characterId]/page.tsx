@@ -3,12 +3,16 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { useProtectedTranslations } from '@/hooks/useProtectedTranslations'
 import { fetchCharacter } from '@/services/characterService'
 import { getMemoItems } from '@/services/memoItemService'
 import { getMemoContentsByCharacter, updateMemoContent, createMemoContent } from '@/services/memoContentService'
 import { useHeader } from '@/contexts/headerContext'
 import Loading from '@/app/loading'
 import type { Character, MemoItem } from '@/types'
+import jaTranslations from './locales/ja.json'
+import enTranslations from './locales/en.json'
+import zhTranslations from './locales/zh.json'
 
 interface MemoContentState {
   [memoItemId: string]: {
@@ -26,6 +30,7 @@ export default function CharacterMemoPage() {
   const router = useRouter()
   const characterId = params.characterId as string
   const { setCharacterName, setCharacterIcon } = useHeader()
+  const { t } = useProtectedTranslations(jaTranslations, enTranslations, zhTranslations)
 
   const [character, setCharacter] = useState<Character | null>(null)
   const [memoItems, setMemoItems] = useState<MemoItem[]>([])
@@ -48,7 +53,7 @@ export default function CharacterMemoPage() {
         const memoItemsData = memoItemsResult.items
 
         if (!characterData) {
-          toast.error('キャラクターが見つかりません')
+          toast.error(t.messages.characterNotFound)
           router.push('/character-list')
           return
         }
@@ -78,8 +83,8 @@ export default function CharacterMemoPage() {
 
 
       } catch (error) {
-        console.error('データの読み込みに失敗:', error)
-        toast.error('データの読み込みに失敗しました')
+        console.error(t.errors.dataLoadConsole, error)
+        toast.error(t.messages.dataLoadError)
       } finally {
         setIsLoading(false)
       }
@@ -127,10 +132,10 @@ export default function CharacterMemoPage() {
         }
       }))
       
-      toast.success('メモを保存しました')
+      toast.success(t.messages.memoSaved)
     } catch (error) {
-      console.error('メモの保存に失敗:', error)
-      toast.error('メモの保存に失敗しました')
+      console.error(t.errors.memoSaveConsole, error)
+      toast.error(t.messages.memoSaveError)
     }
   }, [characterId, memoContents])
 
@@ -196,7 +201,7 @@ export default function CharacterMemoPage() {
   if (!character) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">キャラクターが見つかりません</div>
+        <div className="text-gray-500">{t.messages.characterNotFound}</div>
       </div>
     )
   }
@@ -211,16 +216,16 @@ export default function CharacterMemoPage() {
             <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-6 max-w-md mx-auto">
               <div className="space-y-3">
                 <p className="text-blue-900 dark:text-blue-100 font-semibold">
-                  メモ項目がまだ設定されていません
+                  {t.emptyState.title}
                 </p>
                 <div className="text-sm text-blue-800 dark:text-blue-200">
                   {/* PC版の導線 */}
                   <p className="hidden sm:block">
-                    画面上部の<span className="font-semibold">「共通メモ項目設定」</span>から設定してください
+                    {t.emptyState.guidePc}
                   </p>
                   {/* SP版の導線 */}
                   <p className="sm:hidden">
-                    画面右上のメニュー（≡）を開いて下部にある<span className="font-semibold">「共通メモ項目設定」</span>から設定してください
+                    {t.emptyState.guideMobile}
                   </p>
                 </div>
               </div>
@@ -244,7 +249,7 @@ export default function CharacterMemoPage() {
                           <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                           </svg>
-                          未保存
+                          {t.memo.unsaved}
                         </span>
                       )}
                     </div>
@@ -253,12 +258,12 @@ export default function CharacterMemoPage() {
                       <button
                         onClick={() => handleSave(item.id)}
                         className="inline-flex items-center gap-1 px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded-full text-xs font-medium transition-colors shadow-sm"
-                        title="保存"
+                        title={t.memo.saveTitle}
                       >
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
-                        保存する
+                        {t.memo.save}
                       </button>
                     )}
                   </div>
@@ -272,7 +277,7 @@ export default function CharacterMemoPage() {
                       value={content.content}
                       onChange={(e) => handleContentChange(item.id, e.target.value)}
                       onBlur={() => finishEditing(item.id)}
-                      placeholder="メモを入力してください..."
+                      placeholder={t.memo.placeholder}
                       className="w-full p-3 border border-gray-300 rounded-lg resize-vertical focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       style={{ height: 'auto' }}
                       autoFocus
@@ -292,7 +297,7 @@ export default function CharacterMemoPage() {
                           {content.content}
                         </pre>
                       ) : (
-                        <p className="text-gray-500 italic">メモを入力...</p>
+                        <p className="text-gray-500 italic">{t.memo.emptyPlaceholder}</p>
                       )}
                     </div>
                   )}

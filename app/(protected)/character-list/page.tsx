@@ -1,12 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useProtectedTranslations } from '@/hooks/useProtectedTranslations'
 import { CharacterCard } from './components/CharacterCard'
 import { fetchCharacters } from '@/services/characterService'
 import Loading from '@/app/loading'
 import type { Character } from '@/types'
+import jaTranslations from './locales/ja.json'
+import enTranslations from './locales/en.json'
+import zhTranslations from './locales/zh.json'
 
 export default function CharacterList() {
+  const { t } = useProtectedTranslations(jaTranslations, enTranslations, zhTranslations)
   const [characters, setCharacters] = useState<Character[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -18,7 +23,7 @@ export default function CharacterList() {
         const charactersData = await fetchCharacters()
         setCharacters(charactersData)
       } catch (error) {
-        console.error('キャラクターの読み込みに失敗:', error)
+        console.error(t.errors.loadConsole, error)
       } finally {
         setIsLoading(false)
       }
@@ -36,7 +41,7 @@ export default function CharacterList() {
       {/* キャラクターリスト */}
       {characters.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500">キャラクターが見つかりません</p>
+          <p className="text-gray-500">{t.messages.noCharacters}</p>
         </div>
       ) : (
         <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 xl:grid-cols-14 gap-3">

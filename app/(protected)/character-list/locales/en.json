@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "title": "Character List | Smash Memo",
+    "description": "Super Smash Bros. SP character list"
+  },
+  "title": "Character List",
+  "messages": {
+    "noCharacters": "No characters found",
+    "loadError": "Failed to load characters"
+  },
+  "errors": {
+    "loadConsole": "Failed to load characters:"
+  }
+}

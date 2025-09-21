@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "title": "キャラクターリスト | スマメモ",
+    "description": "スマブラSPのキャラクター一覧"
+  },
+  "title": "キャラクターリスト",
+  "messages": {
+    "noCharacters": "キャラクターが見つかりません",
+    "loadError": "キャラクターの読み込みに失敗しました"
+  },
+  "errors": {
+    "loadConsole": "キャラクターの読み込みに失敗:"
+  }
+}

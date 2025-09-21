@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "title": "角色列表 | Smash Memo",
+    "description": "任天堂明星大乱斗SP角色列表"
+  },
+  "title": "角色列表",
+  "messages": {
+    "noCharacters": "未查询到角色",
+    "loadError": "角色加载失败"
+  },
+  "errors": {
+    "loadConsole": "角色加载失败:"
+  }
+}

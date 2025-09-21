@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "title": "Character Memo | Smash Memo",
+    "description": "Character matchup notes"
+  },
+  "memo": {
+    "save": "Save",
+    "saving": "Saving...",
+    "unsaved": "Unsaved",
+    "placeholder": "Enter your memo...",
+    "emptyPlaceholder": "Enter memo...",
+    "saveTitle": "Save"
+  },
+  "messages": {
+    "characterNotFound": "Character not found",
+    "dataLoadError": "Failed to load data",
+    "memoSaved": "Memo saved successfully",
+    "memoSaveError": "Failed to save memo"
+  },
+  "errors": {
+    "dataLoadConsole": "Failed to load data:",
+    "memoSaveConsole": "Failed to save memo:"
+  },
+  "emptyState": {
+    "title": "Memo items have not been configured yet",
+    "guidePc": "Please configure them from \"Memo Settings\" at the top of the screen",
+    "guideMobile": "Open the menu (≡) at the top right and select \"Memo Settings\" at the bottom",
+    "settingsLinkText": "Memo Settings"
+  }
+}
