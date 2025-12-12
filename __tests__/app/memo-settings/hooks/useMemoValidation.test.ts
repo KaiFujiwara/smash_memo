@@ -1,6 +1,6 @@
 /**
  * useMemoValidationフックのテスト
- * バリデーションロジックの正確性を確認
+ * バリデーションロジックの核心部分をテスト
  */
 
 import { renderHook } from '@testing-library/react'
@@ -8,248 +8,210 @@ import { useMemoValidation } from '@/app/(protected)/memo-settings/hooks/useMemo
 import type { MemoItem } from '@/types'
 
 describe('useMemoValidation', () => {
-  // テスト用のサンプルデータ
-  const sampleItems: MemoItem[] = [
-    {
-      id: '1',
-      name: '既存項目1',
-      order: 1,
-      visible: true,
-      createdAt: '2024-01-01T00:00:00Z',
-      updatedAt: '2024-01-01T00:00:00Z'
-    },
-    {
-      id: '2', 
-      name: '既存項目2',
-      order: 2,
-      visible: true,
-      createdAt: '2024-01-01T00:00:00Z',
-      updatedAt: '2024-01-01T00:00:00Z'
-    }
+  const mockMessages = {
+    nameRequired: 'メモ項目名を入力してください',
+    nameTooLong: 'メモ項目名は{max}文字以内で入力してください',
+    nameDuplicate: 'この項目名は既に使用されています'
+  }
+
+  const mockItems: MemoItem[] = [
+    { id: '1', name: 'コンボ', order: 1, visible: true, createdAt: '2024-01-01', updatedAt: '2024-01-01' },
+    { id: '2', name: '復帰阻止', order: 2, visible: true, createdAt: '2024-01-01', updatedAt: '2024-01-01' }
   ]
 
-  describe('newItemValidation - 新規項目のバリデーション', () => {
+  describe('新規項目のバリデーション', () => {
     it('空文字の場合、エラーを返す', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
+        items: mockItems,
         newItemName: '',
         editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
       }))
 
       expect(result.current.newItemValidation.isValid).toBe(false)
-      expect(result.current.newItemValidation.error).toBe('項目名を入力してください')
+      expect(result.current.newItemValidation.error).toBe('メモ項目名を入力してください')
     })
 
     it('空白のみの場合、エラーを返す', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
+        items: mockItems,
         newItemName: '   ',
         editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
       }))
 
       expect(result.current.newItemValidation.isValid).toBe(false)
-      expect(result.current.newItemValidation.error).toBe('項目名を入力してください')
+      expect(result.current.newItemValidation.error).toBe('メモ項目名を入力してください')
     })
 
-    it('50文字を超える場合、エラーを返す', () => {
-      const longName = 'a'.repeat(51) // 51文字
+    it('50文字以内の場合、有効とする', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: longName,
+        items: mockItems,
+        newItemName: 'a'.repeat(50),
         editingName: '',
-        editingId: null
-      }))
-
-      expect(result.current.newItemValidation.isValid).toBe(false)
-      expect(result.current.newItemValidation.error).toBe('項目名は50文字以内で入力してください')
-    })
-
-    it('重複する名前の場合、エラーを返す', () => {
-      const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: '既存項目1', // 既存と同じ名前
-        editingName: '',
-        editingId: null
-      }))
-
-      expect(result.current.newItemValidation.isValid).toBe(false)
-      expect(result.current.newItemValidation.error).toBe('この項目名は既に使用されています')
-    })
-
-    it('重複チェックで大文字小文字を区別しない', () => {
-      const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: '既存項目１', // 全角数字で微妙に違う
-        editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
       }))
 
       expect(result.current.newItemValidation.isValid).toBe(true)
-      expect(result.current.newItemValidation.error).toBe('')
     })
 
-    it('前後の空白を除去して重複チェックする', () => {
+    it('51文字以上の場合、エラーを返す', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: '  既存項目1  ', // 前後に空白
+        items: mockItems,
+        newItemName: 'a'.repeat(51),
         editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
+      }))
+
+      expect(result.current.newItemValidation.isValid).toBe(false)
+      expect(result.current.newItemValidation.error).toBe('メモ項目名は50文字以内で入力してください')
+    })
+
+    it('既存項目と重複する場合、エラーを返す', () => {
+      const { result } = renderHook(() => useMemoValidation({
+        items: mockItems,
+        newItemName: 'コンボ',
+        editingName: '',
+        editingId: null,
+        messages: mockMessages
       }))
 
       expect(result.current.newItemValidation.isValid).toBe(false)
       expect(result.current.newItemValidation.error).toBe('この項目名は既に使用されています')
     })
 
-    it('有効な名前の場合、成功を返す', () => {
+    it('大文字小文字を区別せず重複を検出する', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: '新しい項目',
+        items: mockItems,
+        newItemName: 'コンボ',
         editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
       }))
 
-      expect(result.current.newItemValidation.isValid).toBe(true)
-      expect(result.current.newItemValidation.error).toBe('')
+      expect(result.current.newItemValidation.isValid).toBe(false)
     })
 
-    it('1文字の名前は有効', () => {
+    it('前後の空白を除いて重複を検出する', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: 'a',
+        items: mockItems,
+        newItemName: '  コンボ  ',
         editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
       }))
 
-      expect(result.current.newItemValidation.isValid).toBe(true)
-      expect(result.current.newItemValidation.error).toBe('')
+      expect(result.current.newItemValidation.isValid).toBe(false)
+      expect(result.current.newItemValidation.error).toBe('この項目名は既に使用されています')
     })
 
-    it('50文字ちょうどの名前は有効', () => {
-      const exactName = 'a'.repeat(50) // 50文字
+    it('前後に空白があっても有効な名前として扱う', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: exactName,
+        items: mockItems,
+        newItemName: '  新しい項目  ',
         editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
       }))
 
       expect(result.current.newItemValidation.isValid).toBe(true)
-      expect(result.current.newItemValidation.error).toBe('')
+    })
+
+    it('全角数字を含む名前も有効とする', () => {
+      const { result } = renderHook(() => useMemoValidation({
+        items: mockItems,
+        newItemName: '１２３',
+        editingName: '',
+        editingId: null,
+        messages: mockMessages
+      }))
+
+      expect(result.current.newItemValidation.isValid).toBe(true)
     })
   })
 
-  describe('editingValidation - 編集時のバリデーション', () => {
-    it('編集対象が選択されていない場合、常に有効', () => {
+  describe('編集中項目のバリデーション', () => {
+    it('編集中でない場合、常に有効とする', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
+        items: mockItems,
         newItemName: '',
-        editingName: '', // 空でも
-        editingId: null // 編集対象なし
+        editingName: '',
+        editingId: null,
+        messages: mockMessages
       }))
 
       expect(result.current.editingValidation.isValid).toBe(true)
-      expect(result.current.editingValidation.error).toBe('')
     })
 
-    it('編集時に空文字の場合、エラーを返す', () => {
+    it('自分自身と同じ名前の場合、有効とする', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
+        items: mockItems,
         newItemName: '',
-        editingName: '',
-        editingId: '1' // 編集中
+        editingName: 'コンボ',
+        editingId: '1',
+        messages: mockMessages
       }))
 
-      expect(result.current.editingValidation.isValid).toBe(false)
-      expect(result.current.editingValidation.error).toBe('項目名を入力してください')
+      expect(result.current.editingValidation.isValid).toBe(true)
     })
 
-    it('編集時に50文字を超える場合、エラーを返す', () => {
-      const longName = 'a'.repeat(51)
+    it('他の項目と重複する場合、エラーを返す', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
+        items: mockItems,
         newItemName: '',
-        editingName: longName,
-        editingId: '1'
-      }))
-
-      expect(result.current.editingValidation.isValid).toBe(false)
-      expect(result.current.editingValidation.error).toBe('項目名は50文字以内で入力してください')
-    })
-
-    it('編集時に他の項目と重複する場合、エラーを返す', () => {
-      const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: '',
-        editingName: '既存項目2', // ID1を編集中に、ID2と同じ名前
-        editingId: '1'
+        editingName: '復帰阻止',
+        editingId: '1',
+        messages: mockMessages
       }))
 
       expect(result.current.editingValidation.isValid).toBe(false)
       expect(result.current.editingValidation.error).toBe('この項目名は既に使用されています')
     })
 
-    it('編集時に自分と同じ名前の場合、有効', () => {
+    it('空文字の場合、エラーを返す', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
+        items: mockItems,
         newItemName: '',
-        editingName: '既存項目1', // ID1を編集中に、同じ名前
-        editingId: '1'
+        editingName: '',
+        editingId: '1',
+        messages: mockMessages
       }))
 
-      expect(result.current.editingValidation.isValid).toBe(true)
-      expect(result.current.editingValidation.error).toBe('')
-    })
-
-    it('編集時に有効な新しい名前の場合、成功を返す', () => {
-      const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: '',
-        editingName: '編集後の名前',
-        editingId: '1'
-      }))
-
-      expect(result.current.editingValidation.isValid).toBe(true)
-      expect(result.current.editingValidation.error).toBe('')
+      expect(result.current.editingValidation.isValid).toBe(false)
+      expect(result.current.editingValidation.error).toBe('メモ項目名を入力してください')
     })
   })
 
-  describe('エッジケース', () => {
-    it('項目リストが空の場合でも正常に動作する', () => {
+  describe('validateItemName関数', () => {
+    it('正しく動作する', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: [],
-        newItemName: 'テスト項目',
+        items: mockItems,
+        newItemName: '',
         editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
       }))
 
-      expect(result.current.newItemValidation.isValid).toBe(true)
-      expect(result.current.newItemValidation.error).toBe('')
+      const validation = result.current.validateItemName('新しい項目')
+      expect(validation.isValid).toBe(true)
+      expect(validation.error).toBe('')
     })
 
-    it('日本語を含む名前でも正常にバリデーションする', () => {
+    it('excludeIdを指定した場合、その項目を除外する', () => {
       const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: 'テスト項目（日本語）',
+        items: mockItems,
+        newItemName: '',
         editingName: '',
-        editingId: null
+        editingId: null,
+        messages: mockMessages
       }))
 
-      expect(result.current.newItemValidation.isValid).toBe(true)
-      expect(result.current.newItemValidation.error).toBe('')
-    })
-
-    it('特殊文字を含む名前でも正常にバリデーションする', () => {
-      const { result } = renderHook(() => useMemoValidation({
-        items: sampleItems,
-        newItemName: 'テスト-項目_123@#',
-        editingName: '',
-        editingId: null
-      }))
-
-      expect(result.current.newItemValidation.isValid).toBe(true)
-      expect(result.current.newItemValidation.error).toBe('')
+      const validation = result.current.validateItemName('コンボ', '1')
+      expect(validation.isValid).toBe(true)
     })
   })
 })

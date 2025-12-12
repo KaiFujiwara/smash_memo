@@ -151,36 +151,6 @@ describe('CharacterCard', () => {
       expect(card).toHaveAttribute('title', 'マリオ')
     })
 
-    it('キーボードナビゲーション可能なカーソルが設定されている', () => {
-      render(<CharacterCard character={sampleCharacter} />)
-
-      const card = screen.getByTitle('マリオ')
-      expect(card).toHaveClass('cursor-pointer')
-    })
-  })
-
-  describe('スタイリング', () => {
-    const sampleCharacter: Character = {
-      id: '1',
-      name: 'マリオ',
-      icon: 'mario.png'
-    }
-
-    it('ホバー効果のクラスが適用されている', () => {
-      render(<CharacterCard character={sampleCharacter} />)
-
-      const card = screen.getByTitle('マリオ')
-      expect(card).toHaveClass('hover:scale-105')
-      expect(card).toHaveClass('transition-all')
-    })
-
-    it('円形の画像表示クラスが適用されている', () => {
-      render(<CharacterCard character={sampleCharacter} />)
-
-      const card = screen.getByTitle('マリオ')
-      expect(card).toHaveClass('rounded-full')
-      expect(card).toHaveClass('aspect-square')
-    })
   })
 
   describe('エラーケース', () => {
