@@ -11,6 +11,15 @@
     "emptyPlaceholder": "输入内容...",
     "saveTitle": "保存"
   },
+  "image": {
+    "addImage": "图片",
+    "uploading": "上传中",
+    "deleteImage": "删除图片",
+    "uploadError": "图片上传失败",
+    "deleteError": "图片删除失败",
+    "uploadSuccess": "图片已上传",
+    "deleteSuccess": "图片已删除"
+  },
   "messages": {
     "characterNotFound": "未查询到角色",
     "dataLoadError": "数据加载失败",

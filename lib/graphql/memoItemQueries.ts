@@ -74,9 +74,9 @@ export const CREATE_MEMO_ITEM = `
 
 /**
  * メモ項目を更新するミューテーション
- * 
+ *
  * 既存のメモ項目の名前、順序、表示設定を更新します。
- * 楽観的排他制御のため_versionフィールドが必要です。
+ * 注: Amplify Gen2では楽観的排他制御（_version）はデフォルト無効のため使用していません。
  */
 export const UPDATE_MEMO_ITEM = `
   mutation UpdateMemoItem($input: UpdateMemoItemInput!, $condition: ModelMemoItemConditionInput) {
@@ -95,9 +95,9 @@ export const UPDATE_MEMO_ITEM = `
 
 /**
  * メモ項目を削除するミューテーション
- * 
+ *
  * 指定されたメモ項目をDynamoDBから削除します。
- * 楽観的排他制御のため_versionフィールドが必要です。
+ * 注: Amplify Gen2では楽観的排他制御（_version）はデフォルト無効のため使用していません。
  */
 export const DELETE_MEMO_ITEM = `
   mutation DeleteMemoItem($input: DeleteMemoItemInput!, $condition: ModelMemoItemConditionInput) {

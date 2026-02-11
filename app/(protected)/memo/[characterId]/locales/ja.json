@@ -11,6 +11,15 @@
     "emptyPlaceholder": "メモを入力...",
     "saveTitle": "保存"
   },
+  "image": {
+    "addImage": "画像",
+    "uploading": "送信中",
+    "deleteImage": "画像を削除",
+    "uploadError": "画像のアップロードに失敗しました",
+    "deleteError": "画像の削除に失敗しました",
+    "uploadSuccess": "画像をアップロードしました",
+    "deleteSuccess": "画像を削除しました"
+  },
   "messages": {
     "characterNotFound": "キャラクターが見つかりません",
     "dataLoadError": "データの読み込みに失敗しました",

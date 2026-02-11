@@ -37,13 +37,33 @@ const schema = a.schema({
       characterId: a.string().required(),
       memoItemId: a.string().required(),
       content: a.string(),
-      owner: a.string(), 
+      owner: a.string(),
     })
     .secondaryIndexes(index => [
       // characterIdでクエリするためのGSI
       index("owner").sortKeys(["characterId", "memoItemId"]).queryField("memoContentsByOwnerCharacter"),
       // memoItemIdでクエリするためのGSI（削除時に使用）
       index("memoItemId").queryField("listMemoContentsByMemoItem"),
+    ])
+    .authorization(allow => [
+      // 所有者は全操作可能
+      allow.owner(),
+    ]),
+
+  // メモ画像
+  MemoImage: a
+    .model({
+      memoContentId: a.string().required(),  // 親MemoContentのID
+      s3Key: a.string().required(),          // S3オブジェクトキー
+      fileName: a.string().required(),       // 元ファイル名
+      fileSize: a.integer().required(),      // ファイルサイズ(bytes)
+      mimeType: a.string().required(),       // MIME type
+      order: a.integer().required(),         // 表示順序
+      owner: a.string(),
+    })
+    .secondaryIndexes(index => [
+      // memoContentIdでクエリするためのGSI
+      index("memoContentId").sortKeys(["order"]).queryField("memoImagesByMemoContent"),
     ])
     .authorization(allow => [
       // 所有者は全操作可能

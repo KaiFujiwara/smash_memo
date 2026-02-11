@@ -11,6 +11,15 @@
     "emptyPlaceholder": "Enter memo...",
     "saveTitle": "Save"
   },
+  "image": {
+    "addImage": "Image",
+    "uploading": "Uploading",
+    "deleteImage": "Delete image",
+    "uploadError": "Failed to upload image",
+    "deleteError": "Failed to delete image",
+    "uploadSuccess": "Image uploaded",
+    "deleteSuccess": "Image deleted"
+  },
   "messages": {
     "characterNotFound": "Character not found",
     "dataLoadError": "Failed to load data",

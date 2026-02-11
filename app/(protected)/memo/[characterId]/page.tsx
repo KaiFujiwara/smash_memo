@@ -9,6 +9,7 @@ import { getMemoItems } from '@/services/memoItemService'
 import { getMemoContentsByCharacter, updateMemoContent, createMemoContent } from '@/services/memoContentService'
 import { useHeader } from '@/contexts/headerContext'
 import Loading from '@/app/loading'
+import { MemoItemCard } from './components/MemoItemCard'
 import type { Character, MemoItem } from '@/types'
 import jaTranslations from './locales/ja.json'
 import enTranslations from './locales/en.json'
@@ -239,72 +240,19 @@ export default function CharacterMemoPage() {
             if (!content) return null
 
             return (
-              <div key={item.id} className="bg-white rounded-xl shadow-md overflow-hidden">
-                {/* メモ項目ヘッダー */}
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 px-3 py-2 sm:px-4 sm:py-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-base font-medium text-gray-800">{item.name}</h2>
-                      {/* 未保存マーク */}
-                      {content.hasUnsavedChanges && (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                          </svg>
-                          {t.memo.unsaved}
-                        </span>
-                      )}
-                    </div>
-                    {/* 保存ボタン（変更があるときのみ表示） */}
-                    {content.hasUnsavedChanges && (
-                      <button
-                        onClick={() => handleSave(item.id)}
-                        className="inline-flex items-center gap-1 px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded-full text-xs font-medium transition-colors shadow-sm"
-                        title={t.memo.saveTitle}
-                      >
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        {t.memo.save}
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* メモ内容 */}
-                <div className="p-2 sm:p-4">
-                  {content.isEditing ? (
-                    <textarea
-                      data-memo-id={item.id}
-                      value={content.content}
-                      onChange={(e) => handleContentChange(item.id, e.target.value)}
-                      onBlur={() => finishEditing(item.id)}
-                      placeholder={t.memo.placeholder}
-                      className="w-full p-3 border border-gray-300 rounded-lg resize-vertical focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      style={{ height: 'auto' }}
-                      autoFocus
-                      onInput={(e) => {
-                        const target = e.target as HTMLTextAreaElement;
-                        target.style.height = 'auto';
-                        target.style.height = `${target.scrollHeight}px`;
-                      }}
-                    />
-                  ) : (
-                    <div 
-                      className="sm:min-h-[80px] p-3 bg-gray-50 rounded-lg cursor-text hover:bg-gray-100 transition-colors"
-                      onClick={() => startEditing(item.id)}
-                    >
-                      {content.content ? (
-                        <pre className="whitespace-pre-wrap text-gray-800 font-mono text-sm">
-                          {content.content}
-                        </pre>
-                      ) : (
-                        <p className="text-gray-500 italic">{t.memo.emptyPlaceholder}</p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
+              <MemoItemCard
+                key={item.id}
+                item={item}
+                content={content}
+                onContentChange={handleContentChange}
+                onStartEditing={startEditing}
+                onFinishEditing={finishEditing}
+                onSave={handleSave}
+                t={{
+                  memo: t.memo,
+                  image: t.image,
+                }}
+              />
             )
           })
         )}

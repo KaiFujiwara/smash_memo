@@ -39,4 +39,20 @@ export type {
   DeleteMemoContentInput,
   MemoContentOperationResult,
   CharacterMemoContents
-} from './memoContent' 
+} from './memoContent'
+
+// メモ画像関連の型をエクスポート
+export type {
+  MemoImage,
+  CreateMemoImageInput,
+  DeleteMemoImageInput,
+  MemoImageUploadResult,
+  MemoImageDeleteResult,
+  MemoImageListResult
+} from './memoImage'
+
+export {
+  MAX_IMAGES_PER_MEMO,
+  MAX_FILE_SIZE_BYTES,
+  SUPPORTED_MIME_TYPES
+} from './memoImage' 
