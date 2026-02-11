@@ -22,12 +22,14 @@ interface MemoItemCardProps {
   onContentChange: (memoItemId: string, newContent: string) => void
   onStartEditing: (memoItemId: string) => void
   onFinishEditing: (memoItemId: string) => void
-  onSave: (memoItemId: string) => void
+  onSave: (memoItemId: string) => Promise<void>
   t: {
     memo: {
       unsaved: string
       save: string
       saving: string
+      saved: string
+      saveError: string
       saveTitle: string
       placeholder: string
       emptyPlaceholder: string
@@ -36,10 +38,6 @@ interface MemoItemCardProps {
       addImage: string
       uploading: string
       deleteImage: string
-      uploadError: string
-      deleteError: string
-      uploadSuccess: string
-      deleteSuccess: string
     }
   }
 }
@@ -108,21 +106,30 @@ export function MemoItemCard({
 
   // 統合保存ハンドラ（メモテキスト + 画像）
   const handleSave = async () => {
+    let hasError = false
+
     // メモテキストの保存
     if (content.hasUnsavedChanges) {
-      onSave(item.id)
+      try {
+        await onSave(item.id)
+      } catch {
+        hasError = true
+      }
     }
 
     // 画像の保存
     if (imageChanges.hasChanges && content.id) {
       const result = await saveImages()
-      if (result.success) {
-        if (result.uploadedCount > 0 || result.deletedCount > 0) {
-          toast.success(t.image.uploadSuccess)
-        }
-      } else {
-        toast.error(result.error || t.image.uploadError)
+      if (!result.success) {
+        hasError = true
       }
+    }
+
+    // 統一的なトースト表示
+    if (hasError) {
+      toast.error(t.memo.saveError)
+    } else {
+      toast.success(t.memo.saved)
     }
   }
 

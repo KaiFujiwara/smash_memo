@@ -6,10 +6,12 @@
   "memo": {
     "save": "Save",
     "saving": "Saving...",
+    "saved": "Saved",
     "unsaved": "Unsaved",
     "placeholder": "Enter your memo...",
     "emptyPlaceholder": "Enter memo...",
-    "saveTitle": "Save"
+    "saveTitle": "Save",
+    "saveError": "Failed to save"
   },
   "image": {
     "addImage": "Image",

@@ -134,11 +134,11 @@ export default function CharacterMemoPage() {
           lastSavedAt: new Date()
         }
       }))
-      
-      toast.success(t.messages.memoSaved)
+
+      // トーストはMemoItemCardの統合保存で表示するため、ここでは表示しない
     } catch (error) {
       console.error(t.errors.memoSaveConsole, error)
-      toast.error(t.messages.memoSaveError)
+      throw error  // エラーを上位に伝播させる
     }
   }, [characterId, memoContents])
 
@@ -189,10 +189,10 @@ export default function CharacterMemoPage() {
   }
 
   // 保存処理
-  const handleSave = (memoItemId: string) => {
+  const handleSave = async (memoItemId: string): Promise<void> => {
     const content = memoContents[memoItemId]
     if (content) {
-      saveMemo(memoItemId, content.content)
+      await saveMemo(memoItemId, content.content)
     }
   }
 
