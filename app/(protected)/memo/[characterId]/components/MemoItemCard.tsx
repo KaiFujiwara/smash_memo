@@ -130,12 +130,13 @@ export function MemoItemCard({
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
       {/* メモ項目ヘッダー */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-700 border-b border-gray-200 dark:border-gray-600 px-3 py-2 sm:px-4 sm:py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h2 className="text-base font-medium text-gray-800 dark:text-gray-100">{item.name}</h2>
+        <div className="flex items-center justify-between gap-2">
+          {/* タイトル部分: min-w-0で縮小可能にし、truncateで省略表示 */}
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <h2 className="text-base font-medium text-gray-800 dark:text-gray-100 truncate">{item.name}</h2>
             {/* 未保存マーク */}
             {hasAnyChanges && !isSaving && (
-              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200">
+              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200 flex-shrink-0">
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
@@ -148,8 +149,8 @@ export function MemoItemCard({
             )}
           </div>
 
-          {/* 右側のボタン群 */}
-          <div className="flex items-center gap-2">
+          {/* 右側のボタン群: flex-shrink-0で縮小を防止 */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             {/* 画像追加ボタン（Secondary / Ghost） */}
             <button
               onClick={handleAddImageClick}
