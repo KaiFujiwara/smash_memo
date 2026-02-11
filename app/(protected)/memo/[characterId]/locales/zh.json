@@ -6,10 +6,12 @@
   "memo": {
     "save": "保存",
     "saving": "保存中...",
+    "saved": "已保存",
     "unsaved": "尚未保存",
     "placeholder": "输入内容...",
     "emptyPlaceholder": "输入内容...",
-    "saveTitle": "保存"
+    "saveTitle": "保存",
+    "saveError": "保存失败"
   },
   "image": {
     "addImage": "图片",

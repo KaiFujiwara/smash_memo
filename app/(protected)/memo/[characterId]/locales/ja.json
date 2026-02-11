@@ -6,10 +6,12 @@
   "memo": {
     "save": "保存する",
     "saving": "保存中...",
+    "saved": "保存しました",
     "unsaved": "未保存",
     "placeholder": "メモを入力してください...",
     "emptyPlaceholder": "メモを入力...",
-    "saveTitle": "保存"
+    "saveTitle": "保存",
+    "saveError": "保存に失敗しました"
   },
   "image": {
     "addImage": "画像",
